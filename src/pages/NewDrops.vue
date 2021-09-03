@@ -1,8 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
+  <q-page style="background-color: #6F7B87;">
 
-    >
   </q-page>
 </template>
 

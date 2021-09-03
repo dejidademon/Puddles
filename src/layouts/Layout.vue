@@ -78,6 +78,8 @@ export default {
       ],
     }
   },
+
+
 };
 </script>
 
@@ -180,5 +182,7 @@ h3 {
      width: 100px;
     
   }
+
+
 }
 </style>
