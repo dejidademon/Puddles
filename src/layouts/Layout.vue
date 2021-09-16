@@ -33,18 +33,15 @@
       </q-input>
     </header>
 
-      
-
-      <div class="all q-mt-sm">
-  
-           <q-btn
-           v-if="hideBtn == false"
+    <div class="all q-mt-sm">
+      <q-btn
+        v-if="hideBtn == false"
         @click="hideMenu = !hideMenu"
         round
         color="primary"
         icon="menu"
-        class="q-mx-sm menuBtn text-white"
-      /> 
+        class="q-mx-sm shadow-8 menuBtn text-white"
+      />
       <div class="row btnSpace no-wrap scroll hide-scrollbar">
         <q-item
           v-if="hideMenu == false"
@@ -63,16 +60,27 @@
           </q-btn>
         </q-item>
       </div>
-      </div>
+    </div>
 
     <q-page-container>
       <router-view />
     </q-page-container>
 
-    <footer
-      style="height: 90px"
-      class="shadow-up-10 bg-primary text-white"
-    ></footer>
+    <footer style="height: 70px" class="allLinks row shadow-up-10 bg-primary text-white">
+      <div class=" absolute-center q-mx-auto">
+        <img class="links" src="~assets/facebook.png" />
+        <img class="links" src="~assets/instagram.png" />
+        <img class="links" src="~assets/youtube.png" />
+      </div>
+      <div class="absolute-right tabs">
+        <h3 class="footerTags">
+          support
+        </h3>
+        <h3 class="footerTags">
+          terms of service
+        </h3>
+      </div>
+    </footer>
   </q-layout>
 </template>
 
@@ -122,8 +130,7 @@ export default {
       if (window.innerWidth < 440) {
         this.hideMenu = true;
         this.hideBtn = false;
-      }
-      else if (window.innerWidth > 440) {
+      } else if (window.innerWidth > 440) {
         this.hideBtn = true;
         this.hideMenu = false;
       }
@@ -145,11 +152,28 @@ export default {
   font-family: "regular_font";
   src: url(../assets/GROBOLD.ttf);
 }
+.allLinks {
+  position: relative;
+}
+.footerTags {
+  font-family: "regular_font";
+  font-size: 15px;
+  margin: 0;
+  text-align: right;
+}
 .all {
   display: flex;
+}
+.tabs {
+  margin-top: 20px;
+padding-right: 10px;
+}
+.links {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
   
 }
-
 .text-white {
   color: #ffffff;
 }
@@ -211,8 +235,8 @@ h3 {
   }
 
   .routes {
-  padding-right: 25px;
-  padding-left: 25px;
+    padding-right: 25px;
+    padding-left: 25px;
   }
 }
 //smaller screen
@@ -237,7 +261,6 @@ h3 {
     padding-left: 0px;
     padding-right: 10px;
   }
-
 }
 // tablet
 @media screen and (max-width: 640px) {
@@ -262,9 +285,14 @@ h3 {
     padding-left: 0px;
     padding-right: 5px;
   }
- .routes {
-  padding-right: 2px;
-  padding-left: 2px;
+  .routes {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+  .links {
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
   }
 }
 
@@ -297,12 +325,17 @@ h3 {
     margin-right: 10px;
     display: flex;
   }
-.routes {
-  padding-right: 2px;
-  padding-left: 2px;
-
+  .routes {
+    padding-right: 2px;
+    padding-left: 2px;
   }
-
-
+  .links {
+    width: 40px;
+    height: 40px;
+    margin-top: 12px;
+  }
+  footer {
+    display: none;
+  }
 }
 </style>
