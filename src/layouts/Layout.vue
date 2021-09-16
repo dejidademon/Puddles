@@ -73,9 +73,11 @@
         <img class="links" src="~assets/youtube.png" />
       </div>
       <div class="absolute-right tabs">
+        <a style="text-decoration: none" href="/profile">
         <h3 class="footerTags">
           support
         </h3>
+        </a>
         <h3 class="footerTags">
           terms of service
         </h3>
@@ -160,6 +162,9 @@ export default {
   font-size: 15px;
   margin: 0;
   text-align: right;
+  color: white;
+  
+
 }
 .all {
   display: flex;
