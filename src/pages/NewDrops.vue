@@ -2,7 +2,7 @@
   <q-page >
     <h1 class="title text-center">New Arrivals</h1>
 
-    <div class="q-pa-md">
+    <div class="q-ma-md">
       <q-carousel
         class="carousel"
         animated
@@ -34,11 +34,14 @@
       </q-carousel>
     </div>
     <div>
-<q-card>
+
+
+<q-card class="wholeCard q-ma-sm">
   <q-card-section>
 
       <q-carousel
-        class="carousel"
+        class="cardSlide"
+        style="height:"
         animated
         :autoplay="autoplay"
         v-model="slide"
@@ -67,7 +70,12 @@
         />
       </q-carousel>
   </q-card-section>
+
+  <q-card-section>
+    <h1>Title</h1>
+  </q-card-section>
 </q-card>
+
     </div>
   </q-page>
 </template>
@@ -91,7 +99,12 @@ export default {
   line-height: unset;
   white-space: nowrap;
 }
-
+.wholeCard {
+  width: 300px;
+}
+.cardSlide {
+  height: 100px;
+}
 /* big */
 @media screen and (min-width: 970px) {
   .title {
