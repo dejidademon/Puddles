@@ -1,9 +1,9 @@
 <template>
-  <q-page>
+  <q-page class="q-ma-lg">
     <h1 class="title text-center">New Arrivals</h1>
 
     <q-carousel
-      class="q-mt-lg q-mx-lg carousel"
+      class="q-mt-md carousel"
       animated
       :autoplay="autoplay"
       v-model="slide"
@@ -31,8 +31,9 @@
         img-src="https://cdn.quasar.dev/img/quasar.jpg"
       />
     </q-carousel>
-    <div class="row" style="padding-left: 350px; margin-top: 0px; padding-right: 350px">
-      <q-card v-for="item in items" square class="wholeCard col-4 q-ma-lg">
+
+    <div class=" row justify- cardSpacing">
+      <q-card v-for="item in items" square class="q-ma-sm wholeCard column-inline">
         <q-card-section class="q-ma-none q-pa-none">
           <q-carousel
             class="cardSlide"
@@ -64,9 +65,9 @@
           </q-carousel>
         </q-card-section>
         <div class="bottomCard">
-          <q-card-section class="q-ma-none q-pa-sm">
+          <q-card-section class="q-ma-none q-pa-none">
             <h4 class="q-ma-none q-pa-none" id="itemName">{{item.itemName}}</h4>
-            <div class="q-pt-sm q-pb-none priceView row justify-between">
+            <div class="q-pt-sm q-pb-none priceView row items-end justify-between">
               <h4 class="q-ma-none q-pa-none" id="itemPrice">{{item.itemPrice}}</h4>
               <q-btn class="previewBtn" no-caps rounded color="accent"
                 >Preview</q-btn
@@ -85,7 +86,7 @@ export default {
   data() {
     return {
       slide: 1,
-      autoplay: true,
+      autoplay: false,
       items: [
         {
           itemName: "Puddles T-Shirt",
@@ -107,6 +108,11 @@ export default {
           itemPrice: "$49.99",
           itemSlide: 1,
         },
+               {
+          itemName: "Puddles Hoodie",
+          itemPrice: "$49.99",
+          itemSlide: 1,
+        },
       ],
     };
   },
@@ -123,6 +129,10 @@ export default {
   #itemName {
 white-space: nowrap;
   }
+.cardSpacing{
+ width: 100%;
+ 
+}
 /* big */
 @media screen and (min-width: 970px) {
   .title {
@@ -136,7 +146,7 @@ white-space: nowrap;
   // card start
   .wholeCard {
     width: 350px;
-    height: 400px;
+    height: 390px;
   }
   .cardSlide {
     height: 300px;
@@ -168,13 +178,49 @@ white-space: nowrap;
 
 //smaller screen
 @media screen and (max-width: 970px) {
+
   .carousel {
-    height: 300px;
+    height: 200px;
   }
   .title {
     margin: -5px;
     font-size: 30px;
   }
+  
+  // card start
+  .wholeCard {
+    width: 250px;
+
+  }
+  .cardSlide {
+    height: 300px;
+  }
+  .previewBtn {
+    height: 25px;
+    padding-left: 15px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 15px;
+    font-family: "regular_font";
+    font-size: 17px;
+  }
+  #itemName {
+    font-family: "regular_font";
+    color: white;
+    font-size: 23px;
+    line-height: normal;
+  }
+    #itemPrice {
+    font-family: "regular_font";
+    color: white;
+    font-size: 23px;
+    line-height: normal;
+  }
+  .bottomCard {
+    background-color: #80959e;
+    padding: 5px;
+  }
+  //card end
 }
 // tablet
 @media screen and (max-width: 640px) {
@@ -182,6 +228,37 @@ white-space: nowrap;
     margin: -5px;
     font-size: 30px;
   }
+    // card start
+  .wholeCard {
+    width: 300px;
+    height: 400px;
+  }
+  .cardSlide {
+    height: 300px;
+  }
+  .previewBtn {
+    height: 25px;
+    padding-left: 15px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 15px;
+    font-family: "regular_font";
+    font-size: 17px;
+  }
+  #itemName {
+    font-family: "regular_font";
+    color: white;
+    font-size: 30px;
+  }
+  #itemPrice {
+    font-family: "regular_font";
+    color: white;
+    font-size: 25px;
+  }
+  .bottomCard {
+    background-color: #80959e;
+  }
+  //card end
 }
 //mobile
 @media screen and (max-width: 440px) {
