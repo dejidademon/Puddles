@@ -32,9 +32,9 @@
       />
     </q-carousel>
 
-    <div class=" row justify- cardSpacing">
-      <q-card v-for="item in items" square class="q-ma-sm wholeCard column-inline">
-        <q-card-section class="q-ma-none q-pa-none">
+    <div class="row wrap  cardSpacing">
+      <q-card v-for="item in items" square class="q-ma-auto  wholeCard column">
+        <q-card-section class=" col-9 q-ma-none q-pa-none">
           <q-carousel
             class="cardSlide"
             animated
@@ -64,12 +64,12 @@
             />
           </q-carousel>
         </q-card-section>
-        <div class="bottomCard">
-          <q-card-section class="q-ma-none q-pa-none">
+        <div class="bottomCard col-3">
+          <q-card-section class="q-ma-none q-mx-sm q-pa-none">
             <h4 class="q-ma-none q-pa-none" id="itemName">{{item.itemName}}</h4>
             <div class="q-pt-sm q-pb-none priceView row items-end justify-between">
               <h4 class="q-ma-none q-pa-none" id="itemPrice">{{item.itemPrice}}</h4>
-              <q-btn class="previewBtn" no-caps rounded color="accent"
+              <q-btn class="q-mb-sm q-mx-none previewBtn" no-caps rounded color="accent"
                 >Preview</q-btn
               >
             </div>
@@ -129,10 +129,17 @@ export default {
   #itemName {
 white-space: nowrap;
   }
-.cardSpacing{
- width: 100%;
- 
-}
+  .wholeCard {
+    width: 400px;
+    height: 450px;
+    margin: 15px ;
+    
+  }
+  .cardSpacing {
+    
+  }
+
+
 /* big */
 @media screen and (min-width: 970px) {
   .title {
@@ -144,12 +151,9 @@ white-space: nowrap;
   }
 
   // card start
-  .wholeCard {
-    width: 350px;
-    height: 390px;
-  }
+
   .cardSlide {
-    height: 300px;
+    height: 100%;
   }
   .previewBtn {
     height: 25px;
