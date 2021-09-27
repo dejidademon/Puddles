@@ -32,9 +32,9 @@
       />
     </q-carousel>
 
-    <div class="row wrap  cardSpacing">
-      <q-card v-for="item in items" square class="q-ma-auto  wholeCard column">
-        <q-card-section class=" col-9 q-ma-none q-pa-none">
+    <div class=" row">
+      <q-card square v-for="item in items" class="wholeCard column">
+        <q-card-section class="col-9 q-ma-none q-pa-none">
           <q-carousel
             class="cardSlide"
             animated
@@ -46,37 +46,36 @@
             transition-prev="slide-right"
             control-color="white"
           >
-            <q-carousel-slide
-              :name="1"
-              img-src="https://cdn.quasar.dev/img/mountains.jpg"
-            />
-            <q-carousel-slide
-              :name="2"
-              img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-            />
-            <q-carousel-slide
-              :name="3"
-              img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-            />
-            <q-carousel-slide
-              :name="4"
-              img-src="https://cdn.quasar.dev/img/quasar.jpg"
-            />
+            <q-carousel-slide :name="1" :img-src="item.itemImg1" />
+            <q-carousel-slide :name="2" :img-src="item.itemImg2" />
           </q-carousel>
         </q-card-section>
-        <div class="bottomCard col-3">
-          <q-card-section class="q-ma-none q-mx-sm q-pa-none">
-            <h4 class="q-ma-none q-pa-none" id="itemName">{{item.itemName}}</h4>
-            <div class="q-pt-sm q-pb-none priceView row items-end justify-between">
-              <h4 class="q-ma-none q-pa-none" id="itemPrice">{{item.itemPrice}}</h4>
-              <q-btn class="q-mb-sm q-mx-none previewBtn" no-caps rounded color="accent"
-                >Preview</q-btn
-              >
-            </div>
-          </q-card-section>
-        </div>
+        <q-card-section class="bottomCard col-3 q-ma-none q-pa-sm">
+          <h4 class="q-ma-none q-pa-none" id="itemName">
+            {{ item.itemName }}
+          </h4>
+          <div
+            class="q-pt-sm q-pb-none priceView row items-end justify-between"
+          >
+            <h4 class="q-ma-none q-pa-none" id="itemPrice">
+              {{ item.itemPrice }}
+            </h4>
+            <q-btn
+              class="q-mb-sm q-mx-none previewBtn"
+              no-caps
+              rounded
+              color="accent"
+              >Preview</q-btn
+            >
+          </div>
+        </q-card-section>
+        <q-card>
+
+        </q-card>
       </q-card>
     </div>
+
+
   </q-page>
 </template>
 
@@ -92,26 +91,76 @@ export default {
           itemName: "Puddles T-Shirt",
           itemPrice: "$19.99",
           itemSlide: 1,
+          itemDesc:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
+          itemImg1:
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
+          itemImg2:
+            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
+          itemImg3:
+            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
+          itemImg4:
+            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
         },
-         {
+        {
           itemName: "Puddles Longsleeve",
           itemPrice: "$29.99",
           itemSlide: 1,
+          itemDesc:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
+          itemImg1:
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
+          itemImg2:
+            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
+          itemImg3:
+            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
+          itemImg4:
+            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
         },
-          {
+        {
           itemName: "Puddles Hoodie",
           itemPrice: "$49.99",
           itemSlide: 1,
+          itemDesc:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
+          itemImg1:
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
+          itemImg2:
+            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
+          itemImg3:
+            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
+          itemImg4:
+            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
         },
-          {
+        {
           itemName: "Puddles Hoodie",
           itemPrice: "$49.99",
           itemSlide: 1,
+          itemDesc:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
+          itemImg1:
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
+          itemImg2:
+            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
+          itemImg3:
+            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
+          itemImg4:
+            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
         },
-               {
+        {
           itemName: "Puddles Hoodie",
           itemPrice: "$49.99",
           itemSlide: 1,
+          itemDesc:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
+          itemImg1:
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
+          itemImg2:
+            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
+          itemImg3:
+            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
+          itemImg4:
+            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
         },
       ],
     };
@@ -126,19 +175,20 @@ export default {
   line-height: unset;
   white-space: nowrap;
 }
-  #itemName {
-white-space: nowrap;
-  }
-  .wholeCard {
-    width: 400px;
-    height: 450px;
-    margin: 15px ;
-    
-  }
-  .cardSpacing {
-    
-  }
 
+#itemName {
+  white-space: nowrap;
+}
+
+.wholeCard {
+  height: 450px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cardSlide {
+  height: 100%;
+}
 
 /* big */
 @media screen and (min-width: 970px) {
@@ -151,10 +201,10 @@ white-space: nowrap;
   }
 
   // card start
-
-  .cardSlide {
-    height: 100%;
+  .wholeCard {
+    width: 30.7vw;
   }
+
   .previewBtn {
     height: 25px;
     padding-left: 15px;
@@ -182,7 +232,6 @@ white-space: nowrap;
 
 //smaller screen
 @media screen and (max-width: 970px) {
-
   .carousel {
     height: 200px;
   }
@@ -190,15 +239,12 @@ white-space: nowrap;
     margin: -5px;
     font-size: 30px;
   }
-  
+
   // card start
   .wholeCard {
-    width: 250px;
+    width: 46vw;
+  }
 
-  }
-  .cardSlide {
-    height: 300px;
-  }
   .previewBtn {
     height: 25px;
     padding-left: 15px;
@@ -212,17 +258,14 @@ white-space: nowrap;
     font-family: "regular_font";
     color: white;
     font-size: 23px;
-    line-height: normal;
   }
-    #itemPrice {
+  #itemPrice {
     font-family: "regular_font";
     color: white;
     font-size: 23px;
-    line-height: normal;
   }
   .bottomCard {
     background-color: #80959e;
-    padding: 5px;
   }
   //card end
 }
@@ -232,14 +275,15 @@ white-space: nowrap;
     margin: -5px;
     font-size: 30px;
   }
-    // card start
-  .wholeCard {
-    width: 300px;
-    height: 400px;
+  .carousel {
+    height: 230px;
   }
-  .cardSlide {
+  // card start
+  .wholeCard {
+    width: 46%;
     height: 300px;
   }
+
   .previewBtn {
     height: 25px;
     padding-left: 15px;
@@ -247,17 +291,18 @@ white-space: nowrap;
     padding-bottom: 0;
     padding-right: 15px;
     font-family: "regular_font";
-    font-size: 17px;
+    font-size: 10px;
   }
   #itemName {
     font-family: "regular_font";
     color: white;
-    font-size: 30px;
+    font-size: 15px;
+    line-height: normal;
   }
   #itemPrice {
     font-family: "regular_font";
     color: white;
-    font-size: 25px;
+    font-size: 20px;
   }
   .bottomCard {
     background-color: #80959e;
@@ -267,8 +312,11 @@ white-space: nowrap;
 //mobile
 @media screen and (max-width: 440px) {
   .title {
-    margin: 5px;
-    font-size: 22px;
+    margin: -10px;
+    font-size: 30px;
+  }
+  .carousel {
+    height: 230px;
   }
 }
 </style>
