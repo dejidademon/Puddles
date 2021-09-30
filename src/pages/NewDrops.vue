@@ -62,6 +62,7 @@
             </h4>
             <q-btn
               class="q-mb-sm q-mx-none previewBtn"
+              @click="item.itemPreview = true"
               no-caps
               rounded
               color="accent"
@@ -69,13 +70,29 @@
             >
           </div>
         </q-card-section>
-        <q-card>
-
-        </q-card>
       </q-card>
     </div>
 
-
+<div>
+          <q-card v-for="item in items" v-if="item.itemPreview" class="absolute-center">
+            <q-carousel
+            class="card2Slide"
+            animated
+            :autoplay="autoplay"
+            v-model="item.itemSlide"
+            swipeable
+            infinite
+            transition-next="slide-left"
+            transition-prev="slide-right"
+            control-color="white"
+          >
+            <q-carousel-slide :name="1" :img-src="item.itemImg1" />
+            <q-carousel-slide :name="2" :img-src="item.itemImg2" />
+            <q-carousel-slide :name="3" :img-src="item.itemImg1" />
+            <q-carousel-slide :name="4" :img-src="item.itemImg2" />
+          </q-carousel>
+        </q-card>
+</div>
   </q-page>
 </template>
 
@@ -86,6 +103,7 @@ export default {
     return {
       slide: 1,
       autoplay: false,
+      cardShow: false,
       items: [
         {
           itemName: "Puddles T-Shirt",
@@ -101,6 +119,7 @@ export default {
             "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
+          itemPreview: false,
         },
         {
           itemName: "Puddles Longsleeve",
@@ -109,13 +128,15 @@ export default {
           itemDesc:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
           itemImg1:
-            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
+          "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
           itemImg2:
-            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
           itemImg3:
             "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
+         itemPreview: false,
+
         },
         {
           itemName: "Puddles Hoodie",
@@ -131,6 +152,8 @@ export default {
             "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
+          itemPreview: false,
+
         },
         {
           itemName: "Puddles Hoodie",
@@ -146,6 +169,8 @@ export default {
             "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
+          itemPreview: false,
+
         },
         {
           itemName: "Puddles Hoodie",
@@ -161,6 +186,8 @@ export default {
             "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
+          itemPreview: false,
+
         },
       ],
     };
