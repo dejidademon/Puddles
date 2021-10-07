@@ -134,6 +134,7 @@ export default {
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
           itemPreview: false,
+          datePosted: "10/5/2021",
         },
         {
           itemName: "Puddles Longsleeve",
@@ -150,6 +151,7 @@ export default {
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
           itemPreview: false,
+          datePosted: "10/5/2021",
         },
         {
           itemName: "Puddles Hoodie",
@@ -166,6 +168,7 @@ export default {
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
           itemPreview: false,
+          datePosted: "10/5/2021",
         },
         {
           itemName: "Puddles Hoodie",
@@ -182,6 +185,7 @@ export default {
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
           itemPreview: false,
+          datePosted: "10/5/2021",
         },
         {
           itemName: "Puddles Hoodie",
@@ -198,6 +202,7 @@ export default {
           itemImg4:
             "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
           itemPreview: false,
+          datePosted: "10/5/2021",
         },
       ],
     };
