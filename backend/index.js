@@ -8,12 +8,23 @@ config-express
 */
 const app = express()
 
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
+const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+const serviceAccount = require('./serviceAccountKey.json');
 
+initializeApp({
+  credential: cert(serviceAccount)
+});
+
+const db = getFirestore();
 /*
 end of slides
 */
 
 app.get('/slides', (request, response) => {
+
+
+
     let slides = [
         {
             itemName: "Puddles Longsleeve",
@@ -45,8 +56,15 @@ app.get('/slides', (request, response) => {
 
             datePosted: "10/5/2021",
           }
-    ]
+        ]
+
+        const snapshot = db.collection('slides').get();
+          snapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+        })
     
+
+
   response.send(slides)
 
 })
