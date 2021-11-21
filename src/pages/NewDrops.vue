@@ -118,94 +118,39 @@ export default {
       slide: 1,
       autoplay: false,
       cardShow: false,
-      items: [
-        {
-          itemName: "Puddles T-Shirt",
-          itemPrice: "$19.99",
-          itemSlide: 1,
-          itemDesc:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
-          itemImg1:
-            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
-          itemImg2:
-            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
-          itemImg3:
-            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
-          itemImg4:
-            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
-          itemPreview: false,
-          datePosted: "10/5/2021",
-        },
-        {
-          itemName: "Puddles Longsleeve",
-          itemPrice: "$29.99",
-          itemSlide: 1,
-          itemDesc:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
-          itemImg1:
-            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
-          itemImg2:
-            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
-          itemImg3:
-            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
-          itemImg4:
-            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
-          itemPreview: false,
-          datePosted: "10/5/2021",
-        },
-        {
-          itemName: "Puddles Hoodie",
-          itemPrice: "$49.99",
-          itemSlide: 1,
-          itemDesc:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
-          itemImg1:
-            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
-          itemImg2:
-            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
-          itemImg3:
-            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
-          itemImg4:
-            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
-          itemPreview: false,
-          datePosted: "10/5/2021",
-        },
-        {
-          itemName: "Puddles Hoodie",
-          itemPrice: "$49.99",
-          itemSlide: 1,
-          itemDesc:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
-          itemImg1:
-            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
-          itemImg2:
-            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
-          itemImg3:
-            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
-          itemImg4:
-            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
-          itemPreview: false,
-          datePosted: "10/5/2021",
-        },
-        {
-          itemName: "Puddles Hoodie",
-          itemPrice: "$49.99",
-          itemSlide: 1,
-          itemDesc:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed maximus diam. Ut volutpat accumsan enim sed mollis. Aliquam condimentum non leo eu tempus. Nulla at nisl et eros lacinia aliquam vitae sit amet ligula. In fringilla dignissim placerat. Aenean ullamcorper tellus vitae quam malesuada, rhoncus faucibus purus fermentum.",
-          itemImg1:
-            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1621283126-t-shirts-buckmason-black-slub-1621282639.jpg",
-          itemImg2:
-            "https://imgprd19.hobbylobby.com/0/2d/95/02d95aaa2491fc88832ff0fca3388b37d29309de/350Wx350H-709618-0320.jpg",
-          itemImg3:
-            "https://cdn.shopify.com/s/files/1/1722/0531/products/modern-love-shirt-roller_1024x1024.jpg?v=1571439091",
-          itemImg4:
-            "https://www.ramblersway.com/sites/default/files/product_photos/708-Western-Chambray-Shirt.jpg",
-          itemPreview: false,
-          datePosted: "10/5/2021",
-        },
-      ],
+      items: [],
     };
+  },
+  methods: {
+    getItems() {
+      const axios = require("axios");
+      axios
+        .get("http://localhost:300/slides")
+        .then((r) => {
+          this.items = r.data;
+        })
+        .catch((err) => {
+          this.$q.dialog({
+            dark: true,
+            color: "red",
+            title: "Error",
+            message: "Could not find merch.",
+            persistent: true,
+          })
+            .onOk(() => {
+              // console.log('OK')
+            })
+            .onCancel(() => {
+              // console.log('Cancel')
+            })
+            .onDismiss(() => {
+              // console.log('I am triggered on both OK and Cancel')
+            });
+        });
+    },
+  },
+  created() {
+    this.getItems();
   },
 };
 </script>

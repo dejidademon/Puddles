@@ -23,12 +23,13 @@ end of slides
 */
 
 app.get('/slides', (request, response) => {
-
+response.set('Access-Control-Allow-Origin', "*")
 
 
     let slides = []
     
-        db.collection('Slides').get().then(r => {
+    
+        db.collection('Slides').orderBy('date', 'desc').get().then(r => {
           r.docs.map((doc => {
             slides.push(doc.data())
           }));
