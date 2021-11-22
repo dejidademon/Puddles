@@ -10,6 +10,7 @@
       arrows
       swipeable
       infinite
+      draggable="false"
       control-color="white"
       transition-next="slide-left"
       transition-prev="slide-right"
@@ -32,46 +33,50 @@
       />
     </q-carousel>
 
-    <div class="row">
-      <q-card square v-for="item in items" class="wholeCard column">
-        <q-card-section class="col-9 q-ma-none q-pa-none">
-          <q-carousel
-            class="cardSlide"
-            animated
-            :autoplay="autoplay"
-            v-model="item.itemSlide"
-            swipeable
-            infinite
-            transition-next="slide-left"
-            transition-prev="slide-right"
-            control-color="white"
-          >
-            <q-carousel-slide :name="1" :img-src="item.itemImg1" />
-            <q-carousel-slide :name="2" :img-src="item.itemImg2" />
-          </q-carousel>
-        </q-card-section>
-        <q-card-section class="bottomCard col-3 q-ma-none q-pa-sm">
-          <h4 class="q-ma-none q-pa-none" id="itemName">
-            {{ item.itemName }}
-          </h4>
-          <div
-            class="q-pt-sm q-pb-none priceView row items-end justify-between"
-          >
-            <h4 class="q-ma-none q-pa-none" id="itemPrice">
-              {{ item.itemPrice }}
-            </h4>
-            <q-btn
-              class="q-mb-sm q-mx-none previewBtn"
-              @click="item.itemPreview = true"
-              no-caps
-              rounded
-              color="accent"
-              >Preview</q-btn
+    <template v-if="!loadingItems">
+      <div class="row">
+        <q-card square v-for="item in items" class="wholeCard column">
+          <q-card-section class="col-9 q-ma-none q-pa-none">
+            <q-carousel
+              class="cardSlide"
+              animated
+              :autoplay="autoplay"
+              v-model="item.itemSlide"
+              swipeable
+              infinite
+              transition-next="slide-left"
+              transition-prev="slide-right"
+              control-color="white"
             >
-          </div>
-        </q-card-section>
-      </q-card>
-    </div>
+              <q-carousel-slide :name="1" :img-src="item.itemImg1" />
+              <q-carousel-slide :name="2" :img-src="item.itemImg2" />
+            </q-carousel>
+          </q-card-section>
+          <q-card-section class="bottomCard col-3 q-ma-none q-pa-sm">
+            <h4 class="q-ma-none q-pa-none" id="itemName">
+              {{ item.itemName }}
+            </h4>
+            <div
+              class="q-pt-sm q-pb-none priceView row items-end justify-between"
+            >
+              <h4 class="q-ma-none q-pa-none" id="itemPrice">
+                {{ item.itemPrice }}
+              </h4>
+              <q-btn
+                class="q-mb-sm q-mx-none previewBtn"
+                @click="item.itemPreview = true"
+                no-caps
+                rounded
+                color="accent"
+                >Preview</q-btn
+              >
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </template>
+
+    <template v-else> Loading... </template>
 
     <div v-for="item in items">
       <q-card v-if="item.itemPreview == true" class="previewCard fixed-center">
@@ -112,42 +117,46 @@
 
 <script>
 import { ref } from "vue";
+import { useQuasar } from "quasar";
 export default {
   data() {
     return {
-      slide: 1,
-      autoplay: false,
+      slide: ref(1),
+      autoplay: ref(false),
       cardShow: false,
       items: [],
+      loadingItems: false,
     };
   },
   methods: {
     getItems() {
       const axios = require("axios");
-      axios
-        .get("http://localhost:300/slides")
-        .then((r) => {
-          this.items = r.data;
-        })
-        .catch((err) => {
-          this.$q.dialog({
-            dark: true,
-            color: "red",
-            title: "Error",
-            message: "Could not find merch.",
-            persistent: true,
+      const img = new Image();
+      this.loadingItems = true
+      setTimeout(() => {
+        axios.get("http://localhost:3000/slides").then((r) => {
+            this.items = r.data;
+            img.src = this.items.itemImg1
+            this.loadingItems = false;
           })
-            .onOk(() => {
-              // console.log('OK')
-            })
-            .onCancel(() => {
-              // console.log('Cancel')
-            })
-            .onDismiss(() => {
-              // console.log('I am triggered on both OK and Cancel')
+          .catch((err) => {
+            this.$q.dialog({
+              style: "background-color:red;",
+              dark: true,
+              color: "white",
+              title: "Error",
+              message: "Could not find merch.",
+              persistent: true,
             });
-        });
+            this.loadingItems = false;
+          });
+      }, 3000);
     },
+preloadImage(url){
+  const img = new Image();
+  img.src = url;
+  return img
+}
   },
   created() {
     this.getItems();
