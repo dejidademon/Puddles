@@ -76,7 +76,14 @@
       </div>
     </template>
 
-    <template v-else> Loading... </template>
+    <template v-else>
+      <div class="row">
+        <q-spinner-gears
+          class="q-pa-md loading"
+          color="primary"
+          size="200px"
+        /></div
+    ></template>
 
     <div v-for="item in items">
       <q-card v-if="item.itemPreview == true" class="previewCard fixed-center">
@@ -131,12 +138,12 @@ export default {
   methods: {
     getItems() {
       const axios = require("axios");
-      const img = new Image();
-      this.loadingItems = true
+      this.loadingItems = true;
       setTimeout(() => {
-        axios.get("http://localhost:3000/slides").then((r) => {
+        axios
+          .get("http://localhost:3000/slides")
+          .then((r) => {
             this.items = r.data;
-            img.src = this.items.itemImg1
             this.loadingItems = false;
           })
           .catch((err) => {
@@ -152,11 +159,11 @@ export default {
           });
       }, 3000);
     },
-preloadImage(url){
-  const img = new Image();
-  img.src = url;
-  return img
-}
+    preloadImage(url) {
+      const img = new Image();
+      img.src = url;
+      return img;
+    },
   },
   created() {
     this.getItems();
@@ -165,6 +172,12 @@ preloadImage(url){
 </script>
 
 <style lang="scss" scoped>
+.loading {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .title {
   font-family: "puddles_font";
   color: white;
