@@ -90,7 +90,7 @@
       <q-card class="previewCard text-white fixed-center">
         <q-card-section
           class="row"
-          style="margin-left: 8px; margin-right: 8px; margin-top: 8px"
+          style="padding: 0; margin-left: 24px; margin-right: 24px; margin-top: 20px"
         >
           <div class="col">
             <q-carousel
@@ -114,18 +114,19 @@
           <div class="col q-pl-sm">
             <h2 class="descTitle text-center q-pb-sm">DESCRIPTION</h2>
             <h3 class="descText text-center">
-              lorum lorum lorum lorum ipsum lorum ipsum lorum ipsum lorum ipsum
-              lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum
-              ipsum lorum ipsum lorum ipsum
+              {{item.itemDesc}}
             </h3>
           </div>
         </q-card-section>
 
-        <q-card-section class="row q-pt-none">
-          <div class="col text-center">
-            <h2 class="previewName q-ma-none">{{ item.itemName }}</h2>
+        <q-card-section class="q-pt-none q-mt-sm">
+          <div class="row justify-evenly text-center">
+            <h2 class="col-6 previewName">{{ item.itemName }}</h2>
+            <h2 class="col-6 previewPrice">${{ item.itemPrice }}</h2>
+          </div>
 
-            <q-btn-dropdown class="dropDown" no-caps color="accent" label="Size">
+          <div class="row justify-evenly">
+            <q-btn-dropdown class="col-6 dropDown q-mt-sm" no-caps color="accent" label="Size">
               <q-list>
                 <q-item clickable v-close-popup>
                   <q-item-section>
@@ -153,28 +154,28 @@
               </q-list>
             </q-btn-dropdown>
 
-            <q-btn-dropdown class="dropDown" no-caps color="accent" label="Quantity">
+            <q-btn class="col-6 previewBtns q-mt-sm" no-caps color="accent">
+              Add To Cart
+            </q-btn>
+         </div>
+
+     <div class="row justify-evenly" >
+            <q-btn-dropdown class="col-6 dropDown q-mt-sm" no-caps color="accent" label="Quantity">
               <q-list>
                 <q-item clickable>
                   <q-item-section class="row">
                     <q-btn icon="add" @click="quantity++"/>
-                    <q-item-label class="">{{quantity}}</q-item-label>
+                    <q-item-label class="text-center q-ma-md">{{quantity}}</q-item-label>
                     <q-btn @click="quantity--" icon="remove"/>
                   </q-item-section>
                 </q-item>
               </q-list>
             </q-btn-dropdown>
-          </div>
-
-          <div class="col text-center">
-            <h2 class="previewPrice q-pb-sm">${{ item.itemPrice }}</h2>
-
-            <q-btn class="previewBtns" no-caps color="accent">
-              Add To Cart
-            </q-btn>
-            <q-btn class="q-mt-sm previewBtns" no-caps color="accent">
+ 
+            <q-btn class="col-6  q-mt-sm previewBtns" no-caps color="accent">
               Favorite
             </q-btn>
+      
           </div>
         </q-card-section>
       </q-card>
@@ -263,23 +264,19 @@ export default {
 //Preview
 .dropDown {
   font-family: "regular_font";
-  font-size: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+  font-size: 16px;
+  width: 170px !important;
 }
 
 .previewBtns {
   font-family: "regular_font";
   font-size: 16px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+  width: 170px !important;
 }
 
 .previewName {
   font-family: "puddles_font";
-  font-size: 23px;
+  font-size: 24px;
   margin: 0;
   white-space: nowrap;
   font-weight: normal;
@@ -289,10 +286,9 @@ export default {
 
 .previewPrice {
   font-family: "regular_font";
-  font-size: 30px;
+  font-size: 26px;
   margin: 0;
   white-space: nowrap;
-  font-weight: normal;
   line-height: normal;
   letter-spacing: normal;
 }
@@ -312,7 +308,7 @@ export default {
 
 .previewCard {
   height: 600px;
-  width: 70vw;
+
   background-color: #80959e;
   border-radius: 5%;
 }
