@@ -35,7 +35,7 @@
 
     <template v-if="!loadingItems">
       <div class="row">
-        <q-card square v-for="item in items" class="wholeCard column">
+        <q-card square v-for="(item, id) in items" class="wholeCard column">
           <q-card-section class="col-9 q-ma-none q-pa-none">
             <q-carousel
               class="cardSlide"
@@ -44,9 +44,10 @@
               v-model="item.itemSlide"
               swipeable
               infinite
+              arrows
               transition-next="slide-left"
               transition-prev="slide-right"
-              control-color="white"
+              control-color="black"
             >
               <q-carousel-slide :name="1" :img-src="item.itemImg1" />
               <q-carousel-slide :name="2" :img-src="item.itemImg2" />
@@ -60,11 +61,11 @@
               class="q-pt-sm q-pb-none priceView row items-end justify-between"
             >
               <h4 class="q-ma-none q-pa-none" id="itemPrice">
-                {{ item.itemPrice }}
+                ${{ item.itemPrice }}
               </h4>
               <q-btn
                 class="q-mb-sm q-mx-none previewBtn"
-                @click="item.itemPreview = true"
+                @click="cardShow = true"
                 no-caps
                 rounded
                 color="accent"
@@ -85,40 +86,99 @@
         /></div
     ></template>
 
-    <div v-for="item in items">
-      <q-card v-if="item.itemPreview == true" class="previewCard fixed-center">
-        <q-card-actions class="absolute-top q-pa-md" align="right">
-          <q-btn
-            size="20px"
-            color="red"
-            icon="close"
-            flat
-            dense
-            v-close-popup
-          />
-        </q-card-actions>
-        <q-card-section>
-          <q-carousel
-            class="card2Slide"
-            animated
-            :autoplay="autoplay"
-            v-model="item.itemSlide"
-            swipeable
-            arrows
-            infinite
-            transition-next="slide-left"
-            transition-prev="slide-right"
-            control-color="black"
-          >
-            <q-carousel-slide :name="1" :img-src="item.itemImg1" />
-            <q-carousel-slide :name="2" :img-src="item.itemImg2" />
-            <q-carousel-slide :name="3" :img-src="item.itemImg1" />
-            <q-carousel-slide :name="4" :img-src="item.itemImg2" />
-          </q-carousel>
+    <q-dialog v-for="(item, id) in items" v-model="cardShow">
+      <q-card class="previewCard text-white fixed-center">
+        <q-card-section
+          class="row"
+          style="margin-left: 8px; margin-right: 8px; margin-top: 8px"
+        >
+          <div class="col">
+            <q-carousel
+              class="previewSlide"
+              animated
+              :autoplay="autoplay"
+              v-model="item.itemSlide"
+              swipeable
+              arrows
+              infinite
+              transition-next="slide-left"
+              transition-prev="slide-right"
+              control-color="black"
+            >
+              <q-carousel-slide :name="1" :img-src="item.itemImg1" />
+              <q-carousel-slide :name="2" :img-src="item.itemImg2" />
+              <q-carousel-slide :name="3" :img-src="item.itemImg1" />
+              <q-carousel-slide :name="4" :img-src="item.itemImg2" />
+            </q-carousel>
+          </div>
+          <div class="col q-pl-sm">
+            <h2 class="descTitle text-center q-pb-sm">DESCRIPTION</h2>
+            <h3 class="descText text-center">
+              lorum lorum lorum lorum ipsum lorum ipsum lorum ipsum lorum ipsum
+              lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum
+              ipsum lorum ipsum lorum ipsum
+            </h3>
+          </div>
         </q-card-section>
-        <q-card-section> </q-card-section>
+
+        <q-card-section class="row q-pt-none">
+          <div class="col text-center">
+            <h2 class="previewName q-ma-none">{{ item.itemName }}</h2>
+
+            <q-btn-dropdown class="dropDown" no-caps color="accent" label="Size">
+              <q-list>
+                <q-item clickable v-close-popup>
+                  <q-item-section>
+                    <q-item-label>Small</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable v-close-popup>
+                  <q-item-section>
+                    <q-item-label>Medium</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable v-close-popup>
+                  <q-item-section>
+                    <q-item-label>Large</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable v-close-popup>
+                  <q-item-section>
+                    <q-item-label>Extra Large</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+
+            <q-btn-dropdown class="dropDown" no-caps color="accent" label="Quantity">
+              <q-list>
+                <q-item clickable>
+                  <q-item-section class="row">
+                    <q-btn icon="add" @click="quantity++"/>
+                    <q-item-label class="">{{quantity}}</q-item-label>
+                    <q-btn @click="quantity--" icon="remove"/>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
+
+          <div class="col text-center">
+            <h2 class="previewPrice q-pb-sm">${{ item.itemPrice }}</h2>
+
+            <q-btn class="previewBtns" no-caps color="accent">
+              Add To Cart
+            </q-btn>
+            <q-btn class="q-mt-sm previewBtns" no-caps color="accent">
+              Favorite
+            </q-btn>
+          </div>
+        </q-card-section>
       </q-card>
-    </div>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -130,7 +190,8 @@ export default {
     return {
       slide: ref(1),
       autoplay: ref(false),
-      cardShow: false,
+      cardShow: true,
+      quantity: 1,
       items: [],
       loadingItems: false,
     };
@@ -152,12 +213,12 @@ export default {
               dark: true,
               color: "white",
               title: "Error",
-              message: "Could not find merch.",
+              message: "Could not download merch.",
               persistent: true,
             });
             this.loadingItems = false;
           });
-      }, 3000);
+      }, 100);
     },
     preloadImage(url) {
       const img = new Image();
@@ -198,10 +259,69 @@ export default {
 .cardSlide {
   height: 100%;
 }
-.previewCard {
-  height: 800px;
-  width: 800px;
+
+//Preview
+.dropDown {
+  font-family: "regular_font";
+  font-size: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
+
+.previewBtns {
+  font-family: "regular_font";
+  font-size: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.previewName {
+  font-family: "puddles_font";
+  font-size: 23px;
+  margin: 0;
+  white-space: nowrap;
+  font-weight: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.previewPrice {
+  font-family: "regular_font";
+  font-size: 30px;
+  margin: 0;
+  white-space: nowrap;
+  font-weight: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.descText {
+  font-family: "regular_font";
+  font-size: 20px;
+  margin: 0;
+  line-height: normal;
+}
+
+.descTitle {
+  font-family: "puddles_font";
+  font-size: 35px;
+  margin: 0;
+}
+
+.previewCard {
+  height: 600px;
+  width: 70vw;
+  background-color: #80959e;
+  border-radius: 5%;
+}
+.previewSlide {
+  height: 400px !important;
+}
+
+//prevew
+
 /* big */
 @media screen and (min-width: 970px) {
   .title {
