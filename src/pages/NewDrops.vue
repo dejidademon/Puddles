@@ -5,9 +5,9 @@
     <q-carousel
       class="q-mt-md carousel"
       animated
-      :autoplay="autoplay"
+      :autoplay="carouselAuto"
       v-model="slide"
-      arrows
+      :arrows="this.notMobile"
       swipeable
       infinite
       draggable="false"
@@ -35,45 +35,13 @@
 
     <template v-if="!loadingItems">
       <div class="row">
-        <q-card square v-for="(item, id) in items" class="wholeCard column">
-          <q-card-section class="col-9 q-ma-none q-pa-none">
-            <q-carousel
-              class="cardSlide"
-              animated
-              :autoplay="autoplay"
-              v-model="item.itemSlide"
-              swipeable
-              infinite
-              arrows
-              transition-next="slide-left"
-              transition-prev="slide-right"
-              control-color="black"
-            >
-              <q-carousel-slide :name="1" :img-src="item.itemImg1" />
-              <q-carousel-slide :name="2" :img-src="item.itemImg2" />
-            </q-carousel>
-          </q-card-section>
-          <q-card-section class="bottomCard col-3 q-ma-none q-pa-sm">
-            <h4 class="q-ma-none q-pa-none" id="itemName">
-              {{ item.itemName }}
-            </h4>
-            <div
-              class="q-pt-sm q-pb-none priceView row items-end justify-between"
-            >
-              <h4 class="q-ma-none q-pa-none" id="itemPrice">
-                ${{ item.itemPrice }}
-              </h4>
-              <q-btn
-                class="q-mb-sm q-mx-none previewBtn"
-                @click="cardShow = true"
-                no-caps
-                rounded
-                color="accent"
-                >Preview</q-btn
-              >
-            </div>
-          </q-card-section>
-        </q-card>
+        <shop-items
+          v-for="(item, key) in items"
+          :notMobile="notMobile"
+          :key="key"
+          :items="item"
+          :id="key"
+        />
       </div>
     </template>
 
@@ -85,116 +53,19 @@
           size="200px"
         /></div
     ></template>
-
-    <q-dialog v-for="(item, id) in items" v-model="cardShow">
-      <q-card class="previewCard text-white fixed-center">
-        <q-card-section
-          class="row"
-          style="padding: 0; margin-left: 24px; margin-right: 24px; margin-top: 20px"
-        >
-          <div class="col">
-            <q-carousel
-              class="previewSlide"
-              animated
-              :autoplay="autoplay"
-              v-model="item.itemSlide"
-              swipeable
-              arrows
-              infinite
-              transition-next="slide-left"
-              transition-prev="slide-right"
-              control-color="black"
-            >
-              <q-carousel-slide :name="1" :img-src="item.itemImg1" />
-              <q-carousel-slide :name="2" :img-src="item.itemImg2" />
-              <q-carousel-slide :name="3" :img-src="item.itemImg1" />
-              <q-carousel-slide :name="4" :img-src="item.itemImg2" />
-            </q-carousel>
-          </div>
-          <div class="col q-pl-sm">
-            <h2 class="descTitle text-center q-pb-sm">DESCRIPTION</h2>
-            <h3 class="descText text-center">
-              {{item.itemDesc}}
-            </h3>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none q-mt-sm">
-          <div class="row justify-evenly text-center">
-            <h2 class="col-6 previewName">{{ item.itemName }}</h2>
-            <h2 class="col-6 previewPrice">${{ item.itemPrice }}</h2>
-          </div>
-
-          <div class="row justify-evenly">
-            <q-btn-dropdown class="col-6 dropDown q-mt-sm" no-caps color="accent" label="Size">
-              <q-list>
-                <q-item clickable v-close-popup>
-                  <q-item-section>
-                    <q-item-label>Small</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-                <q-item clickable v-close-popup>
-                  <q-item-section>
-                    <q-item-label>Medium</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-                <q-item clickable v-close-popup>
-                  <q-item-section>
-                    <q-item-label>Large</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-                <q-item clickable v-close-popup>
-                  <q-item-section>
-                    <q-item-label>Extra Large</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
-
-            <q-btn class="col-6 previewBtns q-mt-sm" no-caps color="accent">
-              Add To Cart
-            </q-btn>
-         </div>
-
-     <div class="row justify-evenly" >
-            <q-btn-dropdown class="col-6 dropDown q-mt-sm" no-caps color="accent" label="Quantity">
-              <q-list>
-                <q-item clickable>
-                  <q-item-section class="row">
-                    <q-btn icon="add" @click="quantity++"/>
-                    <q-item-label class="text-center q-ma-md">{{quantity}}</q-item-label>
-                    <q-btn @click="quantity--" icon="remove"/>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
- 
-            <q-btn class="col-6  q-mt-sm previewBtns" no-caps color="accent">
-              Favorite
-            </q-btn>
-      
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { ref } from "vue";
-import { useQuasar } from "quasar";
 export default {
   data() {
     return {
+      carouselAuto: ref(false),
       slide: ref(1),
-      autoplay: ref(false),
-      cardShow: true,
-      quantity: 1,
       items: [],
       loadingItems: false,
+      notMobile: true,
     };
   },
   methods: {
@@ -205,6 +76,7 @@ export default {
         axios
           .get("http://localhost:3000/slides")
           .then((r) => {
+            
             this.items = r.data;
             this.loadingItems = false;
           })
@@ -214,26 +86,38 @@ export default {
               dark: true,
               color: "white",
               title: "Error",
-              message: "Could not download merch.",
+              message: "Could not newly dropped download merch.",
               persistent: true,
             });
             this.loadingItems = false;
           });
-      }, 100);
+      }, 2000);
     },
-    preloadImage(url) {
-      const img = new Image();
-      img.src = url;
-      return img;
+    isMobile() {
+      let screenSize = window.innerWidth;
+      if (screenSize <= 640) {
+        this.notMobile = false;
+      }
     },
   },
   created() {
     this.getItems();
+    this.isMobile();
+  },
+  components: {
+    "shop-items": require("components/Shop/shopItems.vue").default,
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.regText {
+  font-family: "regular_font";
+}
+.puddlesText {
+  font-family: "puddles_font";
+}
+
 .loading {
   position: relative;
   margin-left: auto;
@@ -247,77 +131,6 @@ export default {
   white-space: nowrap;
 }
 
-#itemName {
-  white-space: nowrap;
-}
-
-.wholeCard {
-  height: 450px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.cardSlide {
-  height: 100%;
-}
-
-//Preview
-.dropDown {
-  font-family: "regular_font";
-  font-size: 16px;
-  width: 170px !important;
-}
-
-.previewBtns {
-  font-family: "regular_font";
-  font-size: 16px;
-  width: 170px !important;
-}
-
-.previewName {
-  font-family: "puddles_font";
-  font-size: 24px;
-  margin: 0;
-  white-space: nowrap;
-  font-weight: normal;
-  line-height: normal;
-  letter-spacing: normal;
-}
-
-.previewPrice {
-  font-family: "regular_font";
-  font-size: 26px;
-  margin: 0;
-  white-space: nowrap;
-  line-height: normal;
-  letter-spacing: normal;
-}
-
-.descText {
-  font-family: "regular_font";
-  font-size: 20px;
-  margin: 0;
-  line-height: normal;
-}
-
-.descTitle {
-  font-family: "puddles_font";
-  font-size: 35px;
-  margin: 0;
-}
-
-.previewCard {
-  height: 600px;
-
-  background-color: #80959e;
-  border-radius: 5%;
-}
-.previewSlide {
-  height: 400px !important;
-}
-
-//prevew
-
 /* big */
 @media screen and (min-width: 970px) {
   .title {
@@ -327,37 +140,7 @@ export default {
   .carousel {
     height: 325px;
   }
-
-  // card start
-  .wholeCard {
-    width: 30.7vw;
-  }
-
-  .previewBtn {
-    height: 25px;
-    padding-left: 15px;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 15px;
-    font-family: "regular_font";
-    font-size: 17px;
-  }
-  #itemName {
-    font-family: "regular_font";
-    color: white;
-    font-size: 30px;
-  }
-  #itemPrice {
-    font-family: "regular_font";
-    color: white;
-    font-size: 25px;
-  }
-  .bottomCard {
-    background-color: #80959e;
-  }
-  //card end
 }
-
 //smaller screen
 @media screen and (max-width: 970px) {
   .carousel {
@@ -367,35 +150,6 @@ export default {
     margin: -5px;
     font-size: 30px;
   }
-
-  // card start
-  .wholeCard {
-    width: 46vw;
-  }
-
-  .previewBtn {
-    height: 25px;
-    padding-left: 15px;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 15px;
-    font-family: "regular_font";
-    font-size: 17px;
-  }
-  #itemName {
-    font-family: "regular_font";
-    color: white;
-    font-size: 23px;
-  }
-  #itemPrice {
-    font-family: "regular_font";
-    color: white;
-    font-size: 23px;
-  }
-  .bottomCard {
-    background-color: #80959e;
-  }
-  //card end
 }
 // tablet
 @media screen and (max-width: 640px) {
@@ -406,36 +160,6 @@ export default {
   .carousel {
     height: 230px;
   }
-  // card start
-  .wholeCard {
-    width: 46%;
-    height: 300px;
-  }
-
-  .previewBtn {
-    height: 25px;
-    padding-left: 15px;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 15px;
-    font-family: "regular_font";
-    font-size: 10px;
-  }
-  #itemName {
-    font-family: "regular_font";
-    color: white;
-    font-size: 15px;
-    line-height: normal;
-  }
-  #itemPrice {
-    font-family: "regular_font";
-    color: white;
-    font-size: 20px;
-  }
-  .bottomCard {
-    background-color: #80959e;
-  }
-  //card end
 }
 //mobile
 @media screen and (max-width: 440px) {
@@ -443,8 +167,8 @@ export default {
     margin: -10px;
     font-size: 30px;
   }
-  .carousel {
-    height: 230px;
+    .carousel {
+    height: 150px;
   }
 }
 </style>
