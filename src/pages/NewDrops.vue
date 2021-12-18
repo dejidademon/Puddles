@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-ma-lg">
-    <h1 class="title text-center">New Arrivals</h1>
+    <h1 class="title q-pb-lg text-center">New Arrivals</h1>
 
     <q-carousel
       class="q-mt-md carousel"

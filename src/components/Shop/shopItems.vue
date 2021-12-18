@@ -86,7 +86,7 @@ export default {
 @media screen and (min-width: 970px) {
 // card start
   .wholeCard {
-    width: 27vw;
+    width: 18vw;
   }
 
   .previewBtn {
