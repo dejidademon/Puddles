@@ -58,6 +58,7 @@
 
 <script>
 import { ref } from "vue";
+import DateTime from "luxon/src/datetime.js";
 export default {
   data() {
     return {
@@ -71,13 +72,26 @@ export default {
   methods: {
     getItems() {
       const axios = require("axios");
+      const { DateTime } = require("luxon");
       this.loadingItems = true;
       setTimeout(() => {
-        axios
-          .get("http://localhost:3000/slides")
-          .then((r) => {
-            
-            this.items = r.data;
+          axios.get("http://localhost:3000/slides").then((r) => {
+            var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
+            var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
+            var currentTime = DateTime.now().toLocaleString();
+            var future = new Date(inTwoWeeks);
+            var past = new Date(twoWeeksAgo);
+            var current = new Date(currentTime);
+
+            r.data.forEach((e => {
+              var itemDate = new Date(e.date); 
+            if (itemDate >= past && itemDate <= future) {
+              this.items.push(e)
+            } else {
+                return
+            }
+            }))
+
             this.loadingItems = false;
           })
           .catch((err) => {
@@ -86,7 +100,7 @@ export default {
               dark: true,
               color: "white",
               title: "Error",
-              message: "Could not newly dropped download merch.",
+              message: "No new merch now, check again later!",
               persistent: true,
             });
             this.loadingItems = false;
@@ -167,7 +181,7 @@ export default {
     margin: -10px;
     font-size: 30px;
   }
-    .carousel {
+  .carousel {
     height: 150px;
   }
 }
