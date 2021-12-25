@@ -102,7 +102,7 @@ export default {
           to: "/",
         },
         {
-          label: "Apparel",
+          label: "Shop",
           to: "/apparel",
         },
         {

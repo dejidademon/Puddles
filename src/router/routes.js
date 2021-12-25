@@ -15,7 +15,7 @@ const routes = [{
   },
   {
     path: '/apparel',
-    component: () => import('pages/Apparel.vue')
+    component: () => import('src/pages/Shop.vue')
   },
   {
     path: '/profile',

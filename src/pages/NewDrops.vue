@@ -45,7 +45,7 @@
       </div>
     </template>
 
-    <template v-else>
+    <template v-if="loadingItems && !noItems">
       <div class="row">
         <q-spinner-gears
           class="q-pa-md loading"
@@ -53,6 +53,13 @@
           size="200px"
         /></div
     ></template>
+
+
+    <template v-if="noItems">
+      <div class=" text-center">
+        <h2 class="colorFade" >No items currently</h2>
+      </div>
+    </template>
   </q-page>
 </template>
 
@@ -67,6 +74,8 @@ export default {
       items: [],
       loadingItems: false,
       notMobile: true,
+      noItems: false,
+
     };
   },
   methods: {
@@ -87,7 +96,8 @@ export default {
               var itemDate = new Date(e.date); 
             if (itemDate >= past && itemDate <= future) {
               this.items.push(e)
-            } else {
+            } else{
+                this.noItems = true
                 return
             }
             }))
@@ -144,6 +154,16 @@ export default {
   line-height: unset;
   white-space: nowrap;
 }
+
+.colorFade {
+  background: -webkit-linear-gradient(#ffffff 20%, #85c6ff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "puddles_font";
+  line-height: unset;
+  white-space: nowrap;
+}
+
 
 /* big */
 @media screen and (min-width: 970px) {
