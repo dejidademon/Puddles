@@ -11,52 +11,50 @@
 </div>
 
 <div class="col-6 account">
-  <h4 class="subtitle puddlesText text-center q-ma-md">Login</h4>
 
-  <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Username..." />
-   <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Password...">
-     <div class="row items-center">
-     <q-btn round color="green" icon="check" class="submit" />
-     </div>
-  </q-input>
-  <h4 class="subtitle puddlesText text-center q-ma-md">Create an Account</h4>
-   <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Email address..." />
- <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Username..." />
- <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Password..." />
-  <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Confirm Password..." >
-    <div class="row items-center">
-     <q-btn round color="green" icon="check" class="submit" />
-     </div>
-  </q-input>
+<login/>
+
+<register/>
+
 </div>
 </div>
 
-<div class="row">
-  <h4 class="col-12 subtitle puddlesText text-center q-ma-md">Favorited</h4>
-  <div class="q-ma-md">
+<favorite/>
 
-  </div>
-</div>
-
-<div class="row">
-  <h4 class="col-12 subtitle puddlesText text-center q-ma-md">Support</h4>
-  <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Username..." />
-  <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Username..." />
-  <q-input class="regText q-ma-md" dark rounded standout v-model="text" label-color="grey-7" label="Username..." />
-</div>
+<support/>
     </q-page>
 </template> 
 
 <script>
+
     export default {
-        
+        data() {
+            return {
+
+            }
+        },
+        components: {
+    "login": require("components/Account/Login.vue").default,
+    "register": require("components/Account/Register.vue").default,
+    "support": require("components/Account/Support.vue").default,
+    "favorite": require("components/Account/Favorite.vue").default,
+      
+  },
     }
 </script>
 
 <style lang="scss">
+.favContainer {
+  background-color: white;
+  width: 100%;
+  height: 150px;
+}
+.half {
+  width: 51% !important;
+}
 .submit {
   width: 30px;
-  height:30px;
+  height: 30px;
 }
 .q-field--dark .q-field__native, .q-field--dark .q-field__prefix, .q-field--dark .q-field__suffix, .q-field--dark .q-field__input {
     color: rgb(0, 0, 0);
