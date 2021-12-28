@@ -1,4 +1,6 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyCSguuimx3rhs7RFJ2dH46jv_XPlOoMGnU",
@@ -9,40 +11,8 @@ const firebaseConfig = {
     messagingSenderId: "759236687833",
     appId: "1:759236687833:web:0cbd4ff153377d02b28bc8"
   };
-  
-  const app = initializeApp(firebaseConfig);
 
-// createUserWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in 
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // ..
-//   });
+let app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-//   signInWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in 
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-// });
-
-// onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       // User is signed in, see docs for a list of available properties
-//       // https://firebase.google.com/docs/reference/js/firebase.User
-//       const uid = user.uid;
-//       // ...
-//     } else {
-//       // User is signed out
-//       // ...
-//     }
-//   });
+export { auth }

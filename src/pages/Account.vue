@@ -53,8 +53,8 @@
   width: 51% !important;
 }
 .submit {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
 }
 .q-field--dark .q-field__native, .q-field--dark .q-field__prefix, .q-field--dark .q-field__suffix, .q-field--dark .q-field__input {
     color: rgb(0, 0, 0);
@@ -97,8 +97,8 @@
 
 .hisBox {
   background-color:white;
-  width: 100%;
-  height: 500px;
+  width: 97%;
+  height: 550px;
 }
 
 .subtitle {
