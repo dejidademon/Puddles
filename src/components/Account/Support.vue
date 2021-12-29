@@ -26,5 +26,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.half {
+  width: 51% !important;
+}
 </style>

@@ -49,13 +49,8 @@
   width: 100%;
   height: 150px;
 }
-.half {
-  width: 51% !important;
-}
-.submit {
-  width: 30px !important;
-  height: 30px !important;
-}
+
+
 .q-field--dark .q-field__native, .q-field--dark .q-field__prefix, .q-field--dark .q-field__suffix, .q-field--dark .q-field__input {
     color: rgb(0, 0, 0);
 }
@@ -72,28 +67,12 @@
   font-family: "puddles_font";
 }
 
-.loading {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .title {
   font-family: "puddles_font";
   color: white;
   line-height: unset;
   white-space: nowrap;
 }
-
-.colorFade {
-  background: -webkit-linear-gradient(#ffffff 20%, #85c6ff);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: "puddles_font";
-  line-height: unset;
-  white-space: nowrap;
-}
-
 
 .hisBox {
   background-color:white;

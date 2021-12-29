@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
-
+import { getAuth, onAuthStateChanged} from "firebase/auth";
+import { ref } from 'vue'
 
 const firebaseConfig = {
     apiKey: "AIzaSyCSguuimx3rhs7RFJ2dH46jv_XPlOoMGnU",
@@ -14,5 +14,17 @@ const firebaseConfig = {
 
 let app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+let isLoggedIn = ref(false)
 
-export { auth }
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+     isLoggedIn.value = user
+  }
+  else {
+    isLoggedIn.value = false 
+  }
+return isLoggedIn
+  });
+
+
+export { auth, isLoggedIn }

@@ -66,6 +66,21 @@
       <router-view />
     </q-page-container>
 
+    <div v-if="userStatus">
+      <q-fab
+        v-model="tab"
+        :label="'Welcome ' + this.userStatus.displayName"
+        label-position="left"
+        color="accent"
+        icon="keyboard_arrow_right"
+        direction="right"
+        class="fixed-bottom-left q-ma-md row"
+      >
+        <q-btn @click="logOut" round color="red-7" icon="person_off" />
+        <h5 class="regText signOut">Sign Out</h5>
+      </q-fab>
+    </div>
+
     <footer style="height: 70px" class="allLinks row shadow-up-10 bg-primary text-white">
       <div class=" absolute-center q-mx-auto">
         <img class="links" src="~assets/facebook.png" />
@@ -87,11 +102,14 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { openURL } from "quasar";
+import { isLoggedIn, auth } from "boot/firebase.js";
+import { signOut } from "firebase/auth";
+
 export default {
   data() {
     return {
+      tab: false,
+      userStatus: isLoggedIn,
       hideMenu: false,
       hideBtn: false,
       width: 0,
@@ -118,6 +136,8 @@ export default {
     };
   },
   created() {
+    this.isLoggedIn
+
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
@@ -141,11 +161,27 @@ export default {
         this.hideMenu = true;
       }
     },
+    logOut() {
+    signOut(auth).then(() => {
+  console.log("signed out")
+  userStatus.value = false
+}).catch((error) => {
+  console.log(error.message, error.code)
+  this.$q.dialog({
+              style: "background-color:red;",
+              dark: true,
+              color: "white",
+              title: "Error",
+              message: "Could not log out, please try again later.",
+              persistent: true,
+            });
+});
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="scss"> 
 @font-face {
   font-family: "puddles_font";
   src: url("../assets/PiecesNfi.ttf");
@@ -153,6 +189,10 @@ export default {
 @font-face {
   font-family: "regular_font";
   src: url(../assets/GROBOLD.ttf);
+}
+.signOut {
+    white-space: nowrap;
+    color: rgb(255, 25, 25);
 }
 .allLinks {
   position: relative;
@@ -163,8 +203,12 @@ export default {
   margin: 0;
   text-align: right;
   color: white;
-  
-
+}
+.regText {
+  font-family: "regular_font";
+}
+.puddlesText {
+  font-family: "puddles_font";
 }
 .all {
   display: flex;
