@@ -4,6 +4,7 @@ dependencies
 */
 
 const express = require('express')
+
 /*
 config-express
 */
@@ -29,7 +30,7 @@ response.set('Access-Control-Allow-Origin', "*")
     let slides = []
     
     
-        db.collection('Slides').orderBy('date', 'desc').get().then(r => {
+        db.collection('Slides').orderBy('date').get().then(r => {
           r.docs.map((doc => {
             slides.push(doc.data())
           }));
@@ -40,6 +41,24 @@ response.set('Access-Control-Allow-Origin', "*")
 
 
 })
+
+app.get('/favorites', (request, response) => {
+  response.set('Access-Control-Allow-Origin', "*")
+  
+  
+      let accounts = []
+      
+      
+          db.collection('Favorited').orderBy('id').get().then(r => {
+            r.docs.map((doc => {
+              accounts.push(doc.data())
+            }));
+            response.send(accounts)
+          })
+      
+  
+  
+  })
 
 /*
 listen/ pushes to localhost

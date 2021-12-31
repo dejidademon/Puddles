@@ -56,7 +56,7 @@ export default {
     return {
       cardAuto: ref(false),
       cardShow: false,
-       cardSlide: ref(1),
+      cardSlide: ref(1),
     };
   },
 

@@ -65,7 +65,6 @@
 
 <script>
 import { ref } from "vue";
-import DateTime from "luxon/src/datetime.js";
 export default {
   data() {
     return {
@@ -84,7 +83,7 @@ export default {
       const { DateTime } = require("luxon");
       this.loadingItems = true;
       setTimeout(() => {
-          axios.get("http://localhost:3000/slides").then((r) => {
+          axios.get(`${ process.env.API }/slides`).then((r) => {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
             var currentTime = DateTime.now().toLocaleString();

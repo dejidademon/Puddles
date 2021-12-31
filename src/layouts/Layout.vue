@@ -164,7 +164,8 @@ export default {
     logOut() {
     signOut(auth).then(() => {
   console.log("signed out")
-  userStatus.value = false
+  this.userStatus = false;
+  this.tab = false;
 }).catch((error) => {
   console.log(error.message, error.code)
   this.$q.dialog({

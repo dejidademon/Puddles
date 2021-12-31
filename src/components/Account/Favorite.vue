@@ -1,22 +1,87 @@
 <template>
-  <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
-<div class="row">
-  <div class="favContainer q-ma-md">
 
-  </div>
+        <q-item class="favs" clickable v-ripple>
+
+        <q-item-section avatar>
+          <q-avatar rounded class="imags" >
+          <img :src="items.itemImg1" />
+          </q-avatar>
+        </q-item-section>
+        
+        <q-item-section class="regText text-white">
+          <div>
+            <h5 class="q-mx-md q-mb-none q-mt-sm name">{{ items.itemName }}</h5>
+            <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ items.itemDesc }}</h6>
+          </div>
+        </q-item-section>
+
+          <q-item-section side class="regText text-white">
+
+<div class="column q-mt-sm">
+<div class="row q-pt-sm">
+  
+              <h5 class="q-mx-md q-mb-none q-mt-sm name">${{ items.itemPrice }}</h5>
+              <q-btn  filled color="grey-7" >
+                <q-icon color="pink-5" name="favorite" />
+              </q-btn>
+              
 </div>
+<div class="q-pa-sm row justify-center">
+  <q-btn label="Add To Cart" color="accent"></q-btn>
+</div>
+</div>
+        </q-item-section>
+      </q-item>
+
 </template>
 
 <script>
 export default {
     data() {
-        
 
-        return {}
-    }
+        return {
+
+        }
+    },
+    props: ['items', 'id', 'key']
+
 }
 </script>
 
 <style lang="scss" scoped>
+.favs {
+  width: 100%;
+  height: 150px;
+  background-color: rgb(0, 195, 255);
+}
 
+
+
+
+/* big */
+@media screen and (min-width: 970px) {
+.desc {
+  font-size: 18px;
+  width: 65%;
+}
+.name {
+  font-size: 30px;
+}
+.imags {
+    width: 120px;
+    height: 120px;
+}
+}
+//smaller screen
+@media screen and (max-width: 970px) {
+
+}
+// tablet
+@media screen and (max-width: 640px) {
+
+}
+//mobile
+@media screen and (max-width: 440px) {
+
+}
 </style>

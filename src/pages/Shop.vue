@@ -44,7 +44,7 @@ export default {
       this.loadingItems = true;
       setTimeout(() => {
         axios
-          .get("http://localhost:3000/slides")
+          .get(`${ process.env.API }/slides`)
           .then((r) => {
             
             this.items = r.data;

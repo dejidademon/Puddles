@@ -4,13 +4,13 @@
   Account
 </h2>
 <div class="row">
-<div class="col-6 history">
+<div class="col items-center history">
 <h4 class="subtitle text-center puddlesText q-ma-md">Previous Purcases</h4>
-<div class="hisBox">
+<div class="hisBox col q-ma-md">
 </div>
 </div>
 
-<div class="col-6 account">
+<div v-if="userStatus == false" class="col account">
 
 <login/>
 
@@ -19,18 +19,30 @@
 </div>
 </div>
 
-<favorite/>
+      <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
+  <div class="favContainer q-ma-md">
+      <q-list>
+<favorite
+          v-for="(item, key) in items"
+          :key="key"
+          :items="item"
+          :id="key"/>
+      </q-list>
+  </div>
 
 <support/>
     </q-page>
 </template> 
 
 <script>
-
+import { isLoggedIn } from "boot/firebase.js";
     export default {
         data() {
             return {
-
+              userStatus: isLoggedIn,
+              items : [],
+              loadingItems: null,
+              favs : [],
             }
         },
         components: {
@@ -40,16 +52,69 @@
     "favorite": require("components/Account/Favorite.vue").default,
       
   },
+  methods: {
+  getItems() {
+      const axios = require("axios");
+      this.loadingItems = true;
+      setTimeout(() => {
+        axios
+          .get(`${ process.env.API }/slides`)
+          .then((r) => {
+            this.items = r.data;
+            console.log('items', this.items)
+            this.loadingItems = false;
+          })
+          .catch((err) => {
+            this.$q.dialog({
+              style: "background-color:red;",
+              dark: true,
+              color: "white",
+              title: "Error",
+              message: "Could not get your favorite items",
+              persistent: true,
+            });
+            this.loadingItems = false;
+          });
+      }, 2000);
+    },
+
+    getAccount() {
+      const axios = require("axios");
+
+        axios
+          .get( `${ process.env.API }/favorites`)
+          .then((r) => {
+            
+            this.favs = r.data;
+            console.log('favs', this.favs)
+
+          })
+          .catch((err) => {
+            this.$q.dialog({
+              style: "background-color:red;",
+              dark: true,
+              color: "white",
+              title: "Error",
+              message: "Could not get your favorite items",
+              persistent: true,
+            });
+          });
+
+    },
+  },
+  created() {
+      this.getItems();
+      this.getAccount();
+  }
     }
 </script>
 
 <style lang="scss">
+
 .favContainer {
   background-color: white;
-  width: 100%;
-  height: 150px;
+  height: 350px;
 }
-
 
 .q-field--dark .q-field__native, .q-field--dark .q-field__prefix, .q-field--dark .q-field__suffix, .q-field--dark .q-field__input {
     color: rgb(0, 0, 0);
@@ -76,7 +141,6 @@
 
 .hisBox {
   background-color:white;
-  width: 97%;
   height: 550px;
 }
 
