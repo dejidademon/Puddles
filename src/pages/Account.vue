@@ -1,67 +1,64 @@
 <template>
-    <q-page class="q-ma-lg">
-<h2 class="title text-center">
-  Account
-</h2>
-<div class="row">
-<div class="col items-center history">
-<h4 class="subtitle text-center puddlesText q-ma-md">Previous Purcases</h4>
-<div class="hisBox col q-ma-md">
-</div>
-</div>
+  <q-page class="q-ma-lg">
+    <h2 class="title text-center">Account</h2>
+    <div class="row">
+      <div class="col items-center history">
+        <h4 class="subtitle text-center puddlesText q-ma-md">
+          Previous Purcases
+        </h4>
+        <div class="hisBox col q-ma-md"></div>
+      </div>
 
-<div v-if="userStatus == false" class="col account">
+      <div v-if="userStatus == false" class="col account">
+        <login />
 
-<login/>
+        <register />
+      </div>
+    </div>
 
-<register/>
-
-</div>
-</div>
-
-      <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
-  <div class="favContainer q-ma-md">
+    <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
+    <div class="favContainer q-ma-md">
       <q-list>
-<favorite
+        <favorite
           v-for="(item, key) in items"
           :key="key"
           :items="item"
-          :id="key"/>
+          :id="key"
+        />
       </q-list>
-  </div>
+    </div>
 
-<support/>
-    </q-page>
-</template> 
+    <support />
+  </q-page>
+</template>
 
 <script>
 import { isLoggedIn } from "boot/firebase.js";
-    export default {
-        data() {
-            return {
-              userStatus: isLoggedIn,
-              items : [],
-              loadingItems: null,
-              favs : [],
-            }
-        },
-        components: {
-    "login": require("components/Account/Login.vue").default,
-    "register": require("components/Account/Register.vue").default,
-    "support": require("components/Account/Support.vue").default,
-    "favorite": require("components/Account/Favorite.vue").default,
-      
+export default {
+  data() {
+    return {
+      userStatus: isLoggedIn,
+      items: [],
+      loadingItems: null,
+      favs: [],
+      postedFavs: [],
+    };
+  },
+  components: {
+    login: require("components/Account/Login.vue").default,
+    register: require("components/Account/Register.vue").default,
+    support: require("components/Account/Support.vue").default,
+    favorite: require("components/Account/Favorite.vue").default,
   },
   methods: {
-  getItems() {
+    getItems() {
       const axios = require("axios");
       this.loadingItems = true;
       setTimeout(() => {
         axios
-          .get(`${ process.env.API }/slides`)
+          .get(`${process.env.API}/slides`)
           .then((r) => {
             this.items = r.data;
-            console.log('items', this.items)
             this.loadingItems = false;
           })
           .catch((err) => {
@@ -78,16 +75,26 @@ import { isLoggedIn } from "boot/firebase.js";
       }, 2000);
     },
 
-    getAccount() {
+    getFavs() {
       const axios = require("axios");
-
+      this.loadingItems = true;
+      setTimeout(() => {
         axios
-          .get( `${ process.env.API }/favorites`)
+          .get(`${process.env.API}/favorites`)
           .then((r) => {
-            
-            this.favs = r.data;
-            console.log('favs', this.favs)
-
+            r.data.forEach((e) => {
+              if (e.id == this.userStatus.uid) {
+                let favIds = e.favs.split("_");
+                this.items.forEach((itemz) => {
+                  favIds.forEach((idss) => {
+                    if (idss == itemz.id) {
+                      this.postedFavs.push(itemz)
+                      console.log(this.postedFavs)
+                    }
+                  });
+                });
+              }
+            });
           })
           .catch((err) => {
             this.$q.dialog({
@@ -99,31 +106,33 @@ import { isLoggedIn } from "boot/firebase.js";
               persistent: true,
             });
           });
-
+      }, 2000);
     },
   },
   created() {
-      this.getItems();
-      this.getAccount();
-  }
-    }
+    this.getItems();
+    this.getFavs();
+  },
+};
 </script>
 
 <style lang="scss">
-
 .favContainer {
   background-color: white;
   height: 350px;
 }
 
-.q-field--dark .q-field__native, .q-field--dark .q-field__prefix, .q-field--dark .q-field__suffix, .q-field--dark .q-field__input {
-    color: rgb(0, 0, 0);
+.q-field--dark .q-field__native,
+.q-field--dark .q-field__prefix,
+.q-field--dark .q-field__suffix,
+.q-field--dark .q-field__input {
+  color: rgb(0, 0, 0);
 }
 .q-field--standout.q-field--dark .q-field__control {
-    background: rgb(255 255 255) !important;
+  background: rgb(255 255 255) !important;
 }
 .inputs {
-  color:black !important;
+  color: black !important;
 }
 .regText {
   font-family: "regular_font";
@@ -140,7 +149,7 @@ import { isLoggedIn } from "boot/firebase.js";
 }
 
 .hisBox {
-  background-color:white;
+  background-color: white;
   height: 550px;
 }
 
@@ -158,7 +167,6 @@ import { isLoggedIn } from "boot/firebase.js";
 }
 //smaller screen
 @media screen and (max-width: 970px) {
-
   .title {
     margin: -5px;
     font-size: 30px;
@@ -177,6 +185,5 @@ import { isLoggedIn } from "boot/firebase.js";
     margin: -10px;
     font-size: 30px;
   }
-
 }
 </style>
