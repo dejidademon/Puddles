@@ -1,6 +1,5 @@
 <template>
-
-        <q-item class="favs" clickable v-ripple>
+        <q-item class="wholeItem" clickable v-ripple>
 
         <q-item-section avatar>
           <q-avatar rounded class="imags" >
@@ -32,33 +31,28 @@
 </div>
         </q-item-section>
       </q-item>
-
 </template>
 
 <script>
-export default {
-    data() {
-
-        return {
-
-        }
-    },
-    props: ['items', 'id', 'key']
-
-}
+    export default {
+        data() {
+            
+        },
+        props: ['items', 'id', 'key']
+    }
 </script>
 
 <style lang="scss" scoped>
 
 
-.favs:nth-child(odd) {
+.wholeItem:nth-child(odd) {
     background-color: #80959E;
 }
-.favs:nth-child(even) {
+.wholeItem:nth-child(even) {
     background-color: #85C6FF;
 }
 
-.favs {
+.wholeItem {
   width: 100%;
   height: 150px;
 }
@@ -69,7 +63,7 @@ export default {
 @media screen and (min-width: 970px) {
 .desc {
   font-size: 18px;
-  width: 65%;
+  width: 90%;
 }
 .name {
   font-size: 30px;

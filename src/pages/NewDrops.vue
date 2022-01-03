@@ -114,7 +114,7 @@ export default {
             });
             this.loadingItems = false;
           });
-      }, 2000);
+      }, 500);
     },
     isMobile() {
       let screenSize = window.innerWidth;

@@ -2,11 +2,23 @@
   <q-page class="q-ma-lg">
     <h2 class="title text-center">Account</h2>
     <div class="row">
-      <div class="col items-center history">
+      <div class="col items-center">
         <h4 class="subtitle text-center puddlesText q-ma-md">
           Previous Purcases
         </h4>
-        <div class="hisBox col q-ma-md"></div>
+        <div class="hisBox scroll overflow-hidden col q-ma-md">
+
+        <q-list class="column">
+        <purchases  v-if="postedHist != []" v-for="purch in postedHist" :items="purch" />
+        <q-spinner-gears
+           v-if="loadingHist == true"
+          class="q-pa-md loading  self-center"
+          color="primary"
+          size="200px"
+        />
+      </q-list>
+
+        </div>
       </div>
 
       <div v-if="userStatus == false" class="col account">
@@ -18,12 +30,13 @@
 
     <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
     <div class="favContainer q-ma-md">
-      <q-list>
-        <favorite
-          v-for="(item, key) in items"
-          :key="key"
-          :items="item"
-          :id="key"
+      <q-list class="column">
+        <favorite v-if="postedFavs != []" v-for="favs in postedFavs" :items="favs" />
+        <q-spinner-gears
+           v-if="loadingFavs == true"
+          class="q-pa-md loading  self-center"
+          color="primary"
+          size="200px"
         />
       </q-list>
     </div>
@@ -33,6 +46,7 @@
 </template>
 
 <script>
+import { scroll } from 'quasar'
 import { isLoggedIn } from "boot/firebase.js";
 export default {
   data() {
@@ -42,6 +56,11 @@ export default {
       loadingItems: null,
       favs: [],
       postedFavs: [],
+      loadingFavs: null,
+      loadingHist: null,
+      postedHist: [],
+      hist: [],
+      
     };
   },
   components: {
@@ -49,17 +68,16 @@ export default {
     register: require("components/Account/Register.vue").default,
     support: require("components/Account/Support.vue").default,
     favorite: require("components/Account/Favorite.vue").default,
+    purchases: require("components/Account/Purchases.vue").default,
   },
   methods: {
     getItems() {
       const axios = require("axios");
       this.loadingItems = true;
-      setTimeout(() => {
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
             this.items = r.data;
-            this.loadingItems = false;
           })
           .catch((err) => {
             this.$q.dialog({
@@ -70,14 +88,13 @@ export default {
               message: "Could not get your favorite items",
               persistent: true,
             });
-            this.loadingItems = false;
           });
-      }, 2000);
+          this.loadingItems = false;
     },
 
     getFavs() {
       const axios = require("axios");
-      this.loadingItems = true;
+      this.loadingFavs = true;
       setTimeout(() => {
         axios
           .get(`${process.env.API}/favorites`)
@@ -88,8 +105,7 @@ export default {
                 this.items.forEach((itemz) => {
                   favIds.forEach((idss) => {
                     if (idss == itemz.id) {
-                      this.postedFavs.push(itemz)
-                      console.log(this.postedFavs)
+                      this.postedFavs.push(itemz);
                     }
                   });
                 });
@@ -106,22 +122,78 @@ export default {
               persistent: true,
             });
           });
-      }, 2000);
+           this.loadingFavs = false;
+      }, 500);
+    },
+
+        getHist() {
+      const axios = require("axios");
+      this.loadingHist = true;
+      setTimeout(() => {
+        axios
+          .get(`${process.env.API}/favorites`)
+          .then((r) => {
+            r.data.forEach((e) => {
+              if (e.id == this.userStatus.uid) {
+                let histIds = e.purchases.split("_");
+                this.items.forEach((itemz) => {
+                  histIds.forEach((idss) => {
+                    console.log(idss)
+                    if (idss == itemz.id) {
+                      this.postedHist.push(itemz);
+                    }
+                  });
+                });
+              }
+            });
+          })
+          .catch((err) => {
+            this.$q.dialog({
+              style: "background-color:red;",
+              dark: true,
+              color: "white",
+              title: "Error",
+              message: "Could not get your favorite items",
+              persistent: true,
+            });
+          });
+           this.loadingHist = false;
+
+      }, 1000);
     },
   },
-  created() {
+  mounted() {
     this.getItems();
     this.getFavs();
+    this.getHist();
   },
+
+  computed: {
+    updateLogin() {
+      this.userStatus
+    }
+  }
 };
 </script>
 
 <style lang="scss">
-.favContainer {
-  background-color: white;
-  height: 350px;
+.loading {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+//containers
+.favContainer {
+  background-color: white;
+  height: 400px;
+}
+.hisBox {
+  background-color: white;
+  height: 400px;
+}
+
+//input boxes
 .q-field--dark .q-field__native,
 .q-field--dark .q-field__prefix,
 .q-field--dark .q-field__suffix,
@@ -146,11 +218,6 @@ export default {
   color: white;
   line-height: unset;
   white-space: nowrap;
-}
-
-.hisBox {
-  background-color: white;
-  height: 550px;
 }
 
 .subtitle {
