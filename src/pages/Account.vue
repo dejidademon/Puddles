@@ -48,6 +48,8 @@
 <script>
 import { scroll } from 'quasar'
 import { isLoggedIn } from "boot/firebase.js";
+import VueRouter from 'vue-router';
+
 export default {
   data() {
     return {
@@ -140,6 +142,7 @@ export default {
                   histIds.forEach((idss) => {
                     console.log(idss)
                     if (idss == itemz.id) {
+                     
                       this.postedHist.push(itemz);
                     }
                   });
@@ -153,7 +156,7 @@ export default {
               dark: true,
               color: "white",
               title: "Error",
-              message: "Could not get your favorite items",
+              message: "Could not get your previous purchases",
               persistent: true,
             });
           });
@@ -162,17 +165,18 @@ export default {
       }, 1000);
     },
   },
-  mounted() {
-    this.getItems();
+mounted() {
+   this.getItems();
     this.getFavs();
     this.getHist();
-  },
+},
 
-  computed: {
-    updateLogin() {
-      this.userStatus
+  watch: {
+    userStatus: function(val) {
+
     }
   }
+
 };
 </script>
 

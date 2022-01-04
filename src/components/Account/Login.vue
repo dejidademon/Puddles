@@ -61,14 +61,8 @@ export default {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-           this.$q.dialog({
-              style: "background-color:green;",
-              dark: true,
-              color: "white",
-              title: "Sucsess!",
-              message: "Logged in.",
-              persistent: true,
-            });
+              location.reload();
+
           })
           .catch((error) => {
             const errorCode = error.code;

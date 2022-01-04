@@ -105,6 +105,7 @@ export default {
             updateProfile(auth.currentUser, { displayName: this.form.username })
               .then(() => {
                 user.displayName = this.form.username;
+                  location.reload()
                 this.$q.dialog({
                   style: "background-color:green;",
                   dark: true,
