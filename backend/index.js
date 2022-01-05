@@ -60,6 +60,24 @@ app.get('/favorites', (request, response) => {
   
   })
 
+  app.get('/purchases', (request, response) => {
+    response.set('Access-Control-Allow-Origin', "*")
+    
+    
+        let purchases = []
+        
+        
+            db.collection('Purchases').orderBy('orderId').get().then(r => {
+              r.docs.map((doc => {
+                purchases.push(doc.data())
+              }));
+    
+              response.send(purchases)
+            })
+        
+    
+    
+    })
 /*
 listen/ pushes to localhost
 */

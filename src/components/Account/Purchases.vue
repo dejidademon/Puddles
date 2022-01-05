@@ -36,8 +36,11 @@
 <script>
     export default {
         data() {
-            
+            return {
+
+            }
         },
+        
         props: ['items', 'id', 'key']
     }
 </script>

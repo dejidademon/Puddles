@@ -56,12 +56,10 @@ export default {
       userStatus: isLoggedIn,
       items: [],
       loadingItems: null,
-      favs: [],
       postedFavs: [],
       loadingFavs: null,
       loadingHist: null,
       postedHist: [],
-      hist: [],
       
     };
   },
@@ -133,17 +131,27 @@ export default {
       this.loadingHist = true;
       setTimeout(() => {
         axios
-          .get(`${process.env.API}/favorites`)
+          .get(`${process.env.API}/purchases`)
           .then((r) => {
             r.data.forEach((e) => {
-              if (e.id == this.userStatus.uid) {
+              if (e.accountId == this.userStatus.uid) {
                 let histIds = e.purchases.split("_");
-                this.items.forEach((itemz) => {
-                  histIds.forEach((idss) => {
-                    console.log(idss)
-                    if (idss == itemz.id) {
-                     
-                      this.postedHist.push(itemz);
+                  histIds.forEach((histo) => {
+                    let histIdss = histo.substring(0, histo.indexOf('QUAN'))
+                    let histQuan = histo.split("QUAN").pop()
+                    console.log('histo', histQuan)
+                    this.items.forEach((itemz) => {
+                    if (histIdss == itemz.id) {
+                      let orderNum = e.orderId
+                      itemz.orderId = orderNum
+                      itemz.quantity = histQuan
+
+
+                    this.postedHist = orderNum
+                    this.postedHist.push(itemz)
+                      console.log(this.postedHist)
+
+
                     }
                   });
                 });
@@ -159,6 +167,7 @@ export default {
               message: "Could not get your previous purchases",
               persistent: true,
             });
+          console.log(err.message)
           });
            this.loadingHist = false;
 
