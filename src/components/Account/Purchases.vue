@@ -1,16 +1,22 @@
 <template>
-        <q-item class="wholeItem" clickable v-ripple>
+<q-expansion-item class="scroll" switch-toggle-side
+        expand-separator
+        icon="perm_identity"
+        :label=" this.orders"
+>
+
+        <q-item class="wholeItem" v-for="(item, key) in items" clickable v-ripple>
 
         <q-item-section avatar>
           <q-avatar rounded class="imags" >
-          <img :src="items.itemImg1" />
+          <img :src="item.itemImg1" />
           </q-avatar>
         </q-item-section>
         
         <q-item-section class="regText text-white">
           <div>
-            <h5 class="q-mx-md q-mb-none q-mt-sm name">{{ items.itemName }}</h5>
-            <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ items.itemDesc }}</h6>
+            <h5 class="q-mx-md q-mb-none q-mt-sm name">{{ item.itemName }}</h5>
+            <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
           </div>
         </q-item-section>
 
@@ -19,7 +25,7 @@
 <div class="column q-mt-sm">
 <div class="row q-pt-sm">
   
-              <h5 class="q-mx-md q-mb-none q-mt-sm name">${{ items.itemPrice }}</h5>
+              <h5 class="q-mx-md q-mb-none q-mt-sm name">${{ item.itemPrice }}</h5>
               <q-btn  filled color="grey-7" >
                 <q-icon color="pink-5" name="favorite" />
               </q-btn>
@@ -31,17 +37,22 @@
 </div>
         </q-item-section>
       </q-item>
+      </q-expansion-item>
 </template>
 
 <script>
     export default {
         data() {
             return {
-
+                items: this.postedHist[this.orders],
             }
         },
-        
-        props: ['items', 'id', 'key']
+
+        props: ['orders', 'id', 'key', 'postedHist'],
+
+        mounted() {
+            console.log(this.items)
+        }
     }
 </script>
 

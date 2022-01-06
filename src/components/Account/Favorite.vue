@@ -43,8 +43,11 @@ export default {
 
         }
     },
-    props: ['items', 'id', 'key']
-
+    props: ['items', 'id', 'key'],
+    
+    // mounted() {
+    //   console.log(this.id)
+    // }
 }
 </script>
 

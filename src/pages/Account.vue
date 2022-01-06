@@ -6,10 +6,10 @@
         <h4 class="subtitle text-center puddlesText q-ma-md">
           Previous Purcases
         </h4>
-        <div class="hisBox scroll overflow-hidden col q-ma-md">
+        <div class="hisBox overflow-auto col q-ma-md">
 
-        <q-list class="column">
-        <purchases  v-if="postedHist != []" v-for="purch in postedHist" :items="purch" />
+        <q-list class="column ">
+        <purchases v-if="loadingHist == false" v-for="(purch, key) in postedHist" :orders="purch" :postedHist="postedHist" :key="key" :id="key" />
         <q-spinner-gears
            v-if="loadingHist == true"
           class="q-pa-md loading  self-center"
@@ -29,9 +29,9 @@
     </div>
 
     <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
-    <div class="favContainer q-ma-md">
+    <div class="favContainer overflow-auto q-ma-md">
       <q-list class="column">
-        <favorite v-if="postedFavs != []" v-for="favs in postedFavs" :items="favs" />
+        <favorite v-if="postedFavs != []" v-for="(favs, key) in postedFavs" :key="key" :id="key" :items="favs" />
         <q-spinner-gears
            v-if="loadingFavs == true"
           class="q-pa-md loading  self-center"
@@ -135,23 +135,22 @@ export default {
           .then((r) => {
             r.data.forEach((e) => {
               if (e.accountId == this.userStatus.uid) {
-                let histIds = e.purchases.split("_");
+                    let orderNum = e.orderId
+                    this.postedHist.push(orderNum) 
+                    this.postedHist[orderNum] = []
+
+                    let histIds = e.purchases.split("_");
                   histIds.forEach((histo) => {
                     let histIdss = histo.substring(0, histo.indexOf('QUAN'))
                     let histQuan = histo.split("QUAN").pop()
-                    console.log('histo', histQuan)
+                    // console.log('histo', histQuan)
+
                     this.items.forEach((itemz) => {
                     if (histIdss == itemz.id) {
-                      let orderNum = e.orderId
                       itemz.orderId = orderNum
                       itemz.quantity = histQuan
-
-
-                    this.postedHist = orderNum
-                    this.postedHist.push(itemz)
-                      console.log(this.postedHist)
-
-
+                      this.postedHist[orderNum].push(itemz)
+                    // console.log(this.postedHist)
                     }
                   });
                 });
@@ -164,7 +163,7 @@ export default {
               dark: true,
               color: "white",
               title: "Error",
-              message: "Could not get your previous purchases",
+              message: "Could not get one or more of your previous purchases",
               persistent: true,
             });
           console.log(err.message)
@@ -190,6 +189,7 @@ mounted() {
 </script>
 
 <style lang="scss">
+
 .loading {
   position: relative;
   margin-left: auto;
@@ -203,7 +203,8 @@ mounted() {
 }
 .hisBox {
   background-color: white;
-  height: 400px;
+  height: 300px;
+  overflow-y: auto;
 }
 
 //input boxes
