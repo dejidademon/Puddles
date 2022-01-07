@@ -1,11 +1,24 @@
 <template>
-<q-expansion-item class="scroll" switch-toggle-side
-        expand-separator
-        icon="perm_identity"
-        :label=" this.orders"
->
+<q-item class="wholeOrder" @click="showItems = !showItems" clickable v-ripple>
+        
+        <q-item-section class="regText text-white">
+          <div>
+            <h5 class="q-mx-sm q-mb-none q-mt-sm name">Order Number: {{orders}}</h5>
+            <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">Status:</h6>
+          </div>
+        </q-item-section>
 
-        <q-item class="wholeItem" v-for="(item, key) in items" clickable v-ripple>
+          <q-item-section side class="regText text-white">
+
+<div class="column q-mt-sm">
+<div class="q-pa-sm row justify-center">
+  <q-btn label="Edit" color="accent"></q-btn>
+</div>
+</div>
+        </q-item-section>
+</q-item>
+
+        <q-item v-if="showItems == true" class="wholeItem" v-for="(item, key) in items" >
 
         <q-item-section avatar>
           <q-avatar rounded class="imags" >
@@ -37,7 +50,6 @@
 </div>
         </q-item-section>
       </q-item>
-      </q-expansion-item>
 </template>
 
 <script>
@@ -45,6 +57,7 @@
         data() {
             return {
                 items: this.postedHist[this.orders],
+                showItems: false
             }
         },
 
@@ -71,7 +84,16 @@
   height: 150px;
 }
 
-
+.wholeOrder {
+  width: 100%;
+  height: 150px;
+}
+.wholeOrder:nth-child(odd) {
+    background-color: #80959E;
+}
+.wholeOrder:nth-child(even) {
+    background-color: #85C6FF;
+}
 
 /* big */
 @media screen and (min-width: 970px) {

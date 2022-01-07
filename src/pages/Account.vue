@@ -8,7 +8,7 @@
         </h4>
         <div class="hisBox overflow-auto col q-ma-md">
 
-        <q-list class="column ">
+        <q-list class="column">
         <purchases v-if="loadingHist == false" v-for="(purch, key) in postedHist" :orders="purch" :postedHist="postedHist" :key="key" :id="key" />
         <q-spinner-gears
            v-if="loadingHist == true"
@@ -204,7 +204,6 @@ mounted() {
 .hisBox {
   background-color: white;
   height: 300px;
-  overflow-y: auto;
 }
 
 //input boxes
