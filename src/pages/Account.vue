@@ -136,8 +136,10 @@ export default {
             r.data.forEach((e) => {
               if (e.accountId == this.userStatus.uid) {
                     let orderNum = e.orderId
-                    this.postedHist.push(orderNum) 
+                    let status = e.status
+                    this.postedHist.push(orderNum)
                     this.postedHist[orderNum] = []
+                    this.postedHist[orderNum].status = e.status 
 
                     let histIds = e.purchases.split("_");
                   histIds.forEach((histo) => {
@@ -170,7 +172,7 @@ export default {
           });
            this.loadingHist = false;
 
-      }, 1000);
+      }, 0);
     },
   },
 mounted() {
@@ -203,7 +205,7 @@ mounted() {
 }
 .hisBox {
   background-color: white;
-  height: 300px;
+  height: 400px;
 }
 
 //input boxes

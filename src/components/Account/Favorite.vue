@@ -84,7 +84,17 @@ export default {
 }
 //smaller screen
 @media screen and (max-width: 970px) {
-
+.imags {
+    width: 120px;
+    height: 120px;
+}
+.name {
+  font-size: 25px;
+}
+.desc {
+  font-size: 15px;
+  width: 90%;
+}
 }
 // tablet
 @media screen and (max-width: 640px) {
