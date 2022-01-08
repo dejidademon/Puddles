@@ -172,7 +172,7 @@ export default {
           });
            this.loadingHist = false;
 
-      }, 0);
+      }, 500);
     },
   },
 mounted() {

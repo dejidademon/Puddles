@@ -9,9 +9,10 @@
 
 
         <q-item-section class="regText text-white">
-          <div class="row justify-between">
+          <div class="row text justify-center">
             <div class=" column text-center">
-            <h5 class="q-mx-sm q-mb-none q-mt-none name">Order Code: {{orders}}</h5>
+            <h5 class="q-mx-sm q-mb-none q-mt-none name">Order Code:</h5>
+            <h5 class="q-mx-sm q-mb-none q-mt-sm name">{{ orders }}</h5>
              </div>
 
             <div class=" column text-center">
@@ -46,8 +47,8 @@
         </q-item-section>
         
         <q-item-section class="regText text-white">
-          <div>
-            <h5 class="q-mx-md q-mb-none q-mt-sm name">{{ item.itemName }}</h5>
+          <div class="column">
+            <h5 class="q-mx-md q-mb-none q-pb-none q-mt-sm name">{{ item.itemName }}</h5>
             <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
           </div>
         </q-item-section>
@@ -76,7 +77,7 @@
         data() {
             return {
                 items: this.postedHist[this.orders],
-                showItems: false,
+                showItems: true,
                 total: null
             }
         },
@@ -110,10 +111,6 @@
     background-color: #85C6FF;
 }
 
-.wholeItem {
-  width: 100%;
-  height: 150px;
-}
 
 .wholeOrder {
   width: 100%;
@@ -133,34 +130,59 @@
   }
 
 .desc {
-  font-size: 20px;
-  width: 90%;
+  font-size: 18px;
+  width: 100%;
 }
 .name {
-  font-size: 30px;
+  font-size: 25px;
 }
 .imags {
     width: 120px;
     height: 120px;
+}
+.text {
+  justify-content: space-between;
+}
+.wholeItem {
+  width: 100%;
+  height: 150px;
 }
 }
 //smaller screen
 @media screen and (max-width: 970px) {
 .imags {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 }
 .name {
-  font-size: 25px;
+  font-size: 18px;
+    margin-top: 5px;
+    
 }
 .desc {
-  font-size: 15px;
-  width: 90%;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 1px;
+}
+.text {
+  justify-content: center;
+  
+}
+.wholeItem {
+  width: 100%;
+  height: 200px;
 }
 }
 // tablet
 @media screen and (max-width: 640px) {
-
+.imags {
+    width: 90px;
+    height: 90px;
+}
+.name {
+  font-size: 16px;
+  margin-top: 5px;
+}
 }
 //mobile
 @media screen and (max-width: 440px) {
