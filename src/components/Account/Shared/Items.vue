@@ -1,70 +1,60 @@
 <template>
-  <q-item class="wholeOrder">
-    <q-item-section class="orderImgs" avatar>
-      <q-avatar rounded class="imags">
-        <img :src="this.items[0].itemImg1" />
-      </q-avatar>
-    </q-item-section>
+  <q-item @click="cardShow = true" class="wholeItem" clickable v-ripple>
+  <q-item-section avatar class="itemImgs">
+    <q-avatar rounded class="imags">
+      <img :src="item.itemImg1" />
+    </q-avatar>
+  </q-item-section>
 
-    <q-item-section class="regText text-white fullBox">
-      <div class="row text justify-center">
-        <div class="column text-center">
-          <h5 class="q-mx-sm q-mb-none q-mt-none name">Order Code:</h5>
-          <h5 class="q-mx-sm q-mb-none q-mt-sm name">{{ orders }}</h5>
-        </div>
+  <q-item-section class="regText text-white itemName">
+    <div class="column overflow-hidden">
+      <h5 class="col q-mx-md q-mb-none q-pb-none q-mt-sm name">
+        {{ item.itemName }}
+      </h5>
+      <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
+    </div>
+  </q-item-section>
 
-        <div class="column text-center">
-          <h5 class="q-mx-sm q-mb-none q-mt-none name">Status:</h5>
-          <h5 class="q-mx-sm q-mb-sm q-mt-sm name status">
-            {{ this.items.status }}
-          </h5>
-        </div>
-
-        <div class="column text-center">
-          <h5 class="q-mx-sm q-mb-none q-mt-none name">Total:</h5>
-          <h5 class="q-mx-sm q-mb-sm q-mt-sm name">${{ this.items.total }}</h5>
-        </div>
+  <q-item-section side class="sideItems regText text-white itemBtns">
+    <div class="column q-mt-sm">
+      <h5 class="text-center q-ma-none name"><slot></slot></h5>
+      <div class="row q-pt-sm">
+        <h5 class="q-mx-md q-mb-none q-mt-sm name price">
+          ${{ item.itemPrice }}
+        </h5>
+        <q-btn class="favBtn" filled color="grey-7">
+          <q-icon color="pink-5" name="favorite" />
+        </q-btn>
       </div>
-    </q-item-section>
-
-    <q-item-section avatar class="regText text-white expandBtn">
-      <div class="column justify-center q-mx-auto">
-        <q-btn
-          @click="showItems = !showItems"
-          clickable
-          v-ripple
-          label="More"
-          class="orderBtn"
-          color="accent"
-        ></q-btn>
+      <div class="q-pa-sm row justify-center">
+        <q-btn class="itemBtn" color="accent"
+          >{{ this.cartText }}
+          <q-icon v-if="isPhone" name="shopping_cart" />
+        </q-btn>
       </div>
-    </q-item-section>
+    </div>
+  </q-item-section>
   </q-item>
 
-  <q-item
-    v-if="showItems == true"
-    class="wholeItem"
-    v-for="(item, key) in items"
-    clickable
-    v-ripple
-  >
-    <order-items :item="item">Quantity: {{ item.quantity }}</order-items>
-  </q-item>
+      <q-dialog v-model="cardShow">
+    <shop-preview
+      @close="cardShow = false"
+      :notMobile="notMobile"
+
+      :items="item"
+
+    />
+  </q-dialog>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      items: this.postedHist[this.orders],
-      showItems: true,
       isPhone: false,
       cartText: "Add To Cart",
     };
   },
-
-  props: ["orders", "id", "key", "postedHist"],
-
   methods: {
     checkDevice() {
       let lWidth = window.screen.width;
@@ -80,35 +70,29 @@ export default {
       }
     },
   },
-
-  components: {
-    "order-items": require("components/Account/Shared/orderItems.vue").default,
-  },
+  props:["item", 'cardShow', 'notMobile'],
 
   created() {
     window.addEventListener("resize", this.checkDevice);
   },
   mounted() {
-    // console.log(this.items)
+    // console.log(this.item)
     this.checkDevice();
   },
+    components: {
+      "shop-preview": require("components/Shop/shopPreview.vue").default,
+    }
 };
 </script>
 
 <style lang="scss" scoped>
-
-.wholeOrder:nth-child(odd) {
-  background-color: #80959e;
-}
-.wholeOrder:nth-child(even) {
-  background-color: #85c6ff;
-}
 .wholeItem:nth-child(odd) {
   background-color: #80959e;
 }
 .wholeItem:nth-child(even) {
   background-color: #85c6ff;
 }
+
 
 /* big */
 @media screen and (min-width: 970px) {
@@ -148,7 +132,7 @@ export default {
   }
 
   .desc {
-    font-size: 17px;
+    font-size: 15px;
     margin-top: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -175,8 +159,8 @@ export default {
     padding-right: 0px !important;
   }
   .itemImgs .imags {
-    width: 145px;
-    height: 240px;
+    width: 140px;
+    height: 140px;
   }
 
   .itemBtns {
@@ -246,33 +230,53 @@ export default {
   }
   .wholeOrder {
     padding: 0;
-    height: 125px;
-    
   }
   .orderBtn {
     font-size: 10px;
     width: 40px;
-    top: 40px;
+    top: 56px;
   }
-
-  .expandBtn {
-    padding: 4px;
-  }
-  .text {
-    justify-content: space-center;
-    width: 83vw;
-  }
-
-  .fullBox {
-    width: 60vw;
-  }
-  .fullBox .name {
-    font-size: 12px;
-  }
-      .wholeItem {
+  .wholeItem {
     width: 100%;
     height: 150px;
     padding: 5px;
+  }
+  .expandBtn {
+    padding: 0 !important;
+    position: sticky;
+  }
+  .text {
+    justify-content: space-center;
+    width: 85vw;
+  }
+
+  .fullBox {
+    width: 20em;
+  }
+  .favBtn {
+    font-size: 10px;
+    width: 25px !important;
+    padding: 5px;
+  }
+  .itemBtn {
+    font-size: 10px;
+    width: 25px !important;
+    padding: 5px;
+  }
+  .desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    font-size: 0.6rem;
+    line-height: 1.3rem;
+    width: 30vw;
+  }
+  .sideItems .name {
+    font-size: 11px;
+  }
+
+  .price {
+    margin-right: 4px;
   }
 }
 </style>

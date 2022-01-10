@@ -13,24 +13,7 @@
         <a href="/">Puddles</a>
       </h3>
 
-      <q-btn
-        size="15px"
-        round
-        class="mobileSearch absolute-right text-white"
-        icon="search"
-      />
 
-      <q-input
-        class="col absolute-right searchBar"
-        bg-color="white"
-        dense
-        input-class="searchBar"
-        rounded
-        outlined
-        item-aligned
-      >
-        <q-btn color round flat class="searchBtn" icon="search" />
-      </q-input>
     </header>
 
     <div class="all q-mt-sm">
@@ -66,20 +49,23 @@
       <router-view />
     </q-page-container>
 
-    <div v-if="userStatus">
+
       <q-fab
+      v-if="userStatus"
         v-model="tab"
         :label="'Welcome ' + this.userStatus.displayName"
         label-position="left"
         color="accent"
         icon="keyboard_arrow_right"
         direction="right"
-        class="fixed-bottom-left q-ma-md row"
+        class="fixed-bottom-left q-ma-md row userBtn regText"
+        label-class="fabSize"
+        label-style="font-size: 13px;"
       >
-        <q-btn @click="logOut" round color="red-7" icon="person_off" />
+        <q-btn @click="logOut" round color="red-7" class="logBtn" icon="person_off" />
         <h5 class="regText signOut">Sign Out</h5>
       </q-fab>
-    </div>
+
 
     <footer style="height: 70px" class="allLinks row shadow-up-10 bg-primary text-white">
       <div class=" absolute-center q-mx-auto">
@@ -192,6 +178,7 @@ export default {
   font-family: "regular_font";
   src: url(../assets/GROBOLD.ttf);
 }
+
 .signOut {
     white-space: nowrap;
     color: rgb(255, 25, 25);
@@ -260,9 +247,21 @@ h3 {
 .btnSpace {
   margin: auto;
 }
-
+.userBtn {
+  left: -140px;
+  transition: 2s;
+}
+.userBtn:hover {
+  left: 0px;
+}
 // big
 @media screen and (min-width: 970px) {
+
+.userBtn {
+  height: 50px;
+  width: 150px;
+}
+
   .btnTxt {
     font-size: 35px;
   }
@@ -292,6 +291,14 @@ h3 {
 }
 //smaller screen
 @media screen and (max-width: 970px) {
+  .userBtn {
+  height: 50px;
+  width: 150px;
+}
+.signOut {
+  font-size: 20px;
+}
+
   .btnTxt {
     font-size: 20px;
   }
@@ -315,6 +322,10 @@ h3 {
 }
 // tablet
 @media screen and (max-width: 640px) {
+
+.signOut {
+  font-size: 20px;
+}
   .btnTxt {
     font-size: 17px;
     white-space: nowrap;
@@ -349,6 +360,9 @@ h3 {
 
 //mobile
 @media screen and (max-width: 440px) {
+  .signOut {
+  font-size: 17px;
+}
   .logo {
     max-height: 60px;
     max-width: 80px;

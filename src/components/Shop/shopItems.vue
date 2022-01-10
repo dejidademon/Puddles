@@ -41,7 +41,6 @@
     <shop-preview
       v-for="(item, key) in items"
       @close="cardShow = false"
-      :notMobile="notMobile"
       :key="key"
       :items="items"
       :id="key"
@@ -60,10 +59,11 @@ export default {
     };
   },
 
-  props: ["items", "id", "notMobile"],
+  props: ["items", "id"],
 
   components: {
     "shop-preview": require("components/Shop/shopPreview.vue").default,
+
   },
 };
 </script>

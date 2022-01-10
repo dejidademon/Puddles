@@ -149,9 +149,23 @@ export default {
       quantity: 1,
       previewAuto: ref(false),
       previewSlide: ref(1),
+      notMobile: false,
     };
   },
-  props: ["items", "id", "notMobile"],
+  props: ["items", "id"],
+  methods: {
+    isMobile() {
+      let screenSize = window.innerWidth;
+      if (screenSize <= 640) {
+        this.notMobile = false;
+      }
+    }
+  },
+  mounted() {
+      this.isMobile()
+      window.addEventListener("resize", this.isMobile);
+  }
+
 };
 </script>
 
@@ -336,4 +350,53 @@ export default {
 
   //prevew card
 }
+
+@media screen and (max-width: 440px) {
+    .previewName {
+    font-size: 12px;
+    margin: 0;
+    margin-left: -15px;
+    white-space: nowrap;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  .previewPrice {
+    font-size: 14px;
+    margin: 0;
+    white-space: nowrap;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+    .previewSlide {
+    height: 220px;
+  }
+  .previewCard {
+    background-color: #80959e;
+    border-radius: 5%;
+    width: 250px;
+  }
+    .descTitle {
+    font-size: 15px;
+    margin: 0;
+    white-space: nowrap;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+    .descText {
+    font-size: 12px;
+    margin: 0;
+    line-height: normal;
+  }  
+  .previewBtns {
+    font-size: 12px;
+    width: 105px !important;
+  }
+    .dropDown {
+    font-size: 12px;
+    width: 105px !important;
+  }
+}
+
 </style>
