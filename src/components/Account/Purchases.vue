@@ -28,12 +28,21 @@
     </q-item-section>
 
     <q-item-section avatar class="regText text-white expandBtn">
-      <div class="column justify-center q-mx-auto">
+      <div class="column justify-center">
+
+        <q-btn         
+         @click="showEdit = !showEdit"
+          clickable
+          v-ripple
+          label="Edit"
+          class="orderBtn q-mb-sm"
+          color="accent" />
+          
         <q-btn
           @click="showItems = !showItems"
           clickable
           v-ripple
-          label="More"
+          icon="keyboard_arrow_down"
           class="orderBtn"
           color="accent"
         ></q-btn>
@@ -45,8 +54,6 @@
     v-if="showItems == true"
     class="wholeItem"
     v-for="(item, key) in items"
-    clickable
-    v-ripple
   >
     <order-items :item="item">Quantity: {{ item.quantity }}</order-items>
   </q-item>
@@ -57,41 +64,21 @@ export default {
   data() {
     return {
       items: this.postedHist[this.orders],
-      showItems: true,
-      isPhone: false,
-      cartText: "Add To Cart",
+      showItems: false,
+      showEdit: false,
     };
   },
 
   props: ["orders", "id", "key", "postedHist"],
 
-  methods: {
-    checkDevice() {
-      let lWidth = window.screen.width;
 
-      if (lWidth >= 640) {
-        this.isPhone = false;
-        this.cartText = "Add To Cart";
-      } else if (lWidth <= 640) {
-        this.isPhone = true;
-        this.cartText = "";
-      } else {
-        this.isPhone = null;
-      }
-    },
-  },
 
   components: {
     "order-items": require("components/Account/Shared/orderItems.vue").default,
   },
 
-  created() {
-    window.addEventListener("resize", this.checkDevice);
-  },
-  mounted() {
-    // console.log(this.items)
-    this.checkDevice();
-  },
+
+  
 };
 </script>
 
@@ -109,6 +96,9 @@ export default {
 .wholeItem:nth-child(even) {
   background-color: #85c6ff;
 }
+  .wholeOrder {
+    width: 100%;
+  }
 
 /* big */
 @media screen and (min-width: 970px) {
@@ -206,7 +196,9 @@ export default {
   }
 
   .orderBtn {
-    width: 60px;
+    font-size: 12px;
+    height: 30px;
+    width: 45px;
   }
   .text {
     justify-content: space-center;
@@ -222,6 +214,9 @@ export default {
   .wholeItem {
     width: 100%;
     height: 200px;
+  }
+  .wholeOrder {
+    width: 100%;
   }
   .itemImgs {
     margin-right: 0px !important;
@@ -251,8 +246,9 @@ export default {
   }
   .orderBtn {
     font-size: 10px;
-    width: 40px;
-    top: 40px;
+    width: 30px;
+    top: 27px;
+    height: 20px;
   }
 
   .expandBtn {

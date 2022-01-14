@@ -50,7 +50,7 @@ export default {
     return {
       cardShow: false,
       isPhone: false,
-      btnText: "Edit",
+      btnText: "More",
     };
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
 
       if (lWidth >= 640) {
         this.isPhone = false;
-        this.btnText = "Edit";
+        this.btnText = "More";
       } else if (lWidth <= 640) {
         this.isPhone = true;
         this.btnText = "";
@@ -130,7 +130,7 @@ export default {
   }
 
   .desc {
-    font-size: 15px;
+    font-size: 14px;
     margin-top: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -183,8 +183,8 @@ export default {
     white-space: nowrap;
   }
   .itemBtn {
-    width: 40px;
-    font-size: 14px;
+    width: 45px;
+    font-size: 12px;
   }
 
   .orderBtn {

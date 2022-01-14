@@ -132,7 +132,7 @@ export default {
   }
 
   .desc {
-    font-size: 15px;
+    font-size: 14px;
     margin-top: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -149,6 +149,7 @@ export default {
 
   .itemBtn {
     width: 90px;
+    font-size: 12px;
   }
   .favBtn {
     width: 40px;

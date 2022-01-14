@@ -6,7 +6,7 @@
         <h4 class="subtitle text-center puddlesText q-ma-md">
           Previous Purcases
         </h4>
-        <div class="hisBox overflow-auto hide-scrollbar col">
+        <div class="hisBox overflow-auto hide-scrollbar">
 
         <q-list class="column">
         <purchases v-if="loadingHist == false" v-for="(purch, key) in postedHist" :orders="purch" :postedHist="postedHist" :key="key" :id="key" />
