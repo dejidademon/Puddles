@@ -152,7 +152,6 @@ export default {
   console.log("signed out")
   this.userStatus = false;
   this.tab = false;
-  location.reload();
 }).catch((error) => {
   console.log(error.message, error.code)
   this.$q.dialog({

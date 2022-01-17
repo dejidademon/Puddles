@@ -46,9 +46,8 @@
 </template>
 
 <script>
-import { scroll } from 'quasar'
 import { isLoggedIn } from "boot/firebase.js";
-import VueRouter from 'vue-router';
+import axios from 'axios';
 
 export default {
   data() {
@@ -65,15 +64,14 @@ export default {
     };
   },
   components: {
-    login: require("components/Account/Login.vue").default,
-    register: require("components/Account/Register.vue").default,
-    support: require("components/Account/Support.vue").default,
-    favorite: require("components/Account/Favorite.vue").default,
-    purchases: require("components/Account/Purchases.vue").default,
+    'login': require("components/Account/Login.vue").default,
+    'register': require("components/Account/Register.vue").default,
+    'support': require("components/Account/Support.vue").default,
+    'favorite': require("components/Account/Favorite.vue").default,
+    'purchases': require("components/Account/Purchases.vue").default,
   },
   methods: {
     getItems() {
-      const axios = require("axios");
       this.loadingItems = true;
         axios
           .get(`${process.env.API}/slides`)
@@ -96,7 +94,6 @@ export default {
     },
 
     getFavs() {
-      const axios = require("axios");
       this.loadingFavs = true;
       setTimeout(() => {
         axios
@@ -132,7 +129,6 @@ export default {
     },
 
         getHist() {
-      const axios = require("axios");
       this.loadingHist = true;
       setTimeout(() => {
         axios
@@ -184,16 +180,22 @@ export default {
   },
 
 mounted() {
-  this.getItems()
-  this.getHist();
-  this.getFavs();
+  setTimeout(() => {
 
+    if (this.items == false) {
+    this.getItems()
+    this.getHist();
+    this.getFavs();
+    }
+  }, 600);
 },
 
   watch: {
-    userStatus: function(val) {
-
-    }
+    userStatus: function() {
+  this.getItems()
+  this.getHist();
+  this.getFavs();
+    },
   }
 
 };

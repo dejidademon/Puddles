@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged} from "firebase/auth";
+import { getFirestore } from "firebase/firestore"
 import { ref } from 'vue'
 
 const firebaseConfig = {
@@ -15,6 +16,7 @@ const firebaseConfig = {
 let app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 let isLoggedIn = ref(false)
+const db = getFirestore();
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -27,4 +29,4 @@ return isLoggedIn
   });
 
 
-export { auth, isLoggedIn }
+export { auth, isLoggedIn, db }

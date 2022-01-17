@@ -1,58 +1,79 @@
 <template>
-  <q-item @click="cardShow = true" class="wholeItem" clickable v-ripple>
-  <q-item-section avatar class="itemImgs">
-    <q-avatar rounded class="imags">
-      <img :src="item.itemImg1" />
-    </q-avatar>
-  </q-item-section>
+  <q-item class="wholeItem">
+    <q-item-section avatar class="itemImgs">
+      <q-avatar rounded class="imags">
+        <img :src="item.itemImg1" />
+      </q-avatar>
+    </q-item-section>
 
-  <q-item-section class="regText text-white itemName">
-    <div class="column overflow-hidden">
-      <h5 class="col q-mx-md q-mb-none q-pb-none q-mt-sm name">
-        {{ item.itemName }}
-      </h5>
-      <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
-    </div>
-  </q-item-section>
-
-  <q-item-section side class="sideItems regText text-white itemBtns">
-    <div class="column q-mt-sm">
-      <h5 class="text-center q-ma-none name"><slot></slot></h5>
-      <div class="row q-pt-sm">
-        <h5 class="q-mx-md q-mb-none q-mt-sm name price">
-          ${{ item.itemPrice }}
+    <q-item-section
+      @click="cardShow = true"
+      clickable
+      v-ripple
+      class="regText text-white itemName"
+    >
+      <div class="column overflow-hidden">
+        <h5 class="col q-mx-md q-mb-none q-pb-none q-mt-sm name">
+          {{ item.itemName }}
         </h5>
-        <q-btn class="favBtn" filled color="grey-7">
-          <q-icon color="pink-5" name="favorite" />
-        </q-btn>
+        <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
       </div>
-      <div class="q-pa-sm row justify-center">
-        <q-btn class="itemBtn" color="accent"
-          >{{ this.cartText }}
-          <q-icon v-if="isPhone" name="shopping_cart" />
-        </q-btn>
+    </q-item-section>
+
+    <q-item-section side class="sideItems regText text-white itemBtns">
+      <div class="column q-mt-sm">
+        <h5 class="text-center q-ma-none name"><slot></slot></h5>
+        <div class="row q-pt-sm">
+          <h5 class="q-mx-md q-mb-none q-mt-sm name price">
+            ${{ item.itemPrice }}
+          </h5>
+          <q-btn class="favBtn" @click="favbtnClicked()" filled color="grey-7">
+            <q-icon color="pink-5" v-if="favFilled" name="favorite" />
+            <q-icon
+              color="white"
+              v-if="favFilled == false"
+              name="favorite_border"
+            />
+            <q-icon
+              color="white"
+              v-if="favFilled == null"
+              name="pending"
+            />
+          </q-btn>
+        </div>
+        <div class="q-pa-sm row justify-center">
+          <q-btn class="itemBtn" color="accent"
+            >{{ this.cartText }}
+            <q-icon v-if="isPhone" name="shopping_cart" />
+          </q-btn>
+        </div>
       </div>
-    </div>
-  </q-item-section>
+    </q-item-section>
   </q-item>
 
-      <q-dialog v-model="cardShow">
+  <q-dialog v-model="cardShow">
     <shop-preview
       @close="cardShow = false"
       :notMobile="notMobile"
-
       :items="item"
-
     />
   </q-dialog>
 </template>
 
 <script>
+import { doc, addDoc, setDoc, updateDoc, collection } from "firebase/firestore";
+import { db } from "boot/firebase.js";
+import axios from "axios";
+import { isLoggedIn } from "boot/firebase.js";
+
 export default {
   data() {
     return {
+      userStatus: isLoggedIn,
       isPhone: false,
       cartText: "Add To Cart",
+      favFilled: null,
+      favs: "",
     };
   },
   methods: {
@@ -69,8 +90,61 @@ export default {
         this.isPhone = null;
       }
     },
+
+    favbtnClicked() {
+
+      let favId = "_" + this.item.id;
+      console.log(this.favs);
+      if (this.favs.includes(favId) == false) {
+        this.favFilled = null
+        const frankDocRef = doc(db, "Favorited", this.userStatus.uid);
+          setTimeout(() => {
+        setDoc(frankDocRef, {
+          favs: this.favs + "_" + this.item.id,
+          id: this.userStatus.uid,
+        });
+        this.favs = this.favs + "_" + this.item.id
+         this.favFilled = true
+          }, 900);
+      } 
+       if (this.favs.includes(favId) == true) {
+         this.favFilled = null
+        const frankDocRef = doc(db, "Favorited", this.userStatus.uid);
+          setTimeout(() => {
+        setDoc(frankDocRef, {
+          favs: this.favs.replace(favId, ''),
+          id: this.userStatus.uid,
+        });
+        this.favs = this.favs.replace(favId, '')
+        this.favFilled = false
+        }, 900);
+      }
+    },
+
+    favStatus() {
+      axios
+        .get(`${process.env.API}/favorites`)
+        .then((r) => {
+          r.data.forEach((e) => {
+            if (e.id == this.userStatus.uid) {
+              this.favs = e.favs;
+              let favId = "_" + this.item.id;
+              if (this.favs.includes(favId) == true) {
+                this.favFilled = true;
+                }  if (this.favs.includes(favId) == false) {
+                  this.favFilled = false;
+                }
+              // console.log(this.favs);
+            }
+          });
+        })
+        .catch((error) => {
+          console.log("error with getting fav ids");
+        });
+    },
   },
-  props:["item", 'cardShow', 'notMobile'],
+  props: ["item", "cardShow", "notMobile"],
+
 
   created() {
     window.addEventListener("resize", this.checkDevice);
@@ -78,10 +152,11 @@ export default {
   mounted() {
     // console.log(this.item)
     this.checkDevice();
+    this.favStatus();
   },
-    components: {
-      "shop-preview": require("components/Shop/shopPreview.vue").default,
-    }
+  components: {
+    "shop-preview": require("components/Shop/shopPreview.vue").default,
+  },
 };
 </script>
 
@@ -92,7 +167,6 @@ export default {
 .wholeItem:nth-child(even) {
   background-color: #85c6ff;
 }
-
 
 /* big */
 @media screen and (min-width: 970px) {

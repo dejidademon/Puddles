@@ -8,7 +8,7 @@
         v-model="cardSlide"
         swipeable
         infinite
-        :arrows="this.notMobile"
+        :arrows="notMobile"
         transition-next="slide-left"
         transition-prev="slide-right"
         control-color="black"
@@ -56,10 +56,25 @@ export default {
       cardAuto: ref(false),
       cardShow: false,
       cardSlide: ref(1),
+      notMobile: true,
     };
   },
 
   props: ["items", "id"],
+
+  methods: {
+    isMobile() {
+      let screenSize = window.innerWidth;
+      if (screenSize <= 640) {
+        this.notMobile = false;
+      }
+    }
+  },
+
+    mounted() {
+      this.isMobile()
+      window.addEventListener("resize", this.isMobile);
+  },
 
   components: {
     "shop-preview": require("components/Shop/shopPreview.vue").default,

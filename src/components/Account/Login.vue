@@ -61,7 +61,6 @@ export default {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-              location.reload();
 
           })
           .catch((error) => {

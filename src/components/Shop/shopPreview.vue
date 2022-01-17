@@ -149,7 +149,7 @@ export default {
       quantity: 1,
       previewAuto: ref(false),
       previewSlide: ref(1),
-      notMobile: false,
+      notMobile: true,
     };
   },
   props: ["items", "id"],

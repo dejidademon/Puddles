@@ -29,15 +29,7 @@
 
     <q-item-section avatar class="regText text-white expandBtn">
       <div class="column justify-center">
-
-        <q-btn         
-         @click="showEdit = !showEdit"
-          clickable
-          v-ripple
-          label="Edit"
-          class="orderBtn q-mb-sm"
-          color="accent" />
-          
+        
         <q-btn
           @click="showItems = !showItems"
           clickable
@@ -70,8 +62,6 @@ export default {
   },
 
   props: ["orders", "id", "key", "postedHist"],
-
-
 
   components: {
     "order-items": require("components/Account/Shared/orderItems.vue").default,
