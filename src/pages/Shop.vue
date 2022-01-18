@@ -1,12 +1,11 @@
 <template>
-<q-page class="q-ma-lg">
- <h1 class="title q-pb-lg text-center">SHOP</h1>
+  <q-page class="q-ma-lg">
+    <h1 class="title q-pb-lg text-center">SHOP</h1>
 
     <template v-if="!loadingItems">
       <div class="row">
         <shop-items
           v-for="(item, key) in items"
-          :notMobile="notMobile"
           :key="key"
           :items="item"
           :id="key"
@@ -22,8 +21,7 @@
           size="200px"
         /></div
     ></template>
-
-</q-page>
+  </q-page>
 </template>
 
 <script>
@@ -35,7 +33,6 @@ export default {
       slide: ref(1),
       items: [],
       loadingItems: false,
-      notMobile: true,
     };
   },
   methods: {
@@ -44,9 +41,8 @@ export default {
       this.loadingItems = true;
       setTimeout(() => {
         axios
-          .get(`${ process.env.API }/slides`)
+          .get(`${process.env.API}/slides`)
           .then((r) => {
-            
             this.items = r.data;
             this.loadingItems = false;
           })
@@ -63,16 +59,9 @@ export default {
           });
       }, 500);
     },
-    isMobile() {
-      let screenSize = window.innerWidth;
-      if (screenSize <= 640) {
-        this.notMobile = false;
-      }
-    },
   },
   created() {
     this.getItems();
-    this.isMobile();
   },
   components: {
     "shop-items": require("components/Shop/shopItems.vue").default,

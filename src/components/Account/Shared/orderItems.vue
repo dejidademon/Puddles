@@ -6,12 +6,12 @@
     </q-avatar>
   </q-item-section>
 
-  <q-item-section class="regText text-white itemName">
+  <q-item-section @click="cardShow = true" clickable v-ripple class="regText text-white itemName">
     <div class="column overflow-hidden">
       <h5 class="col q-mx-md q-mb-none q-pb-none q-mt-sm name">
         {{ item.itemName }}
       </h5>
-      <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
+      <h6  class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>
     </div>
   </q-item-section>
 
@@ -22,9 +22,9 @@
         <h5 class="q-mx-md q-mb-none q-mt-sm name price">
           ${{ item.itemPrice }}
         </h5>
-        <q-btn class="favBtn" filled color="grey-7">
-          <q-icon color="pink-5" name="favorite" />
-        </q-btn>
+
+          <fav-btn :item="this.item"/>
+
       </div>
       <div class="q-pa-sm row justify-center">
         <q-btn clickable v-ripple @click="cardShow = true" class="itemBtn" color="accent"
@@ -79,6 +79,7 @@ export default {
   },
     components: {
       "shop-preview": require("components/Shop/shopPreview.vue").default,
+      'fav-btn': require("components/Account/Shared/favBtn.vue").default,
     }
 };
 </script>

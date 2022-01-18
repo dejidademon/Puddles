@@ -1,4 +1,5 @@
 <template>
+
   <q-layout
     class="overflow-hidden"
     style="background-color: #6f7b87"
@@ -53,14 +54,14 @@
       <q-fab
       v-if="userStatus"
         v-model="tab"
-        :label="'Welcome ' + this.userStatus.displayName"
+        :label="'Hey, ' + this.userStatus.displayName"
         label-position="left"
         color="accent"
         icon="keyboard_arrow_right"
         direction="right"
         class="fixed-bottom-left q-ma-md row userBtn regText"
         label-class="fabSize"
-        label-style="font-size: 13px;"
+        label-style="font-size: 12px;"
       >
         <q-btn @click="logOut" round color="red-7" class="logBtn" icon="person_off" />
         <h5 class="regText signOut">Sign Out</h5>
@@ -150,7 +151,7 @@ export default {
     logOut() {
     signOut(auth).then(() => {
   console.log("signed out")
-  this.userStatus = false;
+  this.isLoggedIn = false;
   this.tab = false;
 }).catch((error) => {
   console.log(error.message, error.code)
@@ -401,5 +402,11 @@ h3 {
   footer {
     display: none;
   }
+  .userBtn:hover {
+  left: -10px;
+}
+.logBtn {
+  margin-left: -6px;
+}
 }
 </style>

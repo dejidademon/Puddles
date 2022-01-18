@@ -27,19 +27,7 @@
           <h5 class="q-mx-md q-mb-none q-mt-sm name price">
             ${{ item.itemPrice }}
           </h5>
-          <q-btn class="favBtn" @click="favbtnClicked()" filled color="grey-7">
-            <q-icon color="pink-5" v-if="favFilled" name="favorite" />
-            <q-icon
-              color="white"
-              v-if="favFilled == false"
-              name="favorite_border"
-            />
-            <q-icon
-              color="white"
-              v-if="favFilled == null"
-              name="pending"
-            />
-          </q-btn>
+          <fav-btn :item="this.item"/>
         </div>
         <div class="q-pa-sm row justify-center">
           <q-btn class="itemBtn" color="accent"
@@ -61,19 +49,14 @@
 </template>
 
 <script>
-import { doc, addDoc, setDoc, updateDoc, collection } from "firebase/firestore";
-import { db } from "boot/firebase.js";
-import axios from "axios";
 import { isLoggedIn } from "boot/firebase.js";
 
 export default {
   data() {
     return {
-      userStatus: isLoggedIn,
       isPhone: false,
       cartText: "Add To Cart",
-      favFilled: null,
-      favs: "",
+
     };
   },
   methods: {
@@ -91,57 +74,7 @@ export default {
       }
     },
 
-    favbtnClicked() {
 
-      let favId = "_" + this.item.id;
-      console.log(this.favs);
-      if (this.favs.includes(favId) == false) {
-        this.favFilled = null
-        const frankDocRef = doc(db, "Favorited", this.userStatus.uid);
-          setTimeout(() => {
-        setDoc(frankDocRef, {
-          favs: this.favs + "_" + this.item.id,
-          id: this.userStatus.uid,
-        });
-        this.favs = this.favs + "_" + this.item.id
-         this.favFilled = true
-          }, 900);
-      } 
-       if (this.favs.includes(favId) == true) {
-         this.favFilled = null
-        const frankDocRef = doc(db, "Favorited", this.userStatus.uid);
-          setTimeout(() => {
-        setDoc(frankDocRef, {
-          favs: this.favs.replace(favId, ''),
-          id: this.userStatus.uid,
-        });
-        this.favs = this.favs.replace(favId, '')
-        this.favFilled = false
-        }, 900);
-      }
-    },
-
-    favStatus() {
-      axios
-        .get(`${process.env.API}/favorites`)
-        .then((r) => {
-          r.data.forEach((e) => {
-            if (e.id == this.userStatus.uid) {
-              this.favs = e.favs;
-              let favId = "_" + this.item.id;
-              if (this.favs.includes(favId) == true) {
-                this.favFilled = true;
-                }  if (this.favs.includes(favId) == false) {
-                  this.favFilled = false;
-                }
-              // console.log(this.favs);
-            }
-          });
-        })
-        .catch((error) => {
-          console.log("error with getting fav ids");
-        });
-    },
   },
   props: ["item", "cardShow", "notMobile"],
 
@@ -152,10 +85,10 @@ export default {
   mounted() {
     // console.log(this.item)
     this.checkDevice();
-    this.favStatus();
   },
   components: {
     "shop-preview": require("components/Shop/shopPreview.vue").default,
+    'fav-btn': require("components/Account/Shared/favBtn.vue").default,
   },
 };
 </script>

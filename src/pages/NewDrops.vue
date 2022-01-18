@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-ma-lg">
+  <q-page class="wholePg q-ma-lg">
     <h1 class="title q-pb-lg text-center">New Arrivals</h1>
 
     <q-carousel
@@ -57,7 +57,7 @@
 
     <template v-if="noItems">
       <div class=" text-center">
-        <h2 class="colorFade" >No items currently</h2>
+        <h2 class="colorFade noItems" >No items currently</h2>
       </div>
     </template>
   </q-page>
@@ -173,9 +173,18 @@ export default {
   .carousel {
     height: 325px;
   }
+    .noItems {
+    font-size: 80px;
+  }
 }
 //smaller screen
 @media screen and (max-width: 970px) {
+    .wholePg {
+    margin: 15px;
+  }
+  .noItems {
+    font-size: 40px;
+  }
   .carousel {
     height: 200px;
   }
@@ -186,6 +195,9 @@ export default {
 }
 // tablet
 @media screen and (max-width: 640px) {
+    .noItems {
+    font-size: 30px;
+  }
   .title {
     margin: -5px;
     font-size: 30px;
@@ -196,12 +208,18 @@ export default {
 }
 //mobile
 @media screen and (max-width: 440px) {
+  .wholePg {
+    margin: 10px;
+  }
+    .noItems {
+    font-size: 20px;
+  }
   .title {
     margin: -10px;
-    font-size: 30px;
+    font-size: 20px;
   }
   .carousel {
-    height: 150px;
+    height: 120px;
   }
 }
 </style>

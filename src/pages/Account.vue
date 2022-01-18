@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-ma-lg">
+  <q-page v-if="adminUserId != userStatus.uid" class="q-ma-lg">
     <h2 class="title text-center">Account</h2>
     <div class="row">
       <div class="col items-center">
@@ -43,11 +43,16 @@
 
     <support />
   </q-page>
+
+  <q-page v-else-if="adminUserId == userStatus.uid" class="q-ma-lg">
+    
+  </q-page>
 </template>
 
 <script>
 import { isLoggedIn } from "boot/firebase.js";
 import axios from 'axios';
+import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase/firestore";
 
 export default {
   data() {
@@ -60,7 +65,7 @@ export default {
       loadingFavs: null,
       loadingHist: null,
       postedHist: [],
-      
+      adminUserId: 'wJwuXifVzNeUW8rqoBqq2m4Z1YD2',
     };
   },
   components: {
@@ -73,6 +78,10 @@ export default {
   methods: {
     getItems() {
       this.loadingItems = true;
+      this.items = []
+      this.favItems = []
+      this.postedFavs = []
+      this.postedHist = []
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
@@ -175,26 +184,41 @@ export default {
           });
            this.loadingHist = false;
 
-      }, 500);
+      }, 300);
     },
+
+        watchStatus() {
+    const DocRef = doc(db, "Favorited", this.userStatus.uid);
+    const unsub = onSnapshot(DocRef, (doc) => {
+        // console.log("Current data:", doc.data().favs)
+        this.favs = doc.data().favs
+        this.favStatus();
+    })
+    unsub
+    },
+
+      loadPg() {    
+    setTimeout(() => {
+      if (this.items == false) {
+      this.getItems()
+      this.getHist();
+      this.getFavs();
+      }
+    }, 400); 
+  },
+
   },
 
 mounted() {
-  setTimeout(() => {
-
-    if (this.items == false) {
-    this.getItems()
-    this.getHist();
-    this.getFavs();
-    }
-  }, 600);
+  this.loadPg();
 },
 
   watch: {
     userStatus: function() {
-  this.getItems()
-  this.getHist();
-  this.getFavs();
+      console.log('called')
+      this.getItems()
+      this.getHist();
+      this.getFavs();
     },
   }
 
@@ -288,7 +312,7 @@ mounted() {
 //mobile
 @media screen and (max-width: 440px) {
     .subtitle {
-  font-size: 15px;
+  font-size: 20px;
   white-space: nowrap;
 }
   .title {

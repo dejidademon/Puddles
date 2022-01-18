@@ -16,7 +16,7 @@
           :autoplay="previewAuto"
           v-model="previewSlide"
           swipeable
-          :arrows="this.notMobile"
+          :arrows="notsMobile"
           infinite
           transition-next="slide-left"
           transition-prev="slide-right"
@@ -125,9 +125,8 @@
           </q-list>
         </q-btn-dropdown>
 
-        <q-btn class="col-6 q-mt-sm previewBtns regText" no-caps color="accent">
-          Favorite
-        </q-btn>
+<preview-fav-btn :item="items" />
+
       </div>
     </q-card-section>
     <q-card-section class="q-pb-none q-pt-none q-ma-none">
@@ -143,13 +142,14 @@
 <script>
 import { ref } from "vue";
 export default {
+
   data() {
     return {
       sizeLink: ref(""),
       quantity: 1,
       previewAuto: ref(false),
       previewSlide: ref(1),
-      notMobile: true,
+      notsMobile: true,
     };
   },
   props: ["items", "id"],
@@ -157,14 +157,18 @@ export default {
     isMobile() {
       let screenSize = window.innerWidth;
       if (screenSize <= 640) {
-        this.notMobile = false;
+        this.notsMobile = false;
       }
     }
   },
   mounted() {
       this.isMobile()
       window.addEventListener("resize", this.isMobile);
-  }
+  },
+
+    components: { 
+    'preview-fav-btn': require("components/Account/Shared/previewfavBtn.vue").default,
+   },
 
 };
 </script>
@@ -370,7 +374,8 @@ export default {
     letter-spacing: normal;
   }
     .previewSlide {
-    height: 220px;
+    height: 200px;
+    width: 100%;
   }
   .previewCard {
     background-color: #80959e;

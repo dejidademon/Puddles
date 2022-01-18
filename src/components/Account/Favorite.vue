@@ -1,6 +1,6 @@
 <template>
 
-    <items :cardShow.sync="cardShow" :notMobile.sync="notMobile" :item="item"></items>
+    <items :cardShow.sync="cardShow" :item.sync="item"></items>
 
 
 
