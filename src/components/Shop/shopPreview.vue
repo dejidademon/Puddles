@@ -167,7 +167,7 @@ export default {
   },
 
     components: { 
-    'preview-fav-btn': require("components/Account/Shared/previewfavBtn.vue").default,
+    'preview-fav-btn': require("components/Account/Shared/previewFavBtn.vue").default,
    },
 
 };

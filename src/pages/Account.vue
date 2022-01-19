@@ -44,9 +44,8 @@
     <support />
   </q-page>
 
-  <q-page v-else-if="adminUserId == userStatus.uid" class="q-ma-lg">
-    
-  </q-page>
+  <admin-page v-else-if="adminUserId == userStatus.uid"/>
+
 </template>
 
 <script>
@@ -74,6 +73,7 @@ export default {
     'support': require("components/Account/Support.vue").default,
     'favorite': require("components/Account/Favorite.vue").default,
     'purchases': require("components/Account/Purchases.vue").default,
+    'admin-page': require("pages/Admin.vue").default,
   },
   methods: {
     getItems() {
@@ -197,25 +197,21 @@ export default {
     unsub
     },
 
-      loadPg() {    
-    setTimeout(() => {
+
+  },
+
+mounted() {
+      setTimeout(() => {
       if (this.items == false) {
       this.getItems()
       this.getHist();
       this.getFavs();
       }
-    }, 400); 
-  },
-
-  },
-
-mounted() {
-  this.loadPg();
+    }, 450);
 },
 
   watch: {
     userStatus: function() {
-      console.log('called')
       this.getItems()
       this.getHist();
       this.getFavs();

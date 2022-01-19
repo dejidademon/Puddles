@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { doc, addDoc, setDoc, updateDoc, collection } from "firebase/firestore";
+import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase/firestore";
 import { isLoggedIn } from "boot/firebase.js";
 import { db } from "boot/firebase.js";
 import axios from "axios";
@@ -26,73 +26,65 @@ export default {
     };
   },
   methods: {
-methods: {
     favbtnClicked() {
-    this.favFilled = null;
-            axios
-        .get(`${process.env.API}/favorites`)
-        .then((r) => {
-            r.data.forEach((e) => {
-                if (e.id == this.userStatus.uid) {
-                    this.favs = e.favs
-                     }
-          });
-        })
-    let favId = "_" + this.item.id;
-    const DocRef = doc(db, "Favorited", this.userStatus.uid);
+      this.favFilled = null;
+      axios.get(`${process.env.API}/favorites`).then((r) => {
+        r.data.forEach((e) => {
+          if (e.id == this.userStatus.uid) {
+            this.favs = e.favs;
+          }
+        });
+      });
+      let favId = "_" + this.item.id;
+      const DocRef = doc(db, "Favorited", this.userStatus.uid);
 
+      setTimeout(() => {
+        // console.log(this.favs.includes("_" + this.item.id));
 
-   setTimeout(() => {
-    console.log(this.favs.includes("_" + this.item.id))
-
-      if (this.favs.includes("_" + this.item.id) == false) {
+        if (this.favs.includes("_" + this.item.id) == false) {
           setDoc(DocRef, {
             favs: this.favs + "_" + this.item.id,
             id: this.userStatus.uid,
-          })
-
-      }
-      else if (this.favs.includes("_" + this.item.id) == true) {
+          });
+        } else if (this.favs.includes("_" + this.item.id) == true) {
           setDoc(DocRef, {
             favs: this.favs.replace("_" + this.item.id, ""),
             id: this.userStatus.uid,
-          })
-                    console.log(this.item.id, 'ID')
-      }
-      this.getStatus();
-               }, 800);
+          });
+        //   console.log(this.item.id, "ID");
+        }
+        this.getStatus();
+      }, 800);
     },
 
     favStatus() {
-              let favIdz = "_" + this.item.id;
-              if (this.favs.includes(favIdz) == true) {
-                this.favFilled = true;
-              }
-              else if (this.favs.includes(favIdz) == false) {
-                this.favFilled = false;
-              }
-              // console.log(this.favs);
+      let favIdz = "_" + this.item.id;
+      if (this.favs.includes(favIdz) == true) {
+        this.favFilled = true;
+      } else if (this.favs.includes(favIdz) == false) {
+        this.favFilled = false;
+      }
+      // console.log(this.favs);
     },
 
     getStatus() {
-        this.favFilled = null;
-   setTimeout(() => {
+      this.favFilled = null;
+      setTimeout(() => {
         axios
-        .get(`${process.env.API}/favorites`)
-        .then((r) => {
+          .get(`${process.env.API}/favorites`)
+          .then((r) => {
             r.data.forEach((e) => {
-                if (e.id == this.userStatus.uid) {
-                    // console.log(e.favs, 'e.favss')
-                    this.favs = e.favs
-                                }
+              if (e.id == this.userStatus.uid) {
+                // console.log(e.favs, 'e.favss')
+                this.favs = e.favs;
+              }
+            });
+            this.favStatus();
+          })
+          .catch((error) => {
+            console.log("error with getting fav ids", error.message);
           });
-          this.favStatus()
-
-        })
-             .catch((error) => {
-                 console.log("error with getting fav ids", error.message);
-        });
-                 }, 400);
+      }, 400);
     },
 
     watchStatus() {
