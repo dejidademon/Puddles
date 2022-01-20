@@ -152,6 +152,7 @@ export default {
   .wholeItem {
     width: 100%;
     height: 220px;
+    overflow-x: hidden;
   }
 
   .itemBtn {
@@ -214,6 +215,7 @@ export default {
   .wholeItem {
     width: 100%;
     height: 200px;
+    overflow-x: hidden;
   }
   .itemImgs {
     margin-right: 0px !important;
@@ -248,6 +250,7 @@ export default {
     width: 100%;
     height: 150px;
     padding: 5px;
+    overflow-x: hidden;
   }
   .expandBtn {
     padding: 0 !important;

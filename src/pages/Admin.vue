@@ -5,7 +5,7 @@
     <h4 class="subtitle puddlesText text-center q-ma-sm">Item Statistics</h4>
         <div class="statContainer overflow-auto hide-scrollbar">
         <q-list class="column">
-       <stats />
+       <stats v-for="(stats, key) in postedStats" :key="key" :id="key" :item="stats"/>
         <q-spinner-gears
            v-if="loadingStats == true"
           class="q-pa-md loading  self-center"
@@ -23,7 +23,7 @@
     <h4 class="subtitle puddlesText text-center q-ma-sm">Recent Orders</h4>
             <div class="statContainer overflow-auto hide-scrollbar">
         <q-list class="column">
-       <stats />
+       <orders v-for="(orders, key) in postedOrders" :key="key" :id="key" :item="orders"/>
         <q-spinner-gears
            v-if="loadingOrders == true"
           class="q-pa-md loading  self-center"
@@ -36,11 +36,15 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase/firestore";
     export default {
         data() {
             return {
                 loadingStats: null,
                 loadingOrders: null,
+                postedOrders: [],
+                postedStats: [],
             }
         },
         
@@ -70,12 +74,11 @@
     
         getStats() {
       this.loadingStats = true;
-
+      setTimeout(() => {
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
-              this.items = JSON.parse(JSON.stringify(r.data));
-              // console.log(orginData)
+              this.postedStats = JSON.parse(JSON.stringify(r.data));
           })
           .catch((err) => {
             this.$q.dialog({
@@ -88,12 +91,17 @@
             });
           });
           this.loadingStats = false;
+                }, 400);
     },
         },
 
         components: {
             'stats': require("src/components/Account/Statistics.vue").default,
             'orders': require("src/components/Account/Orders.vue").default,
+        },
+        mounted() {
+          this.getStats();
+          this.getOrders();
         }
     }
 </script>
