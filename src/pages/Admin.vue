@@ -96,8 +96,8 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
         },
 
         components: {
-            'stats': require("src/components/Account/Statistics.vue").default,
-            'orders': require("src/components/Account/Orders.vue").default,
+            'stats': require("src/components/Admin/Statistics.vue").default,
+            'orders': require("src/components/Admin/Orders.vue").default,
         },
         mounted() {
           this.getStats();

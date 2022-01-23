@@ -43,11 +43,20 @@
       <div class="column q-mt-sm">
         <h5 class="text-center q-ma-none name"><slot></slot></h5>
         <div class="q-pa-none row justify-center">
-          <q-btn rounded class="itemBtn" color="accent">Edit </q-btn>
+          <q-btn @click="editShow = !editShow" rounded class="itemBtn" color="accent">Edit </q-btn>
         </div>
       </div>
     </q-item-section>
   </q-item>
+
+  <q-dialog v-model="editShow">
+    <edit-show       
+    v-for="(item, key) in item"
+      @close="editShow = false"
+      :key="key"
+      :items="item"
+      :id="key" />
+  </q-dialog>
 </template>
 
 <script>
@@ -56,6 +65,7 @@ import { isLoggedIn } from "boot/firebase.js";
 export default {
   data() {
     return {
+      editShow: false,
       isPhone: false,
       cartText: "Add To Cart",
     };
@@ -87,6 +97,7 @@ export default {
   components: {
     "shop-preview": require("components/Shop/shopPreview.vue").default,
     "fav-btn": require("components/Account/Shared/favBtn.vue").default,
+    "edit-show": require("components/Account/Shared/favBtn.vue").default,
   },
 };
 </script>
