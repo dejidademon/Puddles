@@ -5,9 +5,9 @@
       class="regText q-mx-sm q-mb-sm"
       type="email"
       ref="email"
-      dark
       rounded
-      standout
+      outlined
+      bg-color="white"
       v-model="form.email"
       label-color="grey-7"
       label="Email address..."
@@ -16,9 +16,9 @@
     <q-input
       class="regText q-mx-sm q-mb-sm"
       ref="username"
-      dark
       rounded
-      standout
+      outlined
+      bg-color="white"
       v-model="form.username"
       label-color="grey-7"
       label="Username..."
@@ -28,9 +28,9 @@
       class="regText q-mx-sm q-mb-sm"
       :type="isPwd ? 'password' : 'text'"
       ref="pass"
-      dark
+      bg-color="white"
+      outlined
       rounded
-      standout
       v-model="form.password"
       :rules="[(val) => val.length >= 6 || 'Min 6 characters']"
       label-color="grey-7"
@@ -49,9 +49,9 @@
       class="regText q-mx-sm q-mb-sm"
       :type="isPwd ? 'password' : 'text'"
       ref="confirmPass"
-      dark
       rounded
-      standout
+      outlined
+      bg-color="white"
       v-model="form.confirmPass"
       label-color="grey-7"
       label="Confirm Password..."

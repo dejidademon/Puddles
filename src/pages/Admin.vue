@@ -16,7 +16,6 @@
         </div>
 <div class="row justify-center q-ma-sm ">
     <q-btn color="accent" class=" statBtns regText q-ma-sm"><h2 class="addBtn">+</h2> </q-btn>
-    <q-btn color="red-9" class="statBtns q-ma-sm regText"> <q-icon name="delete_outlined" class="deleteBtn" /></q-btn>
 </div>
 
 

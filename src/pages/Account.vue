@@ -244,15 +244,8 @@ mounted() {
 }
 
 //input boxes
-.q-field--dark .q-field__native,
-.q-field--dark .q-field__prefix,
-.q-field--dark .q-field__suffix,
-.q-field--dark .q-field__input {
-  color: rgb(0, 0, 0);
-}
-.q-field--standout.q-field--dark .q-field__control {
-  background: rgb(255 255 255) !important;
-}
+
+
 .inputs {
   color: black !important;
 }

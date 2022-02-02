@@ -3,9 +3,9 @@
   <form @submit.prevent="submitForm">
     <q-input
       class="regText q-ma-md"
-      dark
+      bg-color="white"
       rounded
-      standout
+      outlined
       v-model="form.email"
       label-color="grey-7"
       label="Email address..."
@@ -14,9 +14,9 @@
     <q-input
       class="regText q-ma-md"
       ref="pass"
-      dark
+      bg-color="white"
       rounded
-      standout
+      outlined
       :type="isPwd ? 'password' : 'text'"
       v-model="form.password"
       label-color="grey-7"

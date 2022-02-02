@@ -8,6 +8,9 @@
 
     <q-item-section
       class="regText text-white itemName"
+      @click="showPreview = !showPreview"
+      v-ripple
+      clickable
     >
       <div class="column overflow-hidden">
         <div class="row nameRow">
@@ -51,11 +54,14 @@
 
   <q-dialog v-model="editShow">
     <edit-show       
-    v-for="(item, key) in item"
       @close="editShow = false"
-      :key="key"
-      :items="item"
-      :id="key" />
+      :items="item" />
+  </q-dialog>
+
+    <q-dialog v-model="showPreview">
+    <shop-preview       
+      @close="showPreview = false"
+      :items="item" />
   </q-dialog>
 </template>
 
@@ -68,6 +74,7 @@ export default {
       editShow: false,
       isPhone: false,
       cartText: "Add To Cart",
+      showPreview: false,
     };
   },
   methods: {
@@ -85,7 +92,7 @@ export default {
       }
     },
   },
-  props: ["item"],
+  props: ["item", 'id', 'key'],
 
   created() {
     window.addEventListener("resize", this.checkDevice);
@@ -97,7 +104,7 @@ export default {
   components: {
     "shop-preview": require("components/Shop/shopPreview.vue").default,
     "fav-btn": require("components/Account/Shared/favBtn.vue").default,
-    "edit-show": require("components/Account/Shared/favBtn.vue").default,
+    "edit-show": require("components/Admin/Edit.vue").default,
   },
 };
 </script>

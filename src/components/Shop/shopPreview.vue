@@ -22,10 +22,10 @@
           transition-prev="slide-right"
           control-color="black"
         >
-          <q-carousel-slide :name="1" :img-src="items.itemImg1" />
-          <q-carousel-slide :name="2" :img-src="items.itemImg2" />
-          <q-carousel-slide :name="3" :img-src="items.itemImg1" />
-          <q-carousel-slide :name="4" :img-src="items.itemImg2" />
+          <q-carousel-slide v-if="items.itemImg1" :name="1" :img-src="items.itemImg1" />
+          <q-carousel-slide v-if="items.itemImg2" :name="2" :img-src="items.itemImg2" />
+          <q-carousel-slide v-if="items.itemImg3" :name="3" :img-src="items.itemImg3" />
+          <q-carousel-slide v-if="items.itemImg4" :name="4" :img-src="items.itemImg4" />
         </q-carousel>
       </div>
       <div class="col q-pl-sm">
@@ -227,7 +227,6 @@ export default {
   .previewCard .q-carousel__slide {
     background-size: cover;
     background-position: center;
-    background-size: 100%;
     background-repeat: no-repeat;
   }
   //prevew card
