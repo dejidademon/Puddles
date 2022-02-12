@@ -33,8 +33,6 @@ export default {
       const DocRef = doc(db, "Favorited", this.userStatus.uid);
 
       setTimeout(() => {
-        // console.log(this.favs.includes("_" + this.item.id));
-
         if (this.favs.includes("_" + this.item.id) == false) {
           setDoc(DocRef, {
             favs: this.favs + "_" + this.item.id,

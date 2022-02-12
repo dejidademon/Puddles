@@ -211,7 +211,7 @@ export default {
   .itemBtn {
     width: 50px;
     font-size: 12px;
-    top: 60px;
+    bottom: 60px;
   }
 
   .itemImgs {
@@ -320,7 +320,7 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 9; /* number of lines to show */
     -webkit-box-orient: vertical;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 0.7rem;
     width: 40vw;
   }

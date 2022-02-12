@@ -9,6 +9,7 @@
         margin-top: 20px;
       "
     >
+    <!-- DO THE SIZESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS FUNCTIONALITY-->
       <div class="col">
         <q-carousel
           class="previewSlide"
@@ -22,6 +23,7 @@
           transition-prev="slide-right"
           control-color="black"
         >
+        
           <q-carousel-slide class="carosel" :name="1" :img-src="items.itemImg1">
             <div class="absolute-bottom row justify-between actionBar">
               <q-btn icon="delete_outline" color="red-8" class="del" />
@@ -101,7 +103,6 @@
         <q-btn icon="edit" color="accent" round class="editBtns self-center q-my-sm"/>
         </q-input>
         </div>
-
          
           <h2 class="regText self-center shoeText q-my-sm">Shoes
             <q-checkbox class="shoeBox" color="accent" v-model="checkbox" />
@@ -120,12 +121,12 @@
         <q-btn icon="edit" color="accent" round class="editBtns self-center q-my-sm"/>
         </q-input>
         
-        <q-btn icon="delete_outline" color="red-8" class="self-center q-mt-lg delBtn" />
+        <q-btn icon="archive" color="accent" class="self-center q-mt-sm delBtn" />
+        <q-btn icon="delete_outline" color="red-8" class="self-center q-mt-sm delBtn" />
+
         </div>
       </div>
 
-
-     
     </q-card-section>
     <q-card-section class="q-pb-none q-pt-none q-ma-none">
       <div class="row text-center justify-evenly">
@@ -135,9 +136,12 @@
       </div>
     </q-card-section>
   </q-card>
+
 </template>
 
 <script>
+import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase/firestore";
+import { db } from "boot/firebase.js";
 import { ref } from "vue";
 export default {
   data() {
@@ -148,7 +152,9 @@ export default {
       previewSlide: ref(1),
       notsMobile: true,
       checkbox: false,
-    };
+      postedSizes: null,
+    
+      }
   },
   props: ["items", "id"],
   methods: {
@@ -158,6 +164,38 @@ export default {
         this.notsMobile = false;
       }
     },
+
+    sizeSubmit() {
+           this.favFilled = null;
+      axios.get(`${process.env.API}/favorites`).then((r) => {
+        r.data.forEach((e) => {
+          if (e.id == this.userStatus.uid) {
+            this.favs = e.favs;
+          }
+        });
+      });
+      let favId = "_" + this.item.id;
+      const DocRef = doc(db, "Favorited", this.userStatus.uid);
+
+      setTimeout(() => {
+        // console.log(this.favs.includes("_" + this.item.id));
+
+        if (this.favs.includes("_" + this.item.id) == false) {
+          setDoc(DocRef, {
+            favs: this.favs + "_" + this.item.id,
+            id: this.userStatus.uid,
+          });
+        } else if (this.favs.includes("_" + this.item.id) == true) {
+          setDoc(DocRef, {
+            favs: this.favs.replace("_" + this.item.id, ""),
+            id: this.userStatus.uid,
+          });
+        //   console.log(this.item.id, "ID");
+        }
+        this.getStatus();
+      }, 800);
+    }
+
   },
   mounted() {
     this.isMobile();

@@ -31,6 +31,19 @@
         />
       </q-list>
         </div>
+
+           <h4 class="subtitle puddlesText text-center q-ma-sm">Archived</h4>
+            <div class="statContainer overflow-auto hide-scrollbar">
+        <q-list class="column">
+       <archived v-for="(orders, key) in postedOrders" :key="key" :id="key" :item="orders"/>
+        <q-spinner-gears
+           v-if="loadingOrders == true"
+          class="q-pa-md loading  self-center"
+          color="primary"
+          size="200px"
+        />
+      </q-list>
+        </div>
     </q-page>
 </template>
 
@@ -97,6 +110,7 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
         components: {
             'stats': require("src/components/Admin/Statistics.vue").default,
             'orders': require("src/components/Admin/Orders.vue").default,
+            'archived': require("src/components/Admin/Archived.vue").default,
         },
         mounted() {
           this.getStats();
