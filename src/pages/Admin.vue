@@ -15,7 +15,7 @@
       </q-list>
         </div>
 <div class="row justify-center q-ma-sm ">
-    <q-btn color="accent" class=" statBtns regText q-ma-sm"><h2 class="addBtn">+</h2> </q-btn>
+    <q-btn @click="showAdd = !showAdd" color="accent" class=" statBtns regText q-ma-sm"><h2 class="addBtn">+</h2> </q-btn>
 </div>
 
 
@@ -45,6 +45,12 @@
       </q-list>
         </div>
     </q-page>
+
+    <q-dialog v-model="showAdd">
+    <show-add       
+      @close="showAdd = false"
+      />
+  </q-dialog>
 </template>
 
 <script>
@@ -57,6 +63,7 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
                 loadingOrders: null,
                 postedOrders: [],
                 postedStats: [],
+                showAdd: false,
             }
         },
         
@@ -111,6 +118,7 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
             'stats': require("src/components/Admin/Statistics.vue").default,
             'orders': require("src/components/Admin/Orders.vue").default,
             'archived': require("src/components/Admin/Archived.vue").default,
+            'show-add': require("src/components/Admin/Add.vue").default
         },
         mounted() {
           this.getStats();

@@ -242,7 +242,6 @@ export default {
 axios.get(`${process.env.API}/slides`).then((r) => {
 r.data.forEach((e) => {
   if (e.id == this.items.id) {
-    // console.log(e)
     let sizeIds = e.itemSize.split("_");
         let i = 1;
         delete sizeIds[0];
@@ -256,6 +255,7 @@ r.data.forEach((e) => {
           this.quantitys[i] = sizeQuan;
           i = i + 1;
         });
+    console.log(this.sizes)
 
   }
 })

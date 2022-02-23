@@ -23,32 +23,108 @@
           transition-prev="slide-right"
           control-color="black"
         >
-          <q-carousel-slide class="carosel" :name="1" :img-src="items.itemImg1">
+          <q-carousel-slide
+            class="carosel"
+            :name="1"
+            :img-src="items.itemImgs[0]"
+          >
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn icon="delete_outline" color="red-8" class="del" />
-              <q-btn icon="edit" color="accent" round class="editPic" />
+              <q-btn
+                icon="delete_outline"
+                @click="items.itemImgs[0] = null"
+                color="red-8"
+                class="del"
+              />
+              <input
+                @change="onFilePicked"
+                ref="inputFile"
+                type="file"
+                id="img1"
+                hidden
+              />
+              <q-btn
+                @click="inputClicked"
+                icon="edit"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">1</h2>
             </div>
           </q-carousel-slide>
 
-          <q-carousel-slide :name="2" :img-src="items.itemImg2">
+          <q-carousel-slide :name="2" :img-src="items.itemImgs[1]">
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn icon="delete_outline" color="red-8" class="del" />
-              <q-btn icon="edit" color="accent" round class="editPic" />
+              <q-btn
+                icon="delete_outline"
+                @click="items.itemImgs[1] = null"
+                color="red-8"
+                class="del"
+              />
+              <input
+                @change="onFilePicked"
+                ref="inputFile"
+                type="file"
+                id="img2"
+                hidden
+              />
+              <q-btn
+                @click="inputClicked"
+                icon="edit"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">2</h2>
             </div>
           </q-carousel-slide>
-          <q-carousel-slide :name="3" :img-src="items.itemImg3">
+          <q-carousel-slide :name="3" :img-src="items.itemImgs[2]">
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn icon="delete_outline" color="red-8" class="del" />
-              <q-btn icon="edit" color="accent" round class="editPic" />
+              <q-btn
+                icon="delete_outline"
+                @click="items.itemImgs[2] = null"
+                color="red-8"
+                class="del"
+              />
+              <input
+                @change="onFilePicked"
+                ref="inputFile"
+                type="file"
+                id="img3"
+                hidden
+              />
+              <q-btn
+                @click="inputClicked"
+                icon="edit"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">3</h2>
             </div>
           </q-carousel-slide>
-          <q-carousel-slide :name="4" :img-src="items.itemImg4">
+          <q-carousel-slide :name="4" :img-src="items.itemImgs[3]">
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn icon="delete_outline" color="red-8" class="del" />
-              <q-btn icon="edit" color="accent" round class="editPic" />
+              <q-btn
+                icon="delete_outline"
+                @click="items.itemImgs[3] = null"
+                color="red-8"
+                class="del"
+              />
+              <input
+                @change="onFilePicked"
+                ref="inputFile"
+                type="file"
+                id="img4"
+                hidden
+              />
+              <q-btn
+                @click="inputClicked"
+                icon="edit"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">4</h2>
             </div>
           </q-carousel-slide>
@@ -181,7 +257,7 @@
             icon="archive"
             color="accent"
             class="self-center q-mt-sm delBtn"
-            @click="sizeSubmit"
+            @click="itemSubmit"
           />
           <q-btn
             icon="delete_outline"
@@ -203,33 +279,48 @@
 
 <script>
 import {
-  doc,
-  addDoc,
-  setDoc,
-  updateDoc,
-  collection,
-  onSnapshot,
-} from "firebase/firestore";
+  getStorage,
+  uploadBytes,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { doc, addDoc, setDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "boot/firebase.js";
-import { ref } from "vue";
-import axios from "axios";
 import { isLoggedIn } from "boot/firebase.js";
 export default {
   data() {
     return {
       userStatus: isLoggedIn,
-      sizeLink: ref(""),
-      quantity: 1,
-      previewAuto: ref(false),
+      previewAuto: false,
       previewSlide: ref(1),
       notsMobile: true,
       checkbox: false,
       postedSizes: null,
-      sizes: {},
+      filePicked: null,
+      sizes: {
+        1: "Extra Small",
+        2: "Medium",
+        3: "Large",
+        4: "Extra Large",
+      },
       quantitys: {},
-    }
+      items: {
+        itemDesc: "",
+        itemName: "",
+        itemPrice: "",
+        itemSize: "",
+        date: "",
+        itemImgs: {
+          file: {},
+          name: {},
+          urls: {},
+        },
+        itemSlide: 1,
+      },
+    };
   },
-  props: ["items", "id"],
+
   methods: {
     isMobile() {
       let screenSize = window.innerWidth;
@@ -237,83 +328,194 @@ export default {
         this.notsMobile = false;
       }
     },
+    onFilePicked(event) {
+      const targetId = event.target.id;
+      const files = event.target.files;
+      let filename = files[0].name;
+      if (filename.lastIndexOf(".") <= 0) {
+        return alert("Add a valid file Please");
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        if (targetId == "img1") {
+          this.items.itemImgs[0] = fileReader.result;
+          this.items.itemImgs.file[0] = files[0];
+          this.items.itemImgs.name[0] = filename;
+        } else if (targetId == "img2") {
+          this.items.itemImgs[1] = fileReader.result;
+          this.items.itemImgs.file[1] = files[0];
+          this.items.itemImgs.name[1] = filename;
+        } else if (targetId == "img3") {
+          this.items.itemImgs[2] = fileReader.result;
+          this.items.itemImgs.file[2] = files[0];
+          this.items.itemImgs.name[2] = filename;
+        } else if (targetId == "img4") {
+          this.items.itemImgs[3] = fileReader.result;
+          this.items.itemImgs.file[3] = files[0];
+          this.items.itemImgs.name[3] = filename;
+        }
+      });
 
-    getSize() {
-axios.get(`${process.env.API}/slides`).then((r) => {
-r.data.forEach((e) => {
-  if (e.id == this.items.id) {
-    // console.log(e)
-    let sizeIds = e.itemSize.split("_");
-        let i = 1;
-        delete sizeIds[0];
+      fileReader.readAsDataURL(files[0]);
+    },
 
-  // console.log('dopped')
+    inputClicked() {
+      let inputFile = this.$refs.inputFile;
+      inputFile.click();
+    },
+    itemSubmit() {
+      // const DocRef = doc(db, "Slides")
+      let compiled =
+        "_" +
+        this.sizes[1] +
+        "QUAN" +
+        this.quantitys[1] +
+        "_" +
+        this.sizes[2] +
+        "QUAN" +
+        this.quantitys[2] +
+        "_" +
+        this.sizes[3] +
+        "QUAN" +
+        this.quantitys[3] +
+        "_" +
+        this.sizes[4] +
+        "QUAN" +
+        this.quantitys[4];
+      const storage = getStorage();
 
-        sizeIds.forEach((postedSize) => {
-           let sizeIdss = postedSize.substring(0, postedSize.indexOf('QUAN'));
-          let sizeQuan = postedSize.split("QUAN").pop();
-          this.sizes[i] = sizeIdss;
-          this.quantitys[i] = sizeQuan;
-          i = i + 1;
-        });
+      for (let i = 0; i < 4; i++) {
+        const storageRef = ref(
+          storage,
+          "slideImages/" + this.items.itemImgs.name[i]
+        );
+        const uploadTask = uploadBytesResumable(
+          storageRef,
+          this.items.itemImgs.file[i]
+        );
+        console.log(i);
 
-  }
-})
-})
-.catch((err) => {
+        //focus
+        uploadBytes(storageRef, this.items.itemImgs.file[i]).then(
+          (snapz) => {
+            console.log("snapshot:", snapz, i);
+          }
+        );
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done", i);
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Paused Upload on", i);
+                break;
+              case "running":
+                console.log("Upload is running", i);
+                break;
+            }
+          },
+          (error) => {
             this.$q.dialog({
               style: "background-color:red;",
               dark: true,
               color: "white",
               title: "Error",
-              message: "Could not get one or more of your previous purchases",
+              message: "Couldn't post image",
               persistent: true,
             });
-          console.log(err.message)
-          });
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((url) => {
+                this.items.itemImgs.urls[i] = url;
+                console.log(url, i);
 
+                if (i == 3) {
+   setTimeout(() => {
+
+     addDoc(collection(db, "Slides"), {
+       itemSlide: this.items.itemSlide,
+       itemDesc: this.items.itemDesc,
+       itemName: this.items.itemName,
+       itemPrice: this.items.itemPrice,
+       itemSize: compiled,
+       date: this.items.date,
+       favorited: 0,
+       previewed: 0,
+       purchased: 0,
+     })
+       .then((docRef) => {
+         const DocRef = doc(db, "Slides", docRef.id);
+         updateDoc(DocRef, {
+           id: docRef.id,
+           itemImg1: this.items.itemImgs.urls[0],
+           itemImg2: this.items.itemImgs.urls[1],
+           itemImg3: this.items.itemImgs.urls[2],
+           itemImg4: this.items.itemImgs.urls[3],
+         });
+         console.log("slideSubmittedFully:", docRef);
+
+         this.$q.dialog({
+           style: "background-color:green;",
+           dark: true,
+           color: "white",
+           title: "Sucsess!",
+           message: "Submitted slide",
+           persistent: true,
+         });
+       })
+       .catch((err) => {
+         this.$q.dialog({
+           style: "background-color:red;",
+           dark: true,
+           color: "white",
+           title: "Error",
+           message: "Error submitting slide...",
+           persistent: true,
+         });
+         console.log(err.message);
+       });
+      }, 900);
+}
+              })
+              
+              .catch((error) => {
+                this.$q.dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't get image url",
+                  persistent: true,
+                });
+              });
+          }
+        );
+      }
+
+
+       
     },
 
-    sizeSubmit() {
-      const DocRef = doc(db, "Slides", this.items.id)
-      let compiled = "_" + this.sizes[1] + "QUAN" + this.quantitys[1] + "_" + this.sizes[2] + "QUAN" + this.quantitys[2] + "_" + this.sizes[3] + "QUAN" + this.quantitys[3] + "_" + this.sizes[4] + "QUAN" + this.quantitys[4]
+    getDate() {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = today.getFullYear();
 
-
-
-          updateDoc(DocRef, {
-            itemDesc: this.items.itemDesc,
-            itemName: this.items.itemName,
-            itemPrice: this.items.itemPrice,
-            itemSize: compiled
-          }).then((b) => {
-          this.$q.dialog({
-              style: "background-color:green;",
-              dark: true,
-              color: "white",
-              title: "Sucsess!",
-              message: "Submitted slide",
-              persistent: true,
-            });
-            console.log('popped')
-          }).catch((err) => {
-            this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "Error submitting slide...",
-              persistent: true,
-            });
-          console.log(err.message)
-          });
-
+      today = mm + "/" + dd + "/" + yyyy;
+      this.items.date = today;
     },
-
   },
   mounted() {
     this.isMobile();
     window.addEventListener("resize", this.isMobile);
-    this.getSize()
+    this.getDate();
   },
 
   // watched: {
@@ -417,11 +619,10 @@ r.data.forEach((e) => {
   .descText {
     font-size: 20px;
     margin: 0;
-
   }
- .q-textarea .q-field__native {
-  line-height: normal;
-}
+  .q-textarea .q-field__native {
+    line-height: normal;
+  }
 
   .descTitle {
     font-size: 35px;
@@ -476,7 +677,7 @@ r.data.forEach((e) => {
   .descText {
     font-size: 20px;
     margin: 0;
-          line-height: 2rem;
+    line-height: 2rem;
   }
 
   .descTitle {
