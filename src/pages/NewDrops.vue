@@ -55,7 +55,7 @@
     ></template>
 
 
-    <template v-if="noItems">
+    <template v-if="noItems == true">
       <div class=" text-center">
         <h2 class="colorFade noItems" >No items currently</h2>
       </div>

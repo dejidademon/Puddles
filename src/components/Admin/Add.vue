@@ -133,6 +133,8 @@
       <div class="col q-pl-sm">
         <h2 class="descTitle puddlesText text-center q-pb-sm">DESCRIPTION</h2>
         <q-input
+          ref="desc"
+          :rules="[(val) => !!val || 'Required']"
           autogrow
           input-class="text-white"
           standout
@@ -232,24 +234,29 @@
         </div>
 
         <div class="column col-6">
-          <h2 class="previewPrice puddlesText">Name & Price</h2>
+          <h2 class="previewPrice puddlesText">Name</h2>
 
           <q-input
+            :rules="[(val) => !!val || 'Required']"
+            ref="name"
             v-model="items.itemName"
             standout
             bg-color="grey-5"
             input-class="text-white"
-            class="self-center q-mt-lg nameInput regText"
+            class="self-center q-mt-sm nameInput regText"
           >
           </q-input>
+          <h2 class="previewPrice puddlesText">Price</h2>
           <q-input
+            ref="price"
+            :rules="[(val) => !!val || 'Required']"
             prefix="$"
             label-color="white"
             standout
             bg-color="grey-5"
             input-class="text-white"
             v-model="items.itemPrice"
-            class="text-white self-center q-mt-lg priceInput regText"
+            class="text-white self-center q-mt-sm priceInput regText"
           >
           </q-input>
 
@@ -258,8 +265,12 @@
             color="accent"
             class="self-center q-mt-sm delBtn"
             @click="itemSubmit"
+            clickable
+            v-close-popup
           />
           <q-btn
+            clickable
+            v-close-popup
             icon="delete_outline"
             color="red-8"
             class="self-center q-mt-sm delBtn"
@@ -285,7 +296,7 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-import { doc, addDoc, setDoc, collection, updateDoc } from "firebase/firestore";
+import { doc, addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "boot/firebase.js";
 import { isLoggedIn } from "boot/firebase.js";
 export default {
@@ -298,13 +309,19 @@ export default {
       checkbox: false,
       postedSizes: null,
       filePicked: null,
+      loadingDone: false,
       sizes: {
         1: "Extra Small",
         2: "Medium",
         3: "Large",
         4: "Extra Large",
       },
-      quantitys: {},
+      quantitys: {
+        1: "0",
+        2: "0",
+        3: "0",
+        4: "0",
+      },
       items: {
         itemDesc: "",
         itemName: "",
@@ -364,7 +381,88 @@ export default {
       inputFile.click();
     },
     itemSubmit() {
-      // const DocRef = doc(db, "Slides")
+      let nameVal = this.$refs.name.validate();
+      let descVal = this.$refs.desc.validate();
+      let priceVal = this.$refs.price.validate();
+
+      if (nameVal == true && descVal == true && priceVal == true) {
+        const storage = getStorage();
+
+        for (let i = 0; i < 4; i++) {
+          const storageRef = ref(
+            storage,
+            "slideImages/" + this.items.itemImgs.name[i]
+          );
+          const uploadTask = uploadBytesResumable(
+            storageRef,
+            this.items.itemImgs.file[i]
+          );
+
+          if (this.items.itemImgs.name[i] != null) {
+            //focus
+            uploadBytes(storageRef, this.items.itemImgs.file[i]).then(
+              (snapz) => {
+                console.log("snapshot:", snapz, i);
+              }
+            );
+
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                // Observe state change events such as progress, pause, and resume
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                const progress =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done", i);
+                switch (snapshot.state) {
+                  case "paused":
+                    console.log("Paused Upload on", i);
+                    break;
+                  case "running":
+                    console.log("Upload is running", i);
+                    break;
+                }
+              },
+              (err) => {
+                this.$q.dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                });
+              },
+              () => {
+                getDownloadURL(uploadTask.snapshot.ref)
+                  .then((url) => {
+                    this.items.itemImgs.urls[i] = url;
+                    console.log(url, i);
+                  })
+                  .catch((err) => {
+                    this.$q.dialog({
+                      style: "background-color:red;",
+                      dark: true,
+                      color: "white",
+                      title: "Error",
+                      message: "Couldn't get image url",
+                      persistent: true,
+                    });
+                  });
+              }
+            );
+          }
+          if (i == 3) {
+          setTimeout(() => {
+            this.submitSlide();
+             }, 3500);
+          }
+        }
+      } else {
+        console.log("error");
+      }
+    },
+    submitSlide() {
       let compiled =
         "_" +
         this.sizes[1] +
@@ -382,126 +480,66 @@ export default {
         this.sizes[4] +
         "QUAN" +
         this.quantitys[4];
-      const storage = getStorage();
+      addDoc(collection(db, "Slides"), {
+        itemSlide: this.items.itemSlide,
+        itemDesc: this.items.itemDesc,
+        itemName: this.items.itemName,
+        itemPrice: this.items.itemPrice,
+        itemSize: compiled,
+        date: this.items.date,
+        favorited: 0,
+        previewed: 0,
+        purchased: 0,
+      })
+        .then((docRef) => {
+          const DocRef = doc(db, "Slides", docRef.id);
+          updateDoc(DocRef, {
+            id: docRef.id,
+          });
 
-      for (let i = 0; i < 4; i++) {
-        const storageRef = ref(
-          storage,
-          "slideImages/" + this.items.itemImgs.name[i]
-        );
-        const uploadTask = uploadBytesResumable(
-          storageRef,
-          this.items.itemImgs.file[i]
-        );
-        console.log(i);
-
-        //focus
-        uploadBytes(storageRef, this.items.itemImgs.file[i]).then(
-          (snapz) => {
-            console.log("snapshot:", snapz, i);
-          }
-        );
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done", i);
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Paused Upload on", i);
-                break;
-              case "running":
-                console.log("Upload is running", i);
-                break;
-            }
-          },
-          (error) => {
-            this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "Couldn't post image",
-              persistent: true,
+          if (this.items.itemImgs.urls[0] != null) {
+            updateDoc(DocRef, {
+              itemImg1: this.items.itemImgs.urls[0],
             });
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref)
-              .then((url) => {
-                this.items.itemImgs.urls[i] = url;
-                console.log(url, i);
-
-                if (i == 3) {
-   setTimeout(() => {
-
-     addDoc(collection(db, "Slides"), {
-       itemSlide: this.items.itemSlide,
-       itemDesc: this.items.itemDesc,
-       itemName: this.items.itemName,
-       itemPrice: this.items.itemPrice,
-       itemSize: compiled,
-       date: this.items.date,
-       favorited: 0,
-       previewed: 0,
-       purchased: 0,
-     })
-       .then((docRef) => {
-         const DocRef = doc(db, "Slides", docRef.id);
-         updateDoc(DocRef, {
-           id: docRef.id,
-           itemImg1: this.items.itemImgs.urls[0],
-           itemImg2: this.items.itemImgs.urls[1],
-           itemImg3: this.items.itemImgs.urls[2],
-           itemImg4: this.items.itemImgs.urls[3],
-         });
-         console.log("slideSubmittedFully:", docRef);
-
-         this.$q.dialog({
-           style: "background-color:green;",
-           dark: true,
-           color: "white",
-           title: "Sucsess!",
-           message: "Submitted slide",
-           persistent: true,
-         });
-       })
-       .catch((err) => {
-         this.$q.dialog({
-           style: "background-color:red;",
-           dark: true,
-           color: "white",
-           title: "Error",
-           message: "Error submitting slide...",
-           persistent: true,
-         });
-         console.log(err.message);
-       });
-      }, 900);
-}
-              })
-              
-              .catch((error) => {
-                this.$q.dialog({
-                  style: "background-color:red;",
-                  dark: true,
-                  color: "white",
-                  title: "Error",
-                  message: "Couldn't get image url",
-                  persistent: true,
-                });
-              });
           }
-        );
-      }
+          if (this.items.itemImgs.urls[1] != null) {
+            updateDoc(DocRef, {
+              itemImg2: this.items.itemImgs.urls[1],
+            });
+          }
+          if (this.items.itemImgs.urls[2] != null) {
+            updateDoc(DocRef, {
+              itemImg3: this.items.itemImgs.urls[2],
+            });
+          }
+          if (this.items.itemImgs.urls[3] != null) {
+            updateDoc(DocRef, {
+              itemImg4: this.items.itemImgs.urls[3],
+            });
+          }
+          console.log("slideSubmittedFully:", docRef);
 
-
-       
+          this.$q.dialog({
+            style: "background-color:green;",
+            dark: true,
+            color: "white",
+            title: "Sucsess!",
+            message: "Submitted slide",
+            persistent: true,
+          });
+        })
+        .catch((err) => {
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Error submitting slide...",
+            persistent: true,
+          });
+          console.log(err.message);
+        });
     },
-
     getDate() {
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, "0");

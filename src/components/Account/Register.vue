@@ -75,8 +75,7 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "boot/firebase.js";
 import { db } from "boot/firebase.js";
-import axios from 'axios';
-import { doc, addDoc, setDoc, updateDoc, collection } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore";
 
 export default {
   data() {
@@ -107,14 +106,14 @@ export default {
             const user = userCredential.user;
             updateProfile(auth.currentUser, { displayName: this.form.username })
               .then(() => {
-              user.displayName = this.form.username;
-              console.log(user.uid)
-            const frankDocRef = doc(db, "Favorited", user.uid);
-            setDoc(frankDocRef, {
-              favs: '',
-              id: user.uid
-            });
-                  // location.reload()
+                user.displayName = this.form.username;
+                console.log(user.uid);
+                const frankDocRef = doc(db, "Favorited", user.uid);
+                setDoc(frankDocRef, {
+                  favs: "",
+                  id: user.uid,
+                });
+                // location.reload()
                 this.$q.dialog({
                   style: "background-color:green;",
                   dark: true,
