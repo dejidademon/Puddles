@@ -22,7 +22,7 @@
     <h4 class="subtitle puddlesText text-center q-ma-sm">Recent Orders</h4>
             <div class="statContainer overflow-auto hide-scrollbar">
         <q-list class="column">
-       <orders v-for="(orders, key) in postedOrders" :key="key" :id="key" :item="orders"/>
+       <orders v-if="loadingOrders == false" v-for="(orders, key) in postedOrders" :key="key" :id="key" :item="orders" :postedOrders="postedOrders"/>
         <q-spinner-gears
            v-if="loadingOrders == true"
           class="q-pa-md loading  self-center"
@@ -35,7 +35,7 @@
            <h4 class="subtitle puddlesText text-center q-ma-sm">Archived</h4>
             <div class="statContainer overflow-auto hide-scrollbar">
         <q-list class="column">
-       <archived v-for="(orders, key) in postedOrders" :key="key" :id="key" :item="orders"/>
+       <archived v-for="(orders, key) in postedArch" :key="key" :id="key" :item="orders"/>
         <q-spinner-gears
            v-if="loadingOrders == true"
           class="q-pa-md loading  self-center"
@@ -55,7 +55,6 @@
 
 <script>
 import axios from 'axios';
-import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase/firestore";
     export default {
         data() {
             return {
@@ -63,37 +62,19 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
                 loadingOrders: null,
                 postedOrders: [],
                 postedStats: [],
+                postedArch: [],
                 showAdd: false,
             }
         },
         
         methods: {
-    getOrders() {
-      this.loadingOrders = true;
 
-        axios
-          .get(`${process.env.API}/purchases`)
-          .then((r) => {
-              this.favItems = JSON.parse(JSON.stringify(r.data));
-              this.items = JSON.parse(JSON.stringify(r.data));
-              // console.log(orginData)
-          })
-          .catch((err) => {
-            this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "Could not get any items",
-              persistent: true,
-            });
-          });
-          this.loadingOrders = false;
-    },
     
         getStats() {
+      this.postedOrders = [],
+      this.postedStats =  [],
       this.loadingStats = true;
-      setTimeout(() => {
+
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
@@ -110,8 +91,77 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
             });
           });
           this.loadingStats = false;
-                }, 400);
     },
+
+
+        getOrders() {
+
+      this.loadingOrders = true;
+      setTimeout(() => {
+        axios
+          .get(`${process.env.API}/purchases`)
+          .then((r) => {
+            r.data.forEach((e) => {
+                    let orderNum = e.orderId
+                    let status = e.status
+                    let total = e.total
+                    let accountNum = e.accountId
+                    let addy = e.address
+                    let name = e.shippingName
+
+                    this.postedOrders.push(orderNum)
+
+                    this.postedOrders[orderNum] = []
+
+                    this.postedOrders[orderNum].shippingName = name
+                    this.postedOrders[orderNum].address = addy
+                    this.postedOrders[orderNum].accountId = accountNum
+                    this.postedOrders[orderNum].orderId = orderNum
+                    this.postedOrders[orderNum].status = status 
+                    this.postedOrders[orderNum].total = total 
+                    let histIds = e.purchases.split("_");
+                  histIds.forEach((histo) => {
+                    let histIdss = histo.substring(0, histo.indexOf('QUAN'))
+                    let histQuan = histo.split("QUAN").pop()
+                    // console.log('histo', histQuan)
+
+                    this.postedStats.forEach((itemz) => {
+                    if (histIdss == itemz.id) {
+                      itemz.orderId = orderNum
+                      itemz.quantity = histQuan
+                      this.postedOrders[orderNum].push(itemz)
+                    }
+                  });
+                });
+              
+            });
+          })
+          .catch((err) => {
+            this.$q.dialog({
+              style: "background-color:red;",
+              dark: true,
+              color: "white",
+              title: "Error",
+              message: "Could not get one or more of your recent orders",
+              persistent: true,
+            });
+          console.log(err.message)
+          });
+           this.loadingOrders = false;
+                    // console.log('first', this.postedOrders)
+      }, 400);
+    },
+
+        },
+
+
+        mounted() {
+                setTimeout(() => {
+      if (this.postedStats == false) {
+        this.getStats();
+        this.getOrders();
+      }
+    }, 250);
         },
 
         components: {
@@ -120,10 +170,7 @@ import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase
             'archived': require("src/components/Admin/Archived.vue").default,
             'show-add': require("src/components/Admin/Add.vue").default
         },
-        mounted() {
-          this.getStats();
-          this.getOrders();
-        }
+
     }
 </script>
 

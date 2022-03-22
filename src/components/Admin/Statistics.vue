@@ -53,7 +53,8 @@
   </q-item>
 
   <q-dialog v-model="editShow">
-    <edit-show       
+    <edit-show   
+        
       @close="editShow = false"
       :items="item" />
   </q-dialog>

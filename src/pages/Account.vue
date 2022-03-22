@@ -152,7 +152,6 @@ export default {
                     this.postedHist[orderNum] = []
                     this.postedHist[orderNum].status = status 
                     this.postedHist[orderNum].total = total 
-
                     let histIds = e.purchases.split("_");
                   histIds.forEach((histo) => {
                     let histIdss = histo.substring(0, histo.indexOf('QUAN'))

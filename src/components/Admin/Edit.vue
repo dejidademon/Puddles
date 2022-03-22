@@ -246,8 +246,6 @@ import {
   doc,
   deleteDoc, 
   updateDoc,
-  collection,
-  onSnapshot,
 } from "firebase/firestore";
 import { db } from "boot/firebase.js";
 import axios from "axios";
@@ -281,10 +279,9 @@ export default {
   props: ["items", "id"],
   methods: {
     deleteSlide() {
-      console.log(this.items)
       const DocRef = doc(db, "Slides", this.items.id);
       deleteDoc(DocRef).then(() => {
-        
+
         console.log("Document successfully deleted!");
          this.$q.dialog({
             style: "background-color:green;",
@@ -293,7 +290,10 @@ export default {
             title: "Success!",
             message: "Slide has been deleted.",
             persistent: true,
-          });
+          })
+            .onOk(() => {
+                location.reload();
+            })
       })
     },
 
@@ -437,6 +437,9 @@ export default {
               title: "Error",
               message: "Couldn't post image",
               persistent: true,
+            })
+                        .onOk(() => {
+                location.reload();
             });
           },
           () => {
@@ -472,7 +475,6 @@ export default {
 
 
                if (i == 3) {
-                 console.log(i, 'doneeeeee');
    setTimeout(() => {
 
       updateDoc(DocRef, {
@@ -489,8 +491,11 @@ export default {
             title: "Sucsess!",
             message: "Submitted slide",
             persistent: true,
-          });
-          console.log("popped");
+          })
+                      .onOk(() => {
+                location.reload();
+            });
+          console.log("Submitted slide");
         })
               
                

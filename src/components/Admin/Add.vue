@@ -266,7 +266,6 @@
             class="self-center q-mt-sm delBtn"
             @click="itemSubmit"
             clickable
-            v-close-popup
           />
           <q-btn
             clickable
@@ -286,6 +285,12 @@
       </div>
     </q-card-section>
   </q-card>
+            <q-spinner-gears
+           v-if="loadingDone == false"
+          class="q-pa-md   absolute-center"
+          color="accent"
+          size="200px"
+        />
 </template>
 
 <script>
@@ -309,7 +314,7 @@ export default {
       checkbox: false,
       postedSizes: null,
       filePicked: null,
-      loadingDone: false,
+      loadingDone: null,
       sizes: {
         1: "Extra Small",
         2: "Medium",
@@ -453,6 +458,7 @@ export default {
             );
           }
           if (i == 3) {
+            this.loadingDone = false
           setTimeout(() => {
             this.submitSlide();
              }, 3500);
@@ -526,7 +532,10 @@ export default {
             title: "Sucsess!",
             message: "Submitted slide",
             persistent: true,
-          });
+          })
+          .onOk(() => {
+                location.reload();
+            })
         })
         .catch((err) => {
           this.$q.dialog({
@@ -539,6 +548,8 @@ export default {
           });
           console.log(err.message);
         });
+
+        this.loadingDone = true
     },
     getDate() {
       var today = new Date();
