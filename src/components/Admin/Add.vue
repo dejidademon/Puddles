@@ -605,6 +605,10 @@ export default {
   color: white;
 }
 
+.prefixWhite .q-field__prefix {
+  color: white;
+}
+
 .sizeInputs {
   font-size: 17px;
   width: 125px;

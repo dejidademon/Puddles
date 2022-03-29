@@ -70,15 +70,19 @@ export default {
       items: this.postedOrders[this.item],
       showItems: false,
       showEdit: false,
-      orderInfo: true,
+      orderInfo: false,
     }
   },
   props: ["item", "id", "key", "postedOrders"],
 
   components: {
-    "order-items": require("components/Account/Shared/orderItems.vue").default,
+    "order-items": require("components/Admin/Shared/adminOrderItems.vue").default,
     "order-info": require("components/Admin/Shared/orderInfo.vue").default,
   },
+
+  mounted() {
+    console.log(this.postedOrders)
+  }
 };
 </script>
 

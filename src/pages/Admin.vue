@@ -62,6 +62,7 @@ import axios from 'axios';
                 loadingOrders: null,
                 postedOrders: [],
                 postedStats: [],
+                orderStats: [],
                 postedArch: [],
                 showAdd: false,
             }
@@ -73,12 +74,16 @@ import axios from 'axios';
         getStats() {
       this.postedOrders = [],
       this.postedStats =  [],
+      this.orderStats = [],
       this.loadingStats = true;
 
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
               this.postedStats = JSON.parse(JSON.stringify(r.data));
+              //  console.log('itemz hoe', this.postedStats)
+               this.orderStats = JSON.parse(JSON.stringify(r.data))
+                // console.log('hey', this.orderStats)
           })
           .catch((err) => {
             this.$q.dialog({
@@ -91,11 +96,13 @@ import axios from 'axios';
             });
           });
           this.loadingStats = false;
+                       
+
     },
 
 
         getOrders() {
-
+                    
       this.loadingOrders = true;
       setTimeout(() => {
         axios
@@ -121,17 +128,70 @@ import axios from 'axios';
                     this.postedOrders[orderNum].total = total 
                     let histIds = e.purchases.split("_");
                   histIds.forEach((histo) => {
-                    let histIdss = histo.substring(0, histo.indexOf('QUAN'))
-                    let histQuan = histo.split("QUAN").pop()
-                    // console.log('histo', histQuan)
 
-                    this.postedStats.forEach((itemz) => {
-                    if (histIdss == itemz.id) {
-                      itemz.orderId = orderNum
-                      itemz.quantity = histQuan
-                      this.postedOrders[orderNum].push(itemz)
+                    
+                    let histIdss = histo.substring(0, histo.indexOf('SIZE'))
+                    let histQuan = histo.substring(histo.indexOf('QUAN') + 4 )
+                    let sizeNames1 = histo.substring(0, histo.indexOf('QUAN'))
+                    let sizeName = sizeNames1.substring(sizeNames1.indexOf("SIZE") + 4 )
+                   
+                    // console.log('ids:', histQuan)
+
+                    if (histo.includes('+')) {
+
+                      // console.log('true')
+                      let histIdss1 = histo.substring(0, histo.indexOf('SIZE'))
+                      let histQuan1 = histo.substring(histo.indexOf('QUAN') + 4 ).split('+')[0]
+                      let sizeName1 = sizeNames1.substring(sizeNames1.indexOf("SIZE") + 4 )
+                      // console.log('size:', sizeName1)
+
+//make a for loop that counts the +'s and runs the same script depending on the amount of +'s
+                      let addedSize = histIdss+'hi' + histo.substring(histo.indexOf('+') + 1)
+                      // let addedhistIdss = addedSize.substring(0, histo.indexOf('SIZE'))
+                      let addedhistQuan1 = addedSize.substring(histo.indexOf('QUAN') + 4 )
+                      let addedhistQuan = addedhistQuan1.replace(/[^\d.+]/g, '').split('+')
+                      let addedSizeNames1 = addedSize.substring(addedSize.indexOf("SIZE") + 4).replace(/QUAN|SIZE|[0-9]/g, '')
+                      let addedSizeName = addedSizeNames1.split('+')
+                      let addedSizeAmount = addedSize.split("+").length
+                      // console.log('addedSize:', addedhistIdss)
+
+
+                      this.orderStats.forEach((itemz) => {
+                        if (histIdss1 == itemz.id ) {
+                        itemz.orderId = orderNum
+                        itemz.quantity = histQuan1
+                        itemz.size = sizeName1
+                        this.postedOrders[orderNum].push(itemz)
+                        }
+                        let i = 0
+                        for (let i = 0; i < addedSizeAmount; i++) {
+                          if (histIdss == itemz.id) {
+                            let addedHist = []
+                            addedHist[i] = JSON.parse(JSON.stringify(itemz))
+                            addedHist[i].orderId = orderNum
+                            addedHist[i].quantity = addedhistQuan[i]
+                            addedHist[i].size = addedSizeName[i]
+                        
+                            this.postedOrders[orderNum].push(addedHist[i])
+                        }
+                    
+                        }
+
+                        });
+                        // console.log(this.postedOrders[orderNum])
                     }
-                  });
+                    // console.log('histo', histIdss)
+                    else if (histo.includes('+') == false) {
+                      this.orderStats.forEach((itemz) => {
+                        if (histIdss == itemz.id ) {
+                        itemz.orderId = orderNum
+                        itemz.quantity = histQuan
+                        itemz.size = sizeName
+                        this.postedOrders[orderNum].push(itemz)
+                      }
+  
+                    });
+                    }
                 });
               
             });

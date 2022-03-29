@@ -7,10 +7,14 @@
 
     <q-card-section class="col-6">
         <h3 class="descTitle puddlesText q-pb-sm text-center">Account Id:</h3>
-        <h2 class="previewPrice text-center regText">{{ items.accountId }}</h2>
+            <h3
+              class=" previewName q-mt-sm accountId text-center regText"
+            >{{ items.accountId }}</h3>
 
         <h3 class="descTitle puddlesText q-pt-md text-center">Order Id:</h3>
-        <h2 class="previewPrice text-center regText">{{ items.orderId }}</h2>
+            <h3
+              class=" previewName q-mt-sm accountId text-center regText"
+            >{{ items.orderId }}</h3>
 
 
         <h3 class="descTitle puddlesText q-pt-md text-center">Status:</h3>
@@ -40,38 +44,61 @@
 
 
     <q-card-section class="col-6">
+      
         <h3 class="descTitle puddlesText q-pb-sm text-center">Shipping Name:</h3>
-        <h2 class=" previewPrice text-center regText">{{ items.shippingName }}</h2>
-
+            <q-input
+              standout
+              bg-color="grey-5"
+              v-model="items.shippingName"
+              input-class="text-white"
+              class="q-mt-sm previewPrice text-center regText"
+            />
         <h3 class="descTitle puddlesText q-pt-md text-center">Address:</h3>
-        <h2 class=" address text-center regText ">{{ items.address }}</h2>
+            <q-input
+              standout
+              bg-color="grey-5"
+              v-model="items.address"
+              input-class="text-white"
+              class="q-mt-sm previewPrice text-center regText"
+            />
 
 
         <h3 class="descTitle puddlesText q-pt-md text-center">Total:</h3>
-        <h2 class="previewPrice text-center regText">{{ items.total }}</h2>
+              <q-input
+              prefix="$"
+              standout
+              bg-color="grey-5"
+              v-model="items.total"
+              input-class="text-white"
+              class="q-mt-sm previewPrice text-center prefixWhite regText"
+            >
+            
+              </q-input>
     </q-card-section>
 </div>
 
-<q-card-actions align="right" >
-              <q-btn
+<div class="row justify-between q-ma-md" >
+          <q-btn
+            icon="delete_outline"
+            color="red-8"
+            class="self-center q-ma-sm delBtn"
+            @click="deleteOrder"
+            clickable
+          />
+
+          <q-btn
             icon="archive"
             color="accent"
             class="self-center q-ma-sm delBtn"
-            @click="orderSubmit"
+            @click="submitOrder"
             clickable
           />
-</q-card-actions>
+</div>
+
   </q-card>
 </template>
 
 <script>
-import {
-  getStorage,
-  uploadBytes,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
 import {
   doc,
   deleteDoc, 
@@ -83,6 +110,7 @@ export default {
         return {
             statuses: ['canceled', 'processing', 'shipping', 'delivered'],
             postedStatus: '',
+            orderKey: this.items.orderId
         }
     },
     props:['items', 'key'],
@@ -146,47 +174,70 @@ export default {
             }
         },
         submitOrder() {
-        const DocRef = doc(db, "Purchases", this.key);
-                  updateDoc(DocRef, {
-        address: this.items.address,
-        total: this.items.total,
-        total: this.items.total,
-        itemSize: compiled,
-      })
-        .then((b) => {
-          this.$q.dialog({
-            style: "background-color:green;",
+this.$q.dialog({
+            style: "background-color:#6F7B87;",
             dark: true,
             color: "white",
-            title: "Sucsess!",
-            message: "Submitted slide",
+            title: "Success!",
+            message: "Are you sure you want submit these changes",
             persistent: true,
+            cancel: true
           })
-                      .onOk(() => {
-                location.reload();
-            });
-          console.log("Submitted slide");
-        })
-              
-               
-        .catch((err) => {
-          this.$q.dialog({
+            .onOk(() => {
+
+              const DocRef = doc(db, "Purchases", this.orderKey);
+                        updateDoc(DocRef, {
+              address: this.items.address,
+              total: this.items.total,
+              status: this.postedStatus,
+              shippingName: this.items.shippingName,
+            })
+
+              .then((b) => {
+                this.$q.dialog({
+                  style: "background-color:green;",
+                  dark: true,
+                  color: "white",
+                  title: "Sucsess!",
+                  message: "Submitted slide",
+                  persistent: true,
+                })
+                            .onOk(() => {
+                      location.reload();
+                  });
+                console.log("Submitted slide");
+              })
+                    
+                     
+              .catch((err) => {
+                this.$q.dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Error submitting slide...",
+                  persistent: true,
+                });
+                console.log(err.message);
+              });
+            })
+        },
+
+      deleteOrder() {
+this.$q.dialog({
             style: "background-color:red;",
             dark: true,
             color: "white",
-            title: "Error",
-            message: "Error submitting slide...",
+            title: "Success!",
+            message: "Are you sure you want to delete this slide",
             persistent: true,
-          });
-          console.log(err.message);
-        });
-        },
-
-            deleteSlide() {
-      const DocRef = doc(db, "Purchases", this.key);
+            cancel: true
+          })
+            .onOk(() => {
+      const DocRef = doc(db, "Purchases", this.orderKey);
       deleteDoc(DocRef).then(() => {
 
-        console.log("Document successfully deleted!");
+        console.log("Order successfully deleted!");
          this.$q.dialog({
             style: "background-color:green;",
             dark: true,
@@ -199,13 +250,15 @@ export default {
                 location.reload();
             })
       })
+            })
+
     },
 
     },
 
     mounted() {
-        console.log('hi', this.items);
     this.getStatus();
+    
     },
 
 
