@@ -80,9 +80,6 @@ export default {
     "order-info": require("components/Admin/Shared/orderInfo.vue").default,
   },
 
-  mounted() {
-    console.log(this.postedOrders)
-  }
 };
 </script>
 

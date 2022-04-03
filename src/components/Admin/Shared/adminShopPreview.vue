@@ -47,7 +47,7 @@
       </div>
 
       <div class="row justify-evenly">
-        <q-btn-dropdown
+      <q-btn-dropdown
           class="col-6 dropDown regText q-mt-sm"
           no-caps
           color="accent"
@@ -55,60 +55,57 @@
         >
           <q-list>
             <q-item
-              :active="sizeLink === 's'"
-              @click="sizeLink = 's'"
+              :active="sizeLink === postedSizes[0]"
+              @click="sizeLink = postedSizes[0]"
               active-class="sizeSelected"
               clickable
               v-close-popup
             >
               <q-item-section>
-                <q-item-label>Small</q-item-label>
+                <q-item-label>{{postedSizes[0]}}</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item
-              :active="sizeLink === 'md'"
-              @click="sizeLink = 'md'"
+              :active="sizeLink === postedSizes[1]"
+              @click="sizeLink = postedSizes[1]"
               active-class="sizeSelected"
               clickable
               v-close-popup
             >
               <q-item-section>
-                <q-item-label>Medium</q-item-label>
+                <q-item-label>{{postedSizes[1]}}</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item
-              :active="sizeLink === 'lg'"
-              @click="sizeLink = 'lg'"
+              :active="sizeLink === postedSizes[2]"
+              @click="sizeLink = postedSizes[2]"
               active-class="sizeSelected"
               clickable
               v-close-popup
             >
               <q-item-section>
-                <q-item-label>Large</q-item-label>
+                <q-item-label>{{postedSizes[2]}}</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item
-              :active="sizeLink === 'xlg'"
-              @click="sizeLink = 'xlg'"
+              :active="sizeLink === postedSizes[3]"
+              @click="sizeLink = postedSizes[3]"
               active-class="sizeSelected"
               clickable
               v-close-popup
             >
               <q-item-section clickable v-close-popup>
-                <q-item-label>Extra Large</q-item-label>
+                <q-item-label>{{postedSizes[3]}}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
         </q-btn-dropdown>
-
-
       </div>
-
-
     </q-card-section>
+
     <q-card-section class="q-pb-none q-pt-none q-ma-none">
       <div class="row text-center justify-evenly">
         <p class="q-mb-none previewDate regText">
@@ -116,6 +113,7 @@
         </p>
       </div>
     </q-card-section>
+    
   </q-card>
 </template>
 
@@ -130,6 +128,7 @@ export default {
       previewAuto: ref(false),
       previewSlide: ref(1),
       notsMobile: true,
+      postedSizes: [],
     };
   },
   props: ["items", "id"],
@@ -141,7 +140,11 @@ export default {
       }
     },
     getSizes() {
-      console.log(this.items)
+      let sizes = this.items.itemSize.replace(/QUAN|SIZE|[0-9]/g, '')
+      let splitSizes = sizes.split('_')
+      let deleteSize = splitSizes.shift()
+
+      this.postedSizes = splitSizes
     }
   },
   mounted() {

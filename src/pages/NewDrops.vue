@@ -57,7 +57,8 @@
 
     <template v-if="noItems == true">
       <div class=" text-center">
-        <h2 class="colorFade noItems" >No items currently</h2>
+        <h2 class="colorFade noItems q-mb-none q-mt-sm" >No new drops currently</h2>
+         <h2 class="colorFade noItems q-mt-none" >Check the Shop!</h2>
       </div>
     </template>
   </q-page>
@@ -171,7 +172,7 @@ export default {
     font-size: 50px;
   }
   .carousel {
-    height: 325px;
+    height: 300px;
   }
     .noItems {
     font-size: 80px;

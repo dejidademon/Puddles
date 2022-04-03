@@ -39,11 +39,8 @@
 
   <q-dialog v-model="cardShow">
     <shop-preview
-      v-for="(item, key) in items"
       @close="cardShow = false"
-      :key="key"
       :items="items"
-      :id="key"
     />
   </q-dialog>
 </template>

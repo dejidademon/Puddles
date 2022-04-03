@@ -209,11 +209,18 @@
           </q-input>
 
           <q-btn
-            icon="archive"
-            color="accent"
+            icon="save"
+            color="green"
             class="self-center q-mt-sm delBtn"
             @click="sizeSubmit"
           />
+          <q-btn
+            icon="archive"
+            color="accent"
+            class="self-center q-mt-sm delBtn"
+            @click="archiveSubmit"
+          />
+          
           <q-btn
             @click="deleteSlide"
             icon="delete_outline"
@@ -278,6 +285,43 @@ export default {
   },
   props: ["items", "id"],
   methods: {
+    archiveSubmit() {
+      const DocRef = doc(db, "Slides", this.items.id);
+      // console.log(this.items.itemArchived)
+      this.items.itemArchived = !this.items.itemArchived
+      // console.log(this.items.itemArchived)
+          updateDoc(DocRef, {
+            itemArchived: this.items.itemArchived,
+            })        
+            .then((b) => {
+          this.$q.dialog({
+            style: "background-color:green;",
+            dark: true,
+            color: "white",
+            title: "Sucsess!",
+            message: "Archive task sucsessful!",
+            persistent: true,
+          })
+                      .onOk(() => {
+                location.reload();
+            });
+          console.log("archived sucsessfully");
+        })
+              
+               
+        .catch((err) => {
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Error submitting slide...",
+            persistent: true,
+          });
+          console.log(err.message);
+        });
+    },
+
     deleteSlide() {
       const DocRef = doc(db, "Slides", this.items.id);
       deleteDoc(DocRef).then(() => {
@@ -361,7 +405,6 @@ export default {
                 this.quantitys[i] = sizeQuan;
                 i = i + 1;
               });
-              console.log(this.sizes);
             }
           });
         })
