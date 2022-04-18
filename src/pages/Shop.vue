@@ -43,7 +43,18 @@ export default {
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
-            this.items = r.data;
+            var fbItems = JSON.parse(JSON.stringify(r.data));
+
+           fbItems.forEach((item) => {
+            if (item.itemArchived == false) {
+              this.items.push(item);
+            }
+
+            if (item.itemArchived == true) {
+              // this.items.push(item);
+              console.log(item.itemArchived)
+            }
+          });
             this.loadingItems = false;
           })
           .catch((err) => {

@@ -148,8 +148,10 @@
 
     <q-card-section class="q-pt-none q-mt-sm q-mb-none">
       <div class="row text-center">
-        <div class="row justify-evenly col-6">
-          <div class="column">
+        <div
+          class="row justify-evenly col-6 scrollFaMe overflow-auto hide-scrollbar"
+        >
+          <div class="column" v-if="shoeSizes == false">
             <h2 class="previewName puddlesText">Size</h2>
             <q-input
               standout
@@ -188,7 +190,7 @@
             </q-input>
           </div>
 
-          <div class="column">
+          <div class="column" v-if="shoeSizes == false">
             <h2 class="previewName puddlesText">Quantity</h2>
             <q-input
               standout
@@ -227,9 +229,41 @@
             </q-input>
           </div>
 
+          <div class="column" v-if="shoeSizes == true">
+            <h2 class="previewName puddlesText">Size</h2>
+            <q-input
+              v-for="(item, key) in shoeSizeNums"
+              :key="key"
+              standout
+              bg-color="grey-5"
+              v-model="shoeSizeNums[key]"
+              input-class="text-white"
+              class="q-mt-sm sizeInputs regText"
+            >
+            </q-input>
+          </div>
+          <div class="column" v-if="shoeSizes == true">
+            <h2 class="previewName puddlesText">Quantity</h2>
+            <q-input
+              v-for="(item, key) in shoeSizeNums"
+              :key="key"
+              standout
+              bg-color="grey-5"
+              v-model="quantitys[key]"
+              input-class="text-white"
+              class="q-mt-sm sizeInputs regText"
+            >
+            </q-input>
+          </div>
+
           <h2 class="regText self-center shoeText q-my-sm">
             Shoes
-            <q-checkbox class="shoeBox" color="accent" v-model="checkbox" />
+            <q-checkbox
+              @click="checkboxClicked"
+              class="shoeBox"
+              color="accent"
+              v-model="shoeSizes"
+            />
           </h2>
         </div>
 
@@ -261,8 +295,8 @@
           </q-input>
 
           <q-btn
-            icon="archive"
-            color="accent"
+            icon="save"
+            color="green"
             class="self-center q-mt-sm delBtn"
             @click="itemSubmit"
             clickable
@@ -285,12 +319,12 @@
       </div>
     </q-card-section>
   </q-card>
-            <q-spinner-gears
-           v-if="loadingDone == false"
-          class="q-pa-md   absolute-center"
-          color="accent"
-          size="200px"
-        />
+  <q-spinner-gears
+    v-if="loadingDone == false"
+    class="q-pa-md absolute-center"
+    color="accent"
+    size="200px"
+  />
 </template>
 
 <script>
@@ -311,10 +345,32 @@ export default {
       previewAuto: false,
       previewSlide: ref(1),
       notsMobile: true,
-      checkbox: false,
+      shoeSizes: false,
       postedSizes: null,
       filePicked: null,
       loadingDone: null,
+      shoeSizeNums: {
+        1: "3.5",
+        2: "4",
+        3: "4.5",
+        4: "5",
+        5: "5.5",
+        6: "6",
+        7: "6.5",
+        8: "7.5",
+        9: "8",
+        10: "8.5",
+        11: "9",
+        12: "9.5",
+        13: "10",
+        14: "10.5",
+        15: "11",
+        16: "11.5",
+        17: "12",
+        18: "12.5",
+        19: "13",
+        20: "13.5",
+      },
       sizes: {
         1: "Extra Small",
         2: "Medium",
@@ -340,6 +396,7 @@ export default {
         },
         itemSlide: 1,
       },
+      compiledQuanItems: "",
     };
   },
 
@@ -458,10 +515,10 @@ export default {
             );
           }
           if (i == 3) {
-            this.loadingDone = false
-          setTimeout(() => {
-            this.submitSlide();
-             }, 3500);
+            this.loadingDone = false;
+            setTimeout(() => {
+              this.submitSlide();
+            }, 3500);
           }
         }
       } else {
@@ -469,29 +526,44 @@ export default {
       }
     },
     submitSlide() {
-      let compiled =
+      // if (this.shoeSizes == false) {
+      const shoeNumsLength = Object.keys(this.shoeSizeNums).length;
+
+      if (this.shoeSizes == false) {
+        this.compiledQuanItems =
+          "_" + this.sizes[1] + "QUAN" + this.quantitys[1] +
         "_" +
-        this.sizes[1] +
-        "QUAN" +
-        this.quantitys[1] +
-        "_" +
-        this.sizes[2] +
-        "QUAN" +
-        this.quantitys[2] +
-        "_" +
-        this.sizes[3] +
-        "QUAN" +
-        this.quantitys[3] +
-        "_" +
-        this.sizes[4] +
-        "QUAN" +
-        this.quantitys[4];
+          this.sizes[2] +
+          "QUAN" +
+          this.quantitys[2] +
+          "_" +
+          this.sizes[3] +
+          "QUAN" +
+          this.quantitys[3] +
+          "_" +
+          this.sizes[4] +
+          "QUAN" +
+          this.quantitys[4];
+      }
+
+      if (this.shoeSizes == true) {
+        for (let o = 1; o <= shoeNumsLength; o++) {
+          this.compiledQuanItems = this.compiledQuanItems + "_" + this.shoeSizeNums[o] + "QUAN" + this.quantitys[o];
+        }
+      }
+      console.log(this.compiledQuanItems);
+
+      // if (this.shoeSizes == true) {
+
+      // }
+
       addDoc(collection(db, "Slides"), {
+        itemArchived: false,
         itemSlide: this.items.itemSlide,
         itemDesc: this.items.itemDesc,
         itemName: this.items.itemName,
         itemPrice: this.items.itemPrice,
-        itemSize: compiled,
+        itemSize: this.compiledQuanItems,
         date: this.items.date,
         favorited: 0,
         previewed: 0,
@@ -525,17 +597,18 @@ export default {
           }
           console.log("slideSubmittedFully:", docRef);
 
-          this.$q.dialog({
-            style: "background-color:green;",
-            dark: true,
-            color: "white",
-            title: "Sucsess!",
-            message: "Submitted slide",
-            persistent: true,
-          })
-          .onOk(() => {
-                location.reload();
+          this.$q
+            .dialog({
+              style: "background-color:green;",
+              dark: true,
+              color: "white",
+              title: "Sucsess!",
+              message: "Submitted slide",
+              persistent: true,
             })
+            .onOk(() => {
+              location.reload();
+            });
         })
         .catch((err) => {
           this.$q.dialog({
@@ -549,7 +622,7 @@ export default {
           console.log(err.message);
         });
 
-        this.loadingDone = true
+      this.loadingDone = true;
     },
     getDate() {
       var today = new Date();
@@ -559,6 +632,30 @@ export default {
 
       today = mm + "/" + dd + "/" + yyyy;
       this.items.date = today;
+    },
+    checkboxClicked() {
+      this.quantitys = {
+        1: "0",
+        2: "0",
+        3: "0",
+        4: "0",
+        5: "0",
+        6: "0",
+        7: "0",
+        8: "0",
+        9: "0",
+        10: "0",
+        11: "0",
+        12: "0",
+        13: "0",
+        14: "0",
+        15: "0",
+        16: "0",
+        17: "0",
+        18: "0",
+        19: "0",
+        20: "0",
+      };
     },
   },
   mounted() {
@@ -581,6 +678,11 @@ export default {
 </script>
 
 <style lang="scss">
+.scrollFaMe {
+  overflow-x: hidden;
+  min-height: 300px;
+  max-height: 425px;
+}
 .shoeText {
   font-size: 30px;
   line-height: normal;

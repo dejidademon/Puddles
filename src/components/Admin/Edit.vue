@@ -98,79 +98,28 @@
 
     <q-card-section class="q-pt-none q-mt-sm q-mb-none">
       <div class="row text-center">
-        <div class="row justify-evenly col-6">
-          <div class="column">
+        <div class="row justify-evenly col-6 scrollFaMe overflow-auto hide-scrollbar">
+  <div class="column" >
             <h2 class="previewName puddlesText">Size</h2>
             <q-input
+              v-for="(item, key) in sizes"
+              :key="key"
               standout
               bg-color="grey-5"
-              v-model="sizes[1]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-
-            <q-input
-              standout
-              bg-color="grey-5"
-              v-model="sizes[2]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-
-            <q-input
-              standout
-              bg-color="grey-5"
-              v-model="sizes[3]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-
-            <q-input
-              standout
-              bg-color="grey-5"
-              v-model="sizes[4]"
+              v-model="sizes[key]"
               input-class="text-white"
               class="q-mt-sm sizeInputs regText"
             >
             </q-input>
           </div>
-
           <div class="column">
             <h2 class="previewName puddlesText">Quantity</h2>
             <q-input
+              v-for="(item, key) in quantitys"
+              :key="key"
               standout
               bg-color="grey-5"
-              v-model="quantitys[1]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-
-            <q-input
-              standout
-              bg-color="grey-5"
-              v-model="quantitys[2]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-
-            <q-input
-              standout
-              bg-color="grey-5"
-              v-model="quantitys[3]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-
-            <q-input
-              standout
-              bg-color="grey-5"
-              v-model="quantitys[4]"
+              v-model="quantitys[key]"
               input-class="text-white"
               class="q-mt-sm sizeInputs regText"
             >
@@ -179,7 +128,7 @@
 
           <h2 class="regText self-center shoeText q-my-sm">
             Shoes
-            <q-checkbox class="shoeBox" color="accent" v-model="checkbox" />
+            <q-checkbox @click="checkboxClicked" class="shoeBox" color="accent" v-model="shoeSizez" />
           </h2>
         </div>
 
@@ -266,7 +215,7 @@ export default {
       previewAuto: ref(false),
       previewSlide: ref(1),
       notsMobile: true,
-      checkbox: false,
+      shoeSizez: null,
       postedSizes: null,
       sizes: {},
       quantitys: {},
@@ -281,6 +230,7 @@ export default {
           urls:{}
         },
       },
+      compiledQuanItems: "",
     };
   },
   props: ["items", "id"],
@@ -389,6 +339,7 @@ export default {
         .then((r) => {
           r.data.forEach((e) => {
             if (e.id == this.items.id) {
+
               let sizeIds = e.itemSize.split("_");
               let i = 1;
               delete sizeIds[0];
@@ -407,6 +358,13 @@ export default {
               });
             }
           });
+
+            if (Object.keys(this.sizes).length > 4) {
+                this.shoeSizez = true
+              }
+              else if (Object.keys(this.sizes).length <= 4) {
+                this.shoeSizez = false
+              }
         })
         .catch((err) => {
           this.$q.dialog({
@@ -414,7 +372,7 @@ export default {
             dark: true,
             color: "white",
             title: "Error",
-            message: "Could not get one or more of your previous purchases",
+            message: "Could not get one or more of your sizes",
             persistent: true,
           });
           console.log(err.message);
@@ -424,23 +382,14 @@ export default {
     sizeSubmit() {
       const storage = getStorage();
       const DocRef = doc(db, "Slides", this.items.id);
-      let compiled =
-        "_" +
-        this.sizes[1] +
-        "QUAN" +
-        this.quantitys[1] +
-        "_" +
-        this.sizes[2] +
-        "QUAN" +
-        this.quantitys[2] +
-        "_" +
-        this.sizes[3] +
-        "QUAN" +
-        this.quantitys[3] +
-        "_" +
-        this.sizes[4] +
-        "QUAN" +
-        this.quantitys[4];
+     const shoeNumsLength = Object.keys(this.sizes).length;
+
+
+        for (let o = 1; o <= shoeNumsLength; o++) {
+          this.compiledQuanItems = this.compiledQuanItems + "_" + this.sizes[o] + "QUAN" + this.quantitys[o];
+
+      }
+      console.log(this.compiledQuanItems);
 
       for (let i = 0; i < 4; i++) {
         if (this.item.itemImg.name[i] != null) {
@@ -524,7 +473,7 @@ export default {
         itemDesc: this.items.itemDesc,
         itemName: this.items.itemName,
         itemPrice: this.items.itemPrice,
-        itemSize: compiled,
+        itemSize: this.compiledQuanItems,
       })
         .then((b) => {
           this.$q.dialog({
@@ -558,6 +507,76 @@ export default {
 
     }
       },
+          checkboxClicked() {
+
+console.log(this.shoeSizez)
+                  if (this.shoeSizez == true) {
+      this.quantitys = {
+        1: "0",
+        2: "0",
+        3: "0",
+        4: "0",
+        5: "0",
+        6: "0",
+        7: "0",
+        8: "0",
+        9: "0",
+        10: "0",
+        11: "0",
+        12: "0",
+        13: "0",
+        14: "0",
+        15: "0",
+        16: "0",
+        17: "0",
+        18: "0",
+        19: "0",
+        20: "0",
+      };
+
+            this.sizes = {
+        1: "3.5",
+        2: "4",
+        3: "4.5",
+        4: "5",
+        5: "5.5",
+        6: "6",
+        7: "6.5",
+        8: "7.5",
+        9: "8",
+        10: "8.5",
+        11: "9",
+        12: "9.5",
+        13: "10",
+        14: "10.5",
+        15: "11",
+        16: "11.5",
+        17: "12",
+        18: "12.5",
+        19: "13",
+        20: "13.5",
+      };
+
+      this.shoeSizez == false
+            }
+else if (this.shoeSizez == false) {
+      this.sizes = {
+        1: "Extra Small",
+        2: "Medium",
+        3: "Large",
+        4: "Extra Large",
+      }
+      this.quantitys = {
+        1: "0",
+        2: "0",
+        3: "0",
+        4: "0",
+      }
+      this.shoeSizez == true
+}
+                
+            
+          },
   },
 
   mounted() {
@@ -575,6 +594,12 @@ export default {
 </script>
 
 <style lang="scss">
+.scrollFaMe {
+  overflow-x: hidden;
+  min-height: 300px;
+  max-height: 400px;
+}
+
 .shoeText {
   font-size: 30px;
   line-height: normal;
