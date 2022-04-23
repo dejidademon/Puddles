@@ -23,9 +23,18 @@
           transition-prev="slide-right"
           control-color="black"
         >
-          <q-carousel-slide class="carosel" :name="1" :img-src="item.itemImg[0]">
+          <q-carousel-slide
+            class="carosel"
+            :name="1"
+            :img-src="item.itemImg[0]"
+          >
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn @click="item.itemImg[0] = null" icon="delete_outline" color="red-8" class="del" />
+              <q-btn
+                @click="delImage(0)"
+                icon="delete_outline"
+                color="red-8"
+                class="del"
+              />
               <input
                 @change="onFilePicked"
                 ref="inputFile"
@@ -33,14 +42,25 @@
                 id="img1"
                 hidden
               />
-              <q-btn icon="edit" @click="inputClicked" color="accent" round class="editPic" />
+              <q-btn
+                icon="edit"
+                @click="inputClicked"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">1</h2>
             </div>
           </q-carousel-slide>
 
           <q-carousel-slide :name="2" :img-src="item.itemImg[1]">
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn @click="item.itemImg[1] = null" icon="delete_outline" color="red-8" class="del" />
+              <q-btn
+                @click="delImage(1)"
+                icon="delete_outline"
+                color="red-8"
+                class="del"
+              />
               <input
                 @change="onFilePicked"
                 ref="inputFile"
@@ -48,27 +68,49 @@
                 id="img2"
                 hidden
               />
-              <q-btn icon="edit" @click="inputClicked" color="accent" round class="editPic" />
+              <q-btn
+                icon="edit"
+                @click="inputClicked"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">2</h2>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="3" :img-src="item.itemImg[2]">
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn @click="item.itemImg[2] = null" icon="delete_outline" color="red-8" class="del" />
-               <input
+              <q-btn
+                @click="delImage(2)"
+                icon="delete_outline"
+                color="red-8"
+                class="del"
+              />
+              <input
                 @change="onFilePicked"
                 ref="inputFile"
                 type="file"
                 id="img3"
                 hidden
               />
-              <q-btn icon="edit" @click="inputClicked" color="accent" round class="editPic" />
+              <q-btn
+                icon="edit"
+                @click="inputClicked"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">3</h2>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="4" :img-src="item.itemImg[3]">
             <div class="absolute-bottom row justify-between actionBar">
-              <q-btn @click="item.itemImg[3] = null" icon="delete_outline" color="red-8" class="del" />
+              <q-btn
+                @click="delImage(3)"
+                icon="delete_outline"
+                color="red-8"
+                class="del"
+              />
               <input
                 @change="onFilePicked"
                 ref="inputFile"
@@ -76,7 +118,13 @@
                 id="img4"
                 hidden
               />
-              <q-btn icon="edit" @click="inputClicked" color="accent" round class="editPic" />
+              <q-btn
+                icon="edit"
+                @click="inputClicked"
+                color="accent"
+                round
+                class="editPic"
+              />
               <h2 class="q-pa-none q-ma-none regText nums">4</h2>
             </div>
           </q-carousel-slide>
@@ -98,8 +146,10 @@
 
     <q-card-section class="q-pt-none q-mt-sm q-mb-none">
       <div class="row text-center">
-        <div class="row justify-evenly col-6 scrollFaMe overflow-auto hide-scrollbar">
-  <div class="column" >
+        <div
+          class="row justify-evenly col-6 scrollFaMe overflow-auto hide-scrollbar"
+        >
+          <div class="column">
             <h2 class="previewName puddlesText">Size</h2>
             <q-input
               v-for="(item, key) in sizes"
@@ -128,7 +178,12 @@
 
           <h2 class="regText self-center shoeText q-my-sm">
             Shoes
-            <q-checkbox @click="checkboxClicked" class="shoeBox" color="accent" v-model="shoeSizez" />
+            <q-checkbox
+              @click="checkboxClicked"
+              class="shoeBox"
+              color="accent"
+              v-model="shoeSizez"
+            />
           </h2>
         </div>
 
@@ -144,7 +199,7 @@
             class="self-center q-mt-sm nameInput regText"
           >
           </q-input>
-                    <h2 class="previewPrice puddlesText">Price</h2>
+          <h2 class="previewPrice puddlesText">Price</h2>
           <q-input
             :rules="[(val) => !!val || 'Required']"
             prefix="$"
@@ -161,7 +216,7 @@
             icon="save"
             color="green"
             class="self-center q-mt-sm delBtn"
-            @click="sizeSubmit"
+            @click="slideSubmit"
           />
           <q-btn
             icon="archive"
@@ -169,7 +224,7 @@
             class="self-center q-mt-sm delBtn"
             @click="archiveSubmit"
           />
-          
+
           <q-btn
             @click="deleteSlide"
             icon="delete_outline"
@@ -197,12 +252,9 @@ import {
   ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 } from "firebase/storage";
-import {
-  doc,
-  deleteDoc, 
-  updateDoc,
-} from "firebase/firestore";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "boot/firebase.js";
 import axios from "axios";
 import { isLoggedIn } from "boot/firebase.js";
@@ -226,8 +278,9 @@ export default {
           2: this.items.itemImg3,
           3: this.items.itemImg4,
           file: {},
-          name:{},
-          urls:{}
+          name: {},
+          urls: {},
+          oldUrls: {},
         },
       },
       compiledQuanItems: "",
@@ -238,27 +291,27 @@ export default {
     archiveSubmit() {
       const DocRef = doc(db, "Slides", this.items.id);
       // console.log(this.items.itemArchived)
-      this.items.itemArchived = !this.items.itemArchived
+      this.items.itemArchived = !this.items.itemArchived;
       // console.log(this.items.itemArchived)
-          updateDoc(DocRef, {
-            itemArchived: this.items.itemArchived,
-            })        
-            .then((b) => {
-          this.$q.dialog({
-            style: "background-color:green;",
-            dark: true,
-            color: "white",
-            title: "Sucsess!",
-            message: "Archive task sucsessful!",
-            persistent: true,
-          })
-                      .onOk(() => {
-                location.reload();
+      updateDoc(DocRef, {
+        itemArchived: this.items.itemArchived,
+      })
+        .then((b) => {
+          this.$q
+            .dialog({
+              style: "background-color:green;",
+              dark: true,
+              color: "white",
+              title: "Sucsess!",
+              message: "Archive task sucsessful!",
+              persistent: true,
+            })
+            .onOk(() => {
+              location.reload();
             });
           console.log("archived sucsessfully");
         })
-              
-               
+
         .catch((err) => {
           this.$q.dialog({
             style: "background-color:red;",
@@ -274,21 +327,97 @@ export default {
 
     deleteSlide() {
       const DocRef = doc(db, "Slides", this.items.id);
-      deleteDoc(DocRef).then(() => {
+      const storage = getStorage();
 
-        console.log("Document successfully deleted!");
-         this.$q.dialog({
-            style: "background-color:green;",
+      console.log(this.item.itemImg[1])
+      if (this.item.itemImg[0] != false) {
+        var previewRef1 = ref(storage, this.item.itemImg[0]);
+      }
+      if (this.item.itemImg[1] != false) {
+        var previewRef2 = ref(storage, this.item.itemImg[1]);
+      }
+      if (this.item.itemImg[2] != false) {
+        var previewRef3 = ref(storage, this.item.itemImg[2]);
+      }
+      if (this.item.itemImg[3] != false) {
+        var previewRef4 = ref(storage, this.item.itemImg[3]);
+      }
+
+      deleteDoc(DocRef)
+        .then(() => {
+          if (this.item.itemImg[0] != false) {
+          deleteObject(previewRef1)
+            .then(() => {
+              this.item.itemImg[0] = null;
+              this.item.itemImg.urls[0] = null;
+              this.item.itemImg.file[0] = null;
+              this.item.itemImg.name[0] = null;
+            })
+            .catch((eror) => {
+              console.log(eror.message);
+            });
+          }
+                if (this.item.itemImg[1] != false) {
+          deleteObject(previewRef2)
+            .then(() => {
+              this.item.itemImg[1] = null;
+              this.item.itemImg.urls[1] = null;
+              this.item.itemImg.file[1] = null;
+              this.item.itemImg.name[1] = null;
+            })
+            .catch((eror) => {
+              console.log(eror.message);
+            });
+                }
+                      if (this.item.itemImg[2] != false) {
+          deleteObject(previewRef3)
+            .then(() => {
+              this.item.itemImg[2] = null;
+              this.item.itemImg.urls[2] = null;
+              this.item.itemImg.file[2] = null;
+              this.item.itemImg.name[2] = null;
+            })
+            .catch((eror) => {
+              console.log(eror.message);
+            });
+                      }
+                            if (this.item.itemImg[3] != false) {
+          deleteObject(previewRef4)
+            .then(() => {
+              this.item.itemImg[3] = null;
+              this.item.itemImg.urls[3] = null;
+              this.item.itemImg.file[3] = null;
+              this.item.itemImg.name[3] = null;
+            })
+            .catch((eror) => {
+              console.log(eror.message);
+            });
+              }
+              console.log("Document successfully deleted!");
+              this.$q
+                .dialog({
+                  style: "background-color:green;",
+                  dark: true,
+                  color: "white",
+                  title: "Success!",
+                  message: "Slide has been deleted.",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+        })
+        .catch((eror) => {
+          this.$q.dialog({
+            style: "background-color:red;",
             dark: true,
             color: "white",
-            title: "Success!",
-            message: "Slide has been deleted.",
+            title: "Error",
+            message: "Error deleting slide...",
             persistent: true,
-          })
-            .onOk(() => {
-                location.reload();
-            })
-      })
+          });
+          console.log(eror.message);
+        });
     },
 
     isMobile() {
@@ -298,6 +427,8 @@ export default {
       }
     },
     onFilePicked(event) {
+      const DocRef = doc(db, "Slides", this.items.id);
+      const storage = getStorage();
       const targetId = event.target.id;
       const files = event.target.files;
       let filename = files[0].name;
@@ -307,18 +438,42 @@ export default {
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         if (targetId == "img1") {
+          if (
+            this.item.itemImg[0] != false &&
+            this.item.itemImg[0].substring(0, 4) == "http"
+          ) {
+            this.item.itemImg.oldUrls[0] = this.item.itemImg[0].slice();
+          }
           this.item.itemImg[0] = fileReader.result;
           this.item.itemImg.file[0] = files[0];
           this.item.itemImg.name[0] = filename;
         } else if (targetId == "img2") {
+          if (
+            this.item.itemImg[1] != false &&
+            this.item.itemImg[1].substring(0, 4) == "http"
+          ) {
+            this.item.itemImg.oldUrls[1] = this.item.itemImg[1].slice();
+          }
           this.item.itemImg[1] = fileReader.result;
           this.item.itemImg.file[1] = files[0];
           this.item.itemImg.name[1] = filename;
         } else if (targetId == "img3") {
+          if (
+            this.item.itemImg[2] != false &&
+            this.item.itemImg[2].substring(0, 4) == "http"
+          ) {
+            this.item.itemImg.oldUrls[2] = this.item.itemImg[2].slice();
+          }
           this.item.itemImg[2] = fileReader.result;
           this.item.itemImg.file[2] = files[0];
           this.item.itemImg.name[2] = filename;
         } else if (targetId == "img4") {
+          if (
+            this.item.itemImg[3] != false &&
+            this.item.itemImg[3].substring(0, 4) == "http"
+          ) {
+            this.item.itemImg.oldUrls[3] = this.item.itemImg[3].slice();
+          }
           this.item.itemImg[3] = fileReader.result;
           this.item.itemImg.file[3] = files[0];
           this.item.itemImg.name[3] = filename;
@@ -339,7 +494,6 @@ export default {
         .then((r) => {
           r.data.forEach((e) => {
             if (e.id == this.items.id) {
-
               let sizeIds = e.itemSize.split("_");
               let i = 1;
               delete sizeIds[0];
@@ -359,12 +513,11 @@ export default {
             }
           });
 
-            if (Object.keys(this.sizes).length > 4) {
-                this.shoeSizez = true
-              }
-              else if (Object.keys(this.sizes).length <= 4) {
-                this.shoeSizez = false
-              }
+          if (Object.keys(this.sizes).length > 4) {
+            this.shoeSizez = true;
+          } else if (Object.keys(this.sizes).length <= 4) {
+            this.shoeSizez = false;
+          }
         })
         .catch((err) => {
           this.$q.dialog({
@@ -379,204 +532,324 @@ export default {
         });
     },
 
-    sizeSubmit() {
+    slideSubmit() {
       const storage = getStorage();
       const DocRef = doc(db, "Slides", this.items.id);
-     const shoeNumsLength = Object.keys(this.sizes).length;
+      const shoeNumsLength = Object.keys(this.sizes).length;
+      const previewRef1 = ref(storage, this.item.itemImg.oldUrls[0]);
+      const previewRef2 = ref(storage, this.item.itemImg.oldUrls[1]);
+      const previewRef3 = ref(storage, this.item.itemImg.oldUrls[2]);
+      const previewRef4 = ref(storage, this.item.itemImg.oldUrls[3]);
 
-
-        for (let o = 1; o <= shoeNumsLength; o++) {
-          this.compiledQuanItems = this.compiledQuanItems + "_" + this.sizes[o] + "QUAN" + this.quantitys[o];
-
+      for (let o = 1; o <= shoeNumsLength; o++) {
+        this.compiledQuanItems =
+          this.compiledQuanItems +
+          "_" +
+          this.sizes[o] +
+          "QUAN" +
+          this.quantitys[o];
       }
       console.log(this.compiledQuanItems);
 
       for (let i = 0; i < 4; i++) {
         if (this.item.itemImg.name[i] != null) {
-        const storageRef = ref(
-          storage,
-          "slideImages/" + this.item.itemImg.name[i]
-        );
-        const uploadTask = uploadBytesResumable(
-          storageRef,
-          this.item.itemImg.file[i]
-        );
-
-        uploadBytes(storageRef, this.item.itemImg.file[i])
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done", i);
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Paused Upload on", i);
-                break;
-              case "running":
-                console.log("Upload is running", i);
-                break;
-            }
-          },
-          (err) => {
-            this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "Couldn't post image",
-              persistent: true,
-            })
-                        .onOk(() => {
-                location.reload();
-            });
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref)
-              .then((url) => {
-                this.item.itemImg.urls[i] = url;
-                console.log(url, i);
-        if (i == 0) {
-            updateDoc(DocRef, {
-            itemImg1: this.item.itemImg.urls[0],
-            })
-        }
-        else if (i == 1) {
-          updateDoc(DocRef, {
-            itemImg2: this.item.itemImg.urls[1],
-            })
-        }
-         else if (i == 2) {
-          updateDoc(DocRef, {
-            itemImg3: this.item.itemImg.urls[2],
-            })
-        }
-         else if (i == 3) {
-          updateDoc(DocRef, {
-            itemImg4: this.item.itemImg.urls[3],
-            })
-        }
+          if (this.item.itemImg.urls[0] == false && i == 0 ) {
+            deleteObject(previewRef1)
+              .then(() => {
+                this.item.itemImg.oldUrls[0] = null;
               })
-          })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          } else if (this.item.itemImg.urls[1] == false && i == 1) {
+            deleteObject(previewRef2)
+              .then(() => {
+                this.item.itemImg.oldUrls[1] = null;
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          } else if (this.item.itemImg.urls[2] == false && i == 2) {
+            deleteObject(previewRef3)
+              .then(() => {
+                this.item.itemImg.oldUrls[2] = null;
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          } else if (this.item.itemImg.urls[3] == false && i == 3) {
+            deleteObject(previewRef4)
+              .then(() => {
+                this.item.itemImg.oldUrls[3] = null;
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          }
 
-      }
-    
+          const storageRef = ref(
+            storage,
+            "slideImages/" + this.item.itemImg.name[i]
+          );
+          const uploadTask = uploadBytesResumable(
+            storageRef,
+            this.item.itemImg.file[i]
+          );
 
+          uploadBytes(storageRef, this.item.itemImg.file[i]);
 
-               if (i == 3) {
-   setTimeout(() => {
-
-      updateDoc(DocRef, {
-        itemDesc: this.items.itemDesc,
-        itemName: this.items.itemName,
-        itemPrice: this.items.itemPrice,
-        itemSize: this.compiledQuanItems,
-      })
-        .then((b) => {
-          this.$q.dialog({
-            style: "background-color:green;",
-            dark: true,
-            color: "white",
-            title: "Sucsess!",
-            message: "Submitted slide",
-            persistent: true,
-          })
-                      .onOk(() => {
-                location.reload();
-            });
-          console.log("Submitted slide");
-        })
-              
-               
-        .catch((err) => {
-          this.$q.dialog({
-            style: "background-color:red;",
-            dark: true,
-            color: "white",
-            title: "Error",
-            message: "Error submitting slide...",
-            persistent: true,
-          });
-          console.log(err.message);
-        });
-            }, 400);
-      }
-
-    }
-      },
-          checkboxClicked() {
-
-console.log(this.shoeSizez)
-                  if (this.shoeSizez == true) {
-      this.quantitys = {
-        1: "0",
-        2: "0",
-        3: "0",
-        4: "0",
-        5: "0",
-        6: "0",
-        7: "0",
-        8: "0",
-        9: "0",
-        10: "0",
-        11: "0",
-        12: "0",
-        13: "0",
-        14: "0",
-        15: "0",
-        16: "0",
-        17: "0",
-        18: "0",
-        19: "0",
-        20: "0",
-      };
-
-            this.sizes = {
-        1: "3.5",
-        2: "4",
-        3: "4.5",
-        4: "5",
-        5: "5.5",
-        6: "6",
-        7: "6.5",
-        8: "7.5",
-        9: "8",
-        10: "8.5",
-        11: "9",
-        12: "9.5",
-        13: "10",
-        14: "10.5",
-        15: "11",
-        16: "11.5",
-        17: "12",
-        18: "12.5",
-        19: "13",
-        20: "13.5",
-      };
-
-      this.shoeSizez == false
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done", i);
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Paused Upload on", i);
+                  break;
+                case "running":
+                  console.log("Upload is running", i);
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.item.itemImg.urls[i] = url;
+                if (i == 0) {
+                  updateDoc(DocRef, {
+                    itemImg1: this.item.itemImg.urls[0],
+                  });
+                } else if (i == 1) {
+                  updateDoc(DocRef, {
+                    itemImg2: this.item.itemImg.urls[1],
+                  });
+                } else if (i == 2) {
+                  updateDoc(DocRef, {
+                    itemImg3: this.item.itemImg.urls[2],
+                  });
+                } else if (i == 3) {
+                  updateDoc(DocRef, {
+                    itemImg4: this.item.itemImg.urls[3],
+                  });
+                }
+              });
             }
-else if (this.shoeSizez == false) {
-      this.sizes = {
-        1: "Extra Small",
-        2: "Medium",
-        3: "Large",
-        4: "Extra Large",
+          );
+        } else if (this.item.itemImg.name[i] == null) {
+          if (i == 0 && this.item.itemImg.urls[0] != null) {
+            updateDoc(DocRef, {
+              itemImg1: this.item.itemImg.urls[0],
+            });
+            if (this.item.itemImg.urls[0] == false) {
+              deleteObject(previewRef1)
+                .then(() => {
+                  this.item.itemImg.oldUrls[0] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
+            }
+          } else if (i == 1 && this.item.itemImg.urls[1] != null) {
+            updateDoc(DocRef, {
+              itemImg2: this.item.itemImg.urls[1],
+            });
+            if (this.item.itemImg.urls[1] == false) {
+              deleteObject(previewRef2)
+                .then(() => {
+                  this.item.itemImg.oldUrls[1] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
+            }
+          } else if (i == 2 && this.item.itemImg.urls[2] != null) {
+            updateDoc(DocRef, {
+              itemImg3: this.item.itemImg.urls[2],
+            });
+            if (this.item.itemImg.urls[2] == false) {
+              deleteObject(previewRef3)
+                .then(() => {
+                  this.item.itemImg.oldUrls[2] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
+            }
+          } else if (i == 3 && this.item.itemImg.urls[3] != null) {
+            updateDoc(DocRef, {
+              itemImg4: this.item.itemImg.urls[3],
+            });
+            if (this.item.itemImg.urls[3] == false) {
+              deleteObject(previewRef4)
+                .then(() => {
+                  this.item.itemImg.oldUrls[3] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
+            }
+          }
+        }
+
+        if (i == 3) {
+          setTimeout(() => {
+            updateDoc(DocRef, {
+              itemDesc: this.items.itemDesc,
+              itemName: this.items.itemName,
+              itemPrice: this.items.itemPrice,
+              itemSize: this.compiledQuanItems,
+            })
+              .then((b) => {
+                this.$q
+                  .dialog({
+                    style: "background-color:green;",
+                    dark: true,
+                    color: "white",
+                    title: "Sucsess!",
+                    message: "Submitted slide",
+                    persistent: true,
+                  })
+                  .onOk(() => {
+                    location.reload();
+                  });
+                console.log("Submitted slide");
+              })
+
+              .catch((err) => {
+                this.$q.dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Error submitting slide...",
+                  persistent: true,
+                });
+                console.log(err.message);
+              });
+          }, 400);
+        }
       }
-      this.quantitys = {
-        1: "0",
-        2: "0",
-        3: "0",
-        4: "0",
+    },
+    checkboxClicked() {
+      console.log(this.shoeSizez);
+      if (this.shoeSizez == true) {
+        this.quantitys = {
+          1: "0",
+          2: "0",
+          3: "0",
+          4: "0",
+          5: "0",
+          6: "0",
+          7: "0",
+          8: "0",
+          9: "0",
+          10: "0",
+          11: "0",
+          12: "0",
+          13: "0",
+          14: "0",
+          15: "0",
+          16: "0",
+          17: "0",
+          18: "0",
+          19: "0",
+          20: "0",
+        };
+
+        this.sizes = {
+          1: "3.5",
+          2: "4",
+          3: "4.5",
+          4: "5",
+          5: "5.5",
+          6: "6",
+          7: "6.5",
+          8: "7.5",
+          9: "8",
+          10: "8.5",
+          11: "9",
+          12: "9.5",
+          13: "10",
+          14: "10.5",
+          15: "11",
+          16: "11.5",
+          17: "12",
+          18: "12.5",
+          19: "13",
+          20: "13.5",
+        };
+
+        this.shoeSizez == false;
+      } else if (this.shoeSizez == false) {
+        this.sizes = {
+          1: "Extra Small",
+          2: "Medium",
+          3: "Large",
+          4: "Extra Large",
+        };
+        this.quantitys = {
+          1: "0",
+          2: "0",
+          3: "0",
+          4: "0",
+        };
+        this.shoeSizez == true;
       }
-      this.shoeSizez == true
-}
-                
-            
-          },
+    },
+
+    delImage(idNum) {
+      const storage = getStorage();
+      const previewImage = this.item.itemImg[idNum];
+      // console.log(this.item.itemImg[idNum])
+      const previewRef = ref(storage, previewImage);
+
+      this.item.itemImg.oldUrls[idNum] = this.item.itemImg[idNum];
+      this.item.itemImg[idNum] = null;
+      this.item.itemImg.urls[idNum] = false;
+      this.item.itemImg.file[idNum] = null;
+      this.item.itemImg.name[idNum] = null;
+      this.item.itemImg[idNum] = null;
+
+      console.log(this.item);
+      // deleteObject(previewRef).then(() => {
+
+      //     this.$q.dialog({
+      //       style: "background-color:green;",
+      //       dark: true,
+      //       color: "white",
+      //       title: "Sucsess!",
+      //       message: "Deleted preview!",
+      //       persistent: true,
+      //     })
+      // }).catch((eror) => {
+      //             this.$q.dialog({
+      //       style: "background-color:red;",
+      //       dark: true,
+      //       color: "white",
+      //       title: "Error",
+      //       message: "Error deleting preview...",
+      //       persistent: true,
+      //     });
+      //     console.log(eror.message);
+      // })
+    },
   },
 
   mounted() {
@@ -584,7 +857,6 @@ else if (this.shoeSizez == false) {
     window.addEventListener("resize", this.isMobile);
     this.getSize();
   },
-
 
   components: {
     "preview-fav-btn": require("components/Account/Shared/previewFavBtn.vue")

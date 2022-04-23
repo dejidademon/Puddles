@@ -294,9 +294,9 @@ export default {
   },
 
   components: {
-    stats: require("src/components/Admin/Statistics.vue").default,
-    orders: require("src/components/Admin/Orders.vue").default,
-    archived: require("src/components/Admin/Archived.vue").default,
+    "stats": require("src/components/Admin/Statistics.vue").default,
+    "orders": require("src/components/Admin/Orders.vue").default,
+    "archived": require("src/components/Admin/Archived.vue").default,
     "show-add": require("src/components/Admin/Add.vue").default,
   },
 };

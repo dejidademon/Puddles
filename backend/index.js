@@ -78,6 +78,25 @@ app.get('/favorites', (request, response) => {
     
     
     })
+
+    app.get('/previews', (request, response) => {
+      response.set('Access-Control-Allow-Origin', "*")
+      
+      
+          let previews = []
+          
+          
+              db.collection('Preview').orderBy('imageUrl1').get().then(r => {
+                r.docs.map((doc => {
+                  previews.push(doc.data())
+                }));
+      
+                response.send(previews)
+              })
+          
+      
+      
+      })
 /*
 listen/ pushes to localhost
 */
