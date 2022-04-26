@@ -22,10 +22,26 @@
           transition-prev="slide-right"
           control-color="black"
         >
-          <q-carousel-slide v-if="items.itemImg1" :name="1" :img-src="items.itemImg1" />
-          <q-carousel-slide v-if="items.itemImg2" :name="2" :img-src="items.itemImg2" />
-          <q-carousel-slide v-if="items.itemImg3" :name="3" :img-src="items.itemImg3" />
-          <q-carousel-slide v-if="items.itemImg4" :name="4" :img-src="items.itemImg4" />
+          <q-carousel-slide
+            v-if="items.itemImg1"
+            :name="1"
+            :img-src="items.itemImg1"
+          />
+          <q-carousel-slide
+            v-if="items.itemImg2"
+            :name="2"
+            :img-src="items.itemImg2"
+          />
+          <q-carousel-slide
+            v-if="items.itemImg3"
+            :name="3"
+            :img-src="items.itemImg3"
+          />
+          <q-carousel-slide
+            v-if="items.itemImg4"
+            :name="4"
+            :img-src="items.itemImg4"
+          />
         </q-carousel>
       </div>
       <div class="col q-pl-sm">
@@ -34,9 +50,13 @@
           {{ items.itemDesc }}
         </h3>
 
-      <h2 class="q-pt-lg previewPrice text-center regText">Size: {{ items.size }}</h2>
+        <h2 class="q-pt-lg previewPrice text-center regText">
+          Size: {{ items.size }}
+        </h2>
 
-      <h2 class="q-pt-lg previewPrice text-center regText">Quantity: {{ items.quantity }}</h2>
+        <h2 class="q-pt-lg previewPrice text-center regText">
+          Quantity: {{ items.quantity }}
+        </h2>
       </div>
     </q-card-section>
 
@@ -47,7 +67,7 @@
       </div>
 
       <div class="row justify-evenly">
-      <q-btn-dropdown
+        <q-btn-dropdown
           class="col-6 dropDown regText q-mt-sm"
           no-caps
           color="accent"
@@ -55,50 +75,18 @@
         >
           <q-list>
             <q-item
-              :active="sizeLink === postedSizes[0]"
-              @click="sizeLink = postedSizes[0]"
+              v-for="(postedSize, key) in postedSizes"
+              :active="sizeLink === key"
+              :key="key"
+              :id="key"
+              @click="sizeLink = key"
               active-class="sizeSelected"
+              class="regText sizeLetters"
               clickable
               v-close-popup
             >
               <q-item-section>
-                <q-item-label>{{postedSizes[0]}}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              :active="sizeLink === postedSizes[1]"
-              @click="sizeLink = postedSizes[1]"
-              active-class="sizeSelected"
-              clickable
-              v-close-popup
-            >
-              <q-item-section>
-                <q-item-label>{{postedSizes[1]}}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              :active="sizeLink === postedSizes[2]"
-              @click="sizeLink = postedSizes[2]"
-              active-class="sizeSelected"
-              clickable
-              v-close-popup
-            >
-              <q-item-section>
-                <q-item-label>{{postedSizes[2]}}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              :active="sizeLink === postedSizes[3]"
-              @click="sizeLink = postedSizes[3]"
-              active-class="sizeSelected"
-              clickable
-              v-close-popup
-            >
-              <q-item-section clickable v-close-popup>
-                <q-item-label>{{postedSizes[3]}}</q-item-label>
+                <q-item-label class="text-center">{{ postedSize }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -113,14 +101,12 @@
         </p>
       </div>
     </q-card-section>
-    
   </q-card>
 </template>
 
 <script>
 import { ref } from "vue";
 export default {
-
   data() {
     return {
       sizeLink: ref(""),
@@ -140,30 +126,39 @@ export default {
       }
     },
     getSizes() {
-      let sizes = this.items.itemSize.replace(/QUAN|SIZE|[0-9]/g, '')
-      let splitSizes = sizes.split('_')
-      let deleteSize = splitSizes.shift()
+      
+      let sizes = this.items.itemSize.replace(/SIZE/g, "").substring(1);
+      let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
+      let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
+      let splitSizes = splitSizes2.split('_')
 
-      this.postedSizes = splitSizes
-    }
+      this.postedSizes = splitSizes;
+// console.log(this.postedSizes)
+    },
   },
   mounted() {
-      this.isMobile()
-      this.getSizes()
-      window.addEventListener("resize", this.isMobile);
+    this.isMobile();
+    this.getSizes();
+    window.addEventListener("resize", this.isMobile);
   },
 
-    components: { 
-    'preview-fav-btn': require("components/Account/Shared/previewFavBtn.vue").default,
-   },
-
+  components: {
+    "preview-fav-btn": require("components/Account/Shared/previewFavBtn.vue")
+      .default,
+  },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
+.sizeSelected {
+  background-color: rgb(201, 201, 201);
+  color: white;
+}
+.sizeLetters {
+  font-size: 17px;
+}
 /* big */
 @media screen and (min-width: 970px) {
-
   //Preview card
   .dropDown {
     font-size: 16px;
@@ -219,8 +214,7 @@ export default {
   //prevew card
 }
 //smaller screen
-@media screen and (max-width: 970px) { 
-
+@media screen and (max-width: 970px) {
   //Preview card
   .dropDown {
     font-size: 16px;
@@ -278,7 +272,7 @@ export default {
 }
 // tablet
 @media screen and (max-width: 640px) {
-//Preview card
+  //Preview card
   .dropDown {
     font-size: 13px;
     width: 120px !important;
@@ -342,7 +336,7 @@ export default {
 }
 
 @media screen and (max-width: 440px) {
-    .previewName {
+  .previewName {
     font-size: 12px;
     margin: 0;
     margin-left: -15px;
@@ -359,7 +353,7 @@ export default {
     line-height: normal;
     letter-spacing: normal;
   }
-    .previewSlide {
+  .previewSlide {
     height: 200px;
     width: 100%;
   }
@@ -368,26 +362,25 @@ export default {
     border-radius: 5%;
     width: 250px;
   }
-    .descTitle {
+  .descTitle {
     font-size: 15px;
     margin: 0;
     white-space: nowrap;
     line-height: normal;
     letter-spacing: normal;
   }
-    .descText {
+  .descText {
     font-size: 12px;
     margin: 0;
     line-height: normal;
-  }  
+  }
   .previewBtns {
     font-size: 12px;
     width: 105px !important;
   }
-    .dropDown {
+  .dropDown {
     font-size: 12px;
     width: 105px !important;
   }
 }
-
 </style>
