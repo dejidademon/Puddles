@@ -51,50 +51,18 @@
         >
           <q-list>
             <q-item
-              :active="sizeLink === postedSizes[0]"
-              @click="sizeLink = postedSizes[0]"
+              v-for="(postedSize, key) in postedSizes"
+              :active="sizeLink === key"
+              :key="key"
+              :id="key"
+              @click="sizeLink = key"
               active-class="sizeSelected"
+              class="regText sizeLetters"
               clickable
               v-close-popup
             >
               <q-item-section>
-                <q-item-label>{{postedSizes[0]}}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              :active="sizeLink === postedSizes[1]"
-              @click="sizeLink = postedSizes[1]"
-              active-class="sizeSelected"
-              clickable
-              v-close-popup
-            >
-              <q-item-section>
-                <q-item-label>{{postedSizes[1]}}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              :active="sizeLink === postedSizes[2]"
-              @click="sizeLink = postedSizes[2]"
-              active-class="sizeSelected"
-              clickable
-              v-close-popup
-            >
-              <q-item-section>
-                <q-item-label>{{postedSizes[2]}}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              :active="sizeLink === postedSizes[3]"
-              @click="sizeLink = postedSizes[3]"
-              active-class="sizeSelected"
-              clickable
-              v-close-popup
-            >
-              <q-item-section clickable v-close-popup>
-                <q-item-label>{{postedSizes[3]}}</q-item-label>
+                <q-item-label class="text-center">{{ postedSize }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -161,12 +129,16 @@ export default {
         this.notsMobile = false;
       }
     },
-        getSizes() {
-      let sizes = this.items.itemSize.replace(/QUAN|SIZE|[0-9]/g, '')
-      let splitSizes = sizes.split('_')
-      let deleteSize = splitSizes.shift()
-      this.postedSizes = splitSizes
-    }
+    getSizes() {
+      
+      let sizes = this.items.itemSize.replace(/SIZE/g, "").substring(1);
+      let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
+      let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
+      let splitSizes = splitSizes2.split('_')
+
+      this.postedSizes = splitSizes;
+// console.log(this.postedSizes)
+    },
   },
   mounted() {
       this.getSizes()
@@ -182,6 +154,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.sizeSelected {
+  background-color: rgb(201, 201, 201);
+  color: white;
+}
+
 /* big */
 @media screen and (min-width: 970px) {
 

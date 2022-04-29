@@ -3,41 +3,24 @@
     <h2 class="title q-pb-sm text-center">Admin Account</h2>
 
     <h4 class="subtitle puddlesText text-center q-ma-sm">Drops SlideShow</h4>
-    <q-carousel
-      class="q-mt-md carousel"
-      animated
-      :autoplay="carouselAuto"
-      v-model="slide"
-      :arrows="this.notMobile"
-      swipeable
-      infinite
-      draggable="false"
-      control-color="white"
-      transition-next="slide-left"
-      transition-prev="slide-right"
-    >
-      <q-carousel-slide
-        :name="1"
-        img-src="https://cdn.quasar.dev/img/mountains.jpg"
+    <div>
+      <admin-preview
+        :previewImg="previewImgs"
+        v-if="loadingPreview == false"
       />
-      <q-carousel-slide
-        :name="2"
-        img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-      />
-      <q-carousel-slide
-        :name="3"
-        img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-      />
-      <q-carousel-slide
-        :name="4"
-        img-src="https://cdn.quasar.dev/img/quasar.jpg"
-      />
-    </q-carousel>
+            <q-spinner-gears
+          v-if="loadingPreview == true"
+          class="q-pa-md loading self-center"
+          color="primary"
+          size="200px"
+        />
+    </div>
 
     <h4 class="subtitle puddlesText text-center q-ma-sm">Item Statistics</h4>
     <div class="statContainer overflow-auto hide-scrollbar">
       <q-list class="column">
         <stats
+        v-if="loadingStats == false"
           v-for="(stats, key) in postedStats"
           :key="key"
           :id="key"
@@ -107,30 +90,26 @@
 
 <script>
 import axios from "axios";
-import { ref } from "vue";
+
 export default {
   data() {
     return {
-      carouselAuto: ref(false),
-      slide: ref(1),
       loadingStats: null,
       loadingOrders: null,
+      loadingPreview: null,
       postedOrders: [],
       postedStats: [],
       orderStats: [],
       postedArch: [],
+      previewImgs:[],
       showAdd: false,
-      notMobile: '',
+
     };
   },
 
   methods: {
-    isMobile() {
-      let screenSize = window.innerWidth;
-      if (screenSize <= 640) {
-        this.notMobile = false;
-      }
-    },
+
+
     getStats() {
       this.postedOrders = [];
       this.postedStats = [];
@@ -166,6 +145,28 @@ export default {
           });
         });
       this.loadingStats = false;
+    },
+
+    getPreviewImgs() {
+      this.previewImgs = [];
+      this.loadingPreview = true;
+      axios
+        .get(`${process.env.API}/previews`)
+        .then((r) => { 
+        var previewImgs = JSON.parse(JSON.stringify(r.data));
+        this.previewImgs = previewImgs[0]
+        console.log(this.previewImgs)
+        })        .catch((err) => {
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Could not get any previews",
+            persistent: true,
+          });
+        });
+      this.loadingPreview = false;
     },
 
     getOrders() {
@@ -284,11 +285,11 @@ export default {
   },
 
   mounted() {
-    this.isMobile();
     setTimeout(() => {
       if (this.postedStats == false) {
         this.getStats();
         this.getOrders();
+        this.getPreviewImgs();
       }
     }, 250);
   },
@@ -298,6 +299,7 @@ export default {
     "orders": require("src/components/Admin/Orders.vue").default,
     "archived": require("src/components/Admin/Archived.vue").default,
     "show-add": require("src/components/Admin/Add.vue").default,
+    "admin-preview": require("src/components/Admin/Shared/adminPreviews.vue").default
   },
 };
 </script>
