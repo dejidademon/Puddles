@@ -14,10 +14,14 @@
   >
     <q-carousel-slide class="q-pa-none" :name="1">
       <q-img
+      v-if="previewImg.imageUrl1 != false"
         :src="previewImg.imageUrl1"
         spinner-color="primary"
         class="full-height"
-      />
+      />   
+                <div v-if="previewImg.imageUrl1 == false" class="puddlesText caroErr absolute-center text-center">
+            This image could not be loaded
+          </div>   
       <div class="absolute-bottom row justify-between actionBar">
         <q-btn
           @click="delImage(0)"
@@ -45,10 +49,15 @@
 
     <q-carousel-slide class="q-pa-none" :name="2">
       <q-img
+      v-if="previewImg.imageUrl2 != false"
+
         :src="previewImg.imageUrl2"
         spinner-color="primary"
         class="full-height"
       />
+                <div v-if="previewImg.imageUrl2 == false" class="puddlesText caroErr absolute-center text-center">
+            This image could not be loaded
+          </div>   
       <div class="absolute-bottom row justify-between actionBar">
         <q-btn
           @click="delImage(1)"
@@ -76,10 +85,15 @@
 
     <q-carousel-slide class="q-pa-none" :name="3">
       <q-img
+      v-if="previewImg.imageUrl3 != false"
+
         :src="previewImg.imageUrl3"
         spinner-color="primary"
         class="full-height"
       />
+                <div v-if="previewImg.imageUrl3 == false" class="puddlesText caroErr absolute-center text-center">
+            This image could not be loaded
+          </div>   
       <div class="absolute-bottom row justify-between actionBar">
         <q-btn
           @click="delImage(2)"
@@ -107,10 +121,14 @@
 
     <q-carousel-slide class="q-pa-none" :name="4">
       <q-img
+      v-if="previewImg.imageUrl4 != false"
         :src="previewImg.imageUrl4"
         spinner-color="primary"
         class="full-height"
       />
+                <div v-if="previewImg.imageUrl4 == false" class="puddlesText caroErr absolute-center text-center">
+            This image could not be loaded
+          </div>   
       <div class="absolute-bottom row justify-between actionBar">
         <q-btn
           @click="delImage(3)"
@@ -171,24 +189,44 @@ export default {
       inputFile.click();
     },
     onFilePicked(event) {
+      this.$q.dialog({
+          style: "background-color:#00609D;",
+          dark: true,
+          color: "white",
+          title: "Error",
+          message: "Are you sure you want to change this image?",
+          persistent: true,
+          cancel: true,
+        })
+        .onOk(() => {
+      const storage = getStorage();
+      const DocRef = doc(db, "Preview", "pJfWTsH5JsoWi0YB3vwt");
       const targetId = event.target.id;
       const files = event.target.files;
-      let filename = files[0].name;
+      let filename = files[0].name; 
       if (filename.lastIndexOf(".") <= 0) {
         return alert("Add a valid file Please");
       }
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         if (targetId == "img1") {
-          if (
-            this.previewImg.imageUrl1 != false &&
-            this.previewImg.imageUrl1.substring(0, 4) == "http"
-          ) {
-            this.previewImg.itemImg.oldUrls[0] = this.item.itemImg[0].slice();
-          }
-          this.previewImg.itemImg[0] = fileReader.result;
-          this.previewImg.itemImg.file[0] = files[0];
-          this.previewImg.itemImg.name[0] = filename;
+
+
+          
+          updateDoc(DocRef, {
+                imageUrl1: previewImage,
+              }).then(() => {
+                this.$q.dialog({
+                  style: "background-color:green;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Preview slide deleted",
+                  persistent: true,
+                }).onOk(() => {
+                  location.reload();
+              })
+              })
         } else if (targetId == "img2") {
         } else if (targetId == "img3") {
         } else if (targetId == "img4") {
@@ -196,6 +234,7 @@ export default {
       });
 
       fileReader.readAsDataURL(files[0]);
+        })
     },
 
     delImage(idNum) {
@@ -277,5 +316,8 @@ export default {
 .delBtn {
   font-size: 20px;
   width: 225px;
+}
+.caroErr {
+  font-size: 30px;
 }
 </style>
