@@ -5,7 +5,7 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli/quasar-conf-js
-let API_LOCAL = "https://puddles-backend.herokuapp.com"
+let API_LOCAL = "https://puddles-backend.herokuapp.com" // I switched the production version to local
 let API_PRODUCTION = "http://localhost:3000"
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')

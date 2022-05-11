@@ -427,8 +427,6 @@ export default {
       }
     },
     onFilePicked(event) {
-      const DocRef = doc(db, "Slides", this.items.id);
-      const storage = getStorage();
       const targetId = event.target.id;
       const files = event.target.files;
       let filename = files[0].name;

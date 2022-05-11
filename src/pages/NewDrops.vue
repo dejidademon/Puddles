@@ -2,36 +2,9 @@
   <q-page class="wholePg q-ma-lg">
     <h1 class="title q-pb-lg text-center">New Arrivals</h1>
 
-    <q-carousel
-      class="q-mt-md carousel"
-      animated
-      :autoplay="carouselAuto"
-      v-model="slide"
-      :arrows="this.notMobile"
-      swipeable
-      infinite
-      draggable="false"
-      control-color="white"
-      transition-next="slide-left"
-      transition-prev="slide-right"
-    >
-      <q-carousel-slide
-        :name="1"
-        img-src="https://cdn.quasar.dev/img/mountains.jpg"
-      />
-      <q-carousel-slide
-        :name="2"
-        img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-      />
-      <q-carousel-slide
-        :name="3"
-        img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-      />
-      <q-carousel-slide
-        :name="4"
-        img-src="https://cdn.quasar.dev/img/quasar.jpg"
-      />
-    </q-carousel>
+    <preview-items 
+        :previewImg="previewImgs"
+        v-if="loadingPreview == false"/>
 
     <template v-if="!loadingItems">
       <div class="row">
@@ -65,20 +38,42 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import axios from "axios";
 export default {
   data() {
     return {
-      carouselAuto: ref(false),
-      slide: ref(1),
       items: [],
       loadingItems: false,
       notMobile: true,
       noItems: false,
-
+      previewImgs:[],
+      loadingPreview: null,
     };
   },
   methods: {
+    
+    getPreviewImgs() {
+      this.previewImgs = [];
+      this.loadingPreview = true;
+      axios
+        .get(`${process.env.API}/previews`)
+        .then((r) => { 
+        var previewImgs = JSON.parse(JSON.stringify(r.data));
+        this.previewImgs = previewImgs[0]
+        console.log(this.previewImgs)
+        })        .catch((err) => {
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Could not get any previews",
+            persistent: true,
+          });
+        });
+      this.loadingPreview = false;
+    },
+
     getItems() {
       const axios = require("axios");
       const { DateTime } = require("luxon");
@@ -127,9 +122,12 @@ export default {
   created() {
     this.getItems();
     this.isMobile();
+    this.getPreviewImgs();
   },
   components: {
     "shop-items": require("components/Shop/shopItems.vue").default,
+    "preview-items": require("components/Shop/dropPreviews.vue").default,
+
   },
 };
 </script>

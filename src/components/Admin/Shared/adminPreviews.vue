@@ -188,6 +188,8 @@ export default {
       let inputFile = this.$refs.inputFile;
       inputFile.click();
     },
+
+
     onFilePicked(event) {
       this.$q.dialog({
           style: "background-color:#00609D;",
@@ -204,32 +206,473 @@ export default {
       const targetId = event.target.id;
       const files = event.target.files;
       let filename = files[0].name; 
+      let storageRef = ref(
+        storage,
+            "previewImages/" + filename
+          );
+      let uploadTask = uploadBytesResumable(
+        storageRef,
+            files[0]
+          );
+          
       if (filename.lastIndexOf(".") <= 0) {
         return alert("Add a valid file Please");
       }
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
+
+
         if (targetId == "img1") {
-
-
-          
-          updateDoc(DocRef, {
-                imageUrl1: previewImage,
-              }).then(() => {
-                this.$q.dialog({
-                  style: "background-color:green;",
+          if ( this.previewImg.imageUrl1 != false) {
+            var previewRef = ref(storage, this.previewImg.imageUrl1);
+            deleteObject(previewRef).then(() => {
+                      uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
                   dark: true,
                   color: "white",
                   title: "Error",
-                  message: "Preview slide deleted",
+                  message: "Couldn't post image",
                   persistent: true,
-                }).onOk(() => {
+                })
+                .onOk(() => {
                   location.reload();
-              })
-              })
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl1 = url
+                updateDoc(DocRef, {
+                      imageUrl1: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      })
+                    })
+              });
+          }
+        );
+          }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
+          }
+          else {
+                                  uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl1 = url
+                updateDoc(DocRef, {
+                      imageUrl1: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      }).onOk(() => {
+
+                    })
+                    })
+              });
+          }
+        );
+          }
+
+
+          
+   
         } else if (targetId == "img2") {
+          
+          if ( this.previewImg.imageUrl2 != false) {
+            var previewRef = ref(storage, this.previewImg.imageUrl2);
+            deleteObject(previewRef).then(() => {
+                      uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl2 = url
+                updateDoc(DocRef, {
+                      imageUrl2: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      })
+                    })
+              });
+          }
+        );
+          }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
+          }
+          else {
+                                  uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl2 = url
+                updateDoc(DocRef, {
+                      imageUrl2: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      }).onOk(() => {
+
+                    })
+                    })
+              });
+          }
+        );
+          }
+
+
         } else if (targetId == "img3") {
+           if ( this.previewImg.imageUrl3 != false) {
+            var previewRef = ref(storage, this.previewImg.imageUrl3);
+            deleteObject(previewRef).then(() => {
+                      uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl3 = url
+                updateDoc(DocRef, {
+                      imageUrl3: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      })
+                    })
+              });
+          }
+        );
+          }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
+          }
+          else {
+                                  uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl3 = url
+                updateDoc(DocRef, {
+                      imageUrl3: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      }).onOk(() => {
+
+                    })
+                    })
+              });
+          }
+        );
+          }
+
+
         } else if (targetId == "img4") {
+           if ( this.previewImg.imageUrl4 != false) {
+            var previewRef = ref(storage, this.previewImg.imageUrl4);
+            deleteObject(previewRef).then(() => {
+                      uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl4 = url
+                updateDoc(DocRef, {
+                      imageUrl4: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      })
+                    })
+              });
+          }
+        );
+          }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
+          }
+          else {
+                                  uploadBytes(storageRef, files[0]);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  break;
+                case "running":
+                  break;
+              }
+            },
+            (err) => {
+              this.$q
+                .dialog({
+                  style: "background-color:red;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Couldn't post image",
+                  persistent: true,
+                })
+                .onOk(() => {
+                  location.reload();
+                });
+            },
+            () => {
+
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                this.previewImg.imageUrl4 = url
+                updateDoc(DocRef, {
+                      imageUrl4: url,
+                    }).then(() => {
+                      this.$q.dialog({
+                        style: "background-color:green;",
+                        dark: true,
+                        color: "white",
+                        title: "Error",
+                        message: "Preview slide deleted",
+                        persistent: true,
+                      }).onOk(() => {
+
+                    })
+                    })
+              });
+          }
+        );
+          }
+
+
         }
       });
 
@@ -253,12 +696,11 @@ export default {
         })
         .onOk(() => {
           if (idNum == 0) {
-            var previewImage = this.previewImg.imageUrl1;
-            var previewRef = ref(storage, previewImage);
+            var previewRef = ref(storage, this.previewImg.imageUrl1);
             deleteObject(previewRef).then(() => {
-              previewImage = false;
+              this.previewImg.imageUrl1 = false;
               updateDoc(DocRef, {
-                imageUrl1: previewImage,
+                imageUrl1: this.previewImg.imageUrl1,
               }).then(() => {
                 this.$q.dialog({
                   style: "background-color:green;",
@@ -267,9 +709,7 @@ export default {
                   title: "Error",
                   message: "Preview slide deleted",
                   persistent: true,
-                }).onOk(() => {
-                  location.reload();
-              })
+                })
             }).catch((error) => {
                 console.log("couldn't update firebase", error.message);
               });
@@ -279,13 +719,72 @@ export default {
           }
 
           if (idNum == 1) {
-            console.log(previewImage1)
+            var previewRef = ref(storage, this.previewImg.imageUrl2);
+            deleteObject(previewRef).then(() => {
+              this.previewImg.imageUrl2 = false;
+              updateDoc(DocRef, {
+                imageUrl2: this.previewImg.imageUrl2,
+              }).then(() => {
+                this.$q.dialog({
+                  style: "background-color:green;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Preview slide deleted",
+                  persistent: true,
+                })
+            }).catch((error) => {
+                console.log("couldn't update firebase", error.message);
+              });
+            }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
           }
 
           if (idNum == 2) {
+                        var previewRef = ref(storage, this.previewImg.imageUrl3);
+            deleteObject(previewRef).then(() => {
+              this.previewImg.imageUrl3 = false;
+              updateDoc(DocRef, {
+                imageUrl3: this.previewImg.imageUrl3,
+              }).then(() => {
+                this.$q.dialog({
+                  style: "background-color:green;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Preview slide deleted",
+                  persistent: true,
+                })
+            }).catch((error) => {
+                console.log("couldn't update firebase", error.message);
+              });
+            }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
           }
 
           if (idNum == 3) {
+                        var previewRef = ref(storage, this.previewImg.imageUrl4);
+            deleteObject(previewRef).then(() => {
+              this.previewImg.imageUrl4 = false;
+              updateDoc(DocRef, {
+                imageUrl4: this.previewImg.imageUrl4,
+              }).then(() => {
+                this.$q.dialog({
+                  style: "background-color:green;",
+                  dark: true,
+                  color: "white",
+                  title: "Error",
+                  message: "Preview slide deleted",
+                  persistent: true,
+                })
+            }).catch((error) => {
+                console.log("couldn't update firebase", error.message);
+              });
+            }).catch((error) => {
+                console.log('couldnt delete storage', error.message);
+          })
           }
 
         });
