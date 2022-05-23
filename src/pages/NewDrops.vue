@@ -60,7 +60,7 @@ export default {
         .then((r) => { 
         var previewImgs = JSON.parse(JSON.stringify(r.data));
         this.previewImgs = previewImgs[0]
-        console.log(this.previewImgs)
+        // console.log(this.previewImgs)
         })        .catch((err) => {
           this.$q.dialog({
             style: "background-color:red;",

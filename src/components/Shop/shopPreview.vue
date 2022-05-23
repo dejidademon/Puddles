@@ -68,7 +68,13 @@
           </q-list>
         </q-btn-dropdown>
 
-        <q-btn class="col-6 previewBtns regText q-mt-sm" no-caps color="accent">
+        <q-btn class="col-6 previewBtns regText q-mt-sm snipcart-add-item" no-caps color="accent"
+        :data-item-id="items.id"
+  :data-item-price="items.itemPrice"
+  data-item-url="/apparel"
+  :data-item-description="items.itemDesc"
+  :data-item-image="items.itemImg1"
+  :data-item-name="items.itemName">
           Add To Cart
         </q-btn>
       </div>
