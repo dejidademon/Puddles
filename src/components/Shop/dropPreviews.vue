@@ -112,4 +112,7 @@ export default {
   padding-bottom: 3px;
   color: white;
 }
+.caroErr {
+  font-size: 30px;
+}
 </style>
