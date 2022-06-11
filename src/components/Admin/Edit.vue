@@ -207,7 +207,7 @@
             standout
             bg-color="grey-5"
             input-class="text-white"
-            v-model="items.itemPrice"
+            v-model="items.price"
             class="text-white self-center q-mt-sm priceInput regText"
           >
           </q-input>
@@ -329,83 +329,73 @@ export default {
       const DocRef = doc(db, "Slides", this.items.id);
       const storage = getStorage();
 
-      console.log(this.item.itemImg[1])
-      if (this.item.itemImg[0] != false) {
-        var previewRef1 = ref(storage, this.item.itemImg[0]);
-      }
-      if (this.item.itemImg[1] != false) {
-        var previewRef2 = ref(storage, this.item.itemImg[1]);
-      }
-      if (this.item.itemImg[2] != false) {
-        var previewRef3 = ref(storage, this.item.itemImg[2]);
-      }
-      if (this.item.itemImg[3] != false) {
-        var previewRef4 = ref(storage, this.item.itemImg[3]);
-      }
-
       deleteDoc(DocRef)
         .then(() => {
-          if (this.item.itemImg[0] != false) {
-          deleteObject(previewRef1)
-            .then(() => {
-              this.item.itemImg[0] = null;
-              this.item.itemImg.urls[0] = null;
-              this.item.itemImg.file[0] = null;
-              this.item.itemImg.name[0] = null;
-            })
-            .catch((eror) => {
-              console.log(eror.message);
-            });
+          if (this.item.itemImg[0] != false && this.item.itemImg[0] != null) {
+            var previewRef1 = ref(storage, this.item.itemImg[0]);
+            deleteObject(previewRef1)
+              .then(() => {
+                this.item.itemImg[0] = null;
+                this.item.itemImg.urls[0] = null;
+                this.item.itemImg.file[0] = null;
+                this.item.itemImg.name[0] = null;
+              })
+              .catch((eror) => {
+                console.log(eror.message);
+              });
           }
-                if (this.item.itemImg[1] != false) {
-          deleteObject(previewRef2)
-            .then(() => {
-              this.item.itemImg[1] = null;
-              this.item.itemImg.urls[1] = null;
-              this.item.itemImg.file[1] = null;
-              this.item.itemImg.name[1] = null;
+          if (this.item.itemImg[1] != false && this.item.itemImg[1] != null) {
+            var previewRef2 = ref(storage, this.item.itemImg[1]);
+            deleteObject(previewRef2)
+              .then(() => {
+                this.item.itemImg[1] = null;
+                this.item.itemImg.urls[1] = null;
+                this.item.itemImg.file[1] = null;
+                this.item.itemImg.name[1] = null;
+              })
+              .catch((eror) => {
+                console.log(eror.message);
+              });
+          }
+          if (this.item.itemImg[2] != false && this.item.itemImg[2] != null) {
+            var previewRef3 = ref(storage, this.item.itemImg[2]);
+            deleteObject(previewRef3)
+              .then(() => {
+                this.item.itemImg[2] = null;
+                this.item.itemImg.urls[2] = null;
+                this.item.itemImg.file[2] = null;
+                this.item.itemImg.name[2] = null;
+              })
+              .catch((eror) => {
+                console.log(eror.message);
+              });
+          }
+          if (this.item.itemImg[3] != false && this.item.itemImg[3] != null) {
+            var previewRef4 = ref(storage, this.item.itemImg[3]);
+            deleteObject(previewRef4)
+              .then(() => {
+                this.item.itemImg[3] = null;
+                this.item.itemImg.urls[3] = null;
+                this.item.itemImg.file[3] = null;
+                this.item.itemImg.name[3] = null;
+              })
+              .catch((eror) => {
+                console.log(eror.message);
+              });
+          }
+          console.log("Document successfully deleted!");
+          this.$q
+            .dialog({
+              style: "background-color:green;",
+              dark: true,
+              color: "white",
+              title: "Success!",
+              message: "Slide has been deleted.",
+              persistent: true,
             })
-            .catch((eror) => {
-              console.log(eror.message);
+            .onOk(() => {
+              location.reload();
             });
-                }
-                      if (this.item.itemImg[2] != false) {
-          deleteObject(previewRef3)
-            .then(() => {
-              this.item.itemImg[2] = null;
-              this.item.itemImg.urls[2] = null;
-              this.item.itemImg.file[2] = null;
-              this.item.itemImg.name[2] = null;
-            })
-            .catch((eror) => {
-              console.log(eror.message);
-            });
-                      }
-                            if (this.item.itemImg[3] != false) {
-          deleteObject(previewRef4)
-            .then(() => {
-              this.item.itemImg[3] = null;
-              this.item.itemImg.urls[3] = null;
-              this.item.itemImg.file[3] = null;
-              this.item.itemImg.name[3] = null;
-            })
-            .catch((eror) => {
-              console.log(eror.message);
-            });
-              }
-              console.log("Document successfully deleted!");
-              this.$q
-                .dialog({
-                  style: "background-color:green;",
-                  dark: true,
-                  color: "white",
-                  title: "Success!",
-                  message: "Slide has been deleted.",
-                  persistent: true,
-                })
-                .onOk(() => {
-                  location.reload();
-                });
         })
         .catch((eror) => {
           this.$q.dialog({
@@ -436,45 +426,69 @@ export default {
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         if (targetId == "img1") {
-          if (
-            this.item.itemImg[0] != false &&
-            this.item.itemImg[0].substring(0, 4) == "http"
-          ) {
-            this.item.itemImg.oldUrls[0] = this.item.itemImg[0].slice();
+          try {
+            if (
+              this.item.itemImg[0] != false &&
+              this.item.itemImg[0].substring(0, 4) == "http"
+            ) {
+              this.item.itemImg.oldUrls[0] = this.item.itemImg[0].slice();
+              this.item.itemImg[0] = fileReader.result;
+              this.item.itemImg.file[0] = files[0];
+              this.item.itemImg.name[0] = filename;
+            }
+          } catch (err) {
+            this.item.itemImg[0] = fileReader.result;
+            this.item.itemImg.file[0] = files[0];
+            this.item.itemImg.name[0] = filename;
           }
-          this.item.itemImg[0] = fileReader.result;
-          this.item.itemImg.file[0] = files[0];
-          this.item.itemImg.name[0] = filename;
         } else if (targetId == "img2") {
-          if (
-            this.item.itemImg[1] != false &&
-            this.item.itemImg[1].substring(0, 4) == "http"
-          ) {
-            this.item.itemImg.oldUrls[1] = this.item.itemImg[1].slice();
+          try {
+            if (
+              this.item.itemImg[1] != false &&
+              this.item.itemImg[1].substring(0, 4) == "http"
+            ) {
+              this.item.itemImg.oldUrls[1] = this.item.itemImg[0].slice();
+              this.item.itemImg[1] = fileReader.result;
+              this.item.itemImg.file[1] = files[0];
+              this.item.itemImg.name[1] = filename;
+            }
+          } catch (err) {
+            this.item.itemImg[1] = fileReader.result;
+            this.item.itemImg.file[1] = files[0];
+            this.item.itemImg.name[1] = filename;
           }
-          this.item.itemImg[1] = fileReader.result;
-          this.item.itemImg.file[1] = files[0];
-          this.item.itemImg.name[1] = filename;
         } else if (targetId == "img3") {
-          if (
-            this.item.itemImg[2] != false &&
-            this.item.itemImg[2].substring(0, 4) == "http"
-          ) {
-            this.item.itemImg.oldUrls[2] = this.item.itemImg[2].slice();
+          try {
+            if (
+              this.item.itemImg[2] != false &&
+              this.item.itemImg[2].substring(0, 4) == "http"
+            ) {
+              this.item.itemImg.oldUrls[2] = this.item.itemImg[2].slice();
+              this.item.itemImg[2] = fileReader.result;
+              this.item.itemImg.file[2] = files[0];
+              this.item.itemImg.name[2] = filename;
+            }
+          } catch (err) {
+            this.item.itemImg[2] = fileReader.result;
+            this.item.itemImg.file[2] = files[0];
+            this.item.itemImg.name[2] = filename;
           }
-          this.item.itemImg[2] = fileReader.result;
-          this.item.itemImg.file[2] = files[0];
-          this.item.itemImg.name[2] = filename;
         } else if (targetId == "img4") {
-          if (
-            this.item.itemImg[3] != false &&
-            this.item.itemImg[3].substring(0, 4) == "http"
-          ) {
-            this.item.itemImg.oldUrls[3] = this.item.itemImg[3].slice();
+          try {
+            if (
+              this.item.itemImg[3] != false &&
+              this.item.itemImg[3].substring(0, 4) == "http"
+            ) {
+              this.item.itemImg.oldUrls[3] = this.item.itemImg[0].slice();
+              this.item.itemImg[3] = fileReader.result;
+              this.item.itemImg.file[3] = files[0];
+              this.item.itemImg.name[3] = filename;
+            }
+          } catch (err) {
+            this.item.itemImg[3] = fileReader.result;
+            this.item.itemImg.file[3] = files[0];
+            this.item.itemImg.name[3] = filename;
           }
-          this.item.itemImg[3] = fileReader.result;
-          this.item.itemImg.file[3] = files[0];
-          this.item.itemImg.name[3] = filename;
         }
       });
 
@@ -551,38 +565,53 @@ export default {
 
       for (let i = 0; i < 4; i++) {
         if (this.item.itemImg.name[i] != null) {
-          if (this.item.itemImg.urls[0] == false && i == 0 ) {
-            deleteObject(previewRef1)
+
+          if (i == 0) {
+            if(this.item.itemImg.urls[0] == false || this.item.itemImg.oldUrls[0] != null) {
+           deleteObject(previewRef1)
               .then(() => {
                 this.item.itemImg.oldUrls[0] = null;
               })
               .catch((error) => {
                 console.log(error.message);
               });
-          } else if (this.item.itemImg.urls[1] == false && i == 1) {
-            deleteObject(previewRef2)
+            }
+          } 
+        
+          else if (i == 1) {
+            if(this.item.itemImg.urls[1] == false || this.item.itemImg.oldUrls[1] != null) {
+           deleteObject(previewRef2)
               .then(() => {
                 this.item.itemImg.oldUrls[1] = null;
               })
               .catch((error) => {
                 console.log(error.message);
               });
-          } else if (this.item.itemImg.urls[2] == false && i == 2) {
-            deleteObject(previewRef3)
+            }
+          } 
+
+          else if (i == 2) {
+            if(this.item.itemImg.urls[2] == false || this.item.itemImg.oldUrls[2] != null) {
+           deleteObject(previewRef3)
               .then(() => {
                 this.item.itemImg.oldUrls[2] = null;
               })
               .catch((error) => {
                 console.log(error.message);
               });
-          } else if (this.item.itemImg.urls[3] == false && i == 3) {
-            deleteObject(previewRef4)
+          } 
+          }
+          
+          else if (i == 3) {
+            if(this.item.itemImg.urls[3] == false || this.item.itemImg.oldUrls[3] != null) {
+           deleteObject(previewRef4)
               .then(() => {
                 this.item.itemImg.oldUrls[3] = null;
               })
               .catch((error) => {
                 console.log(error.message);
               });
+          }
           }
 
           const storageRef = ref(
@@ -711,7 +740,7 @@ export default {
             updateDoc(DocRef, {
               itemDesc: this.items.itemDesc,
               itemName: this.items.itemName,
-              itemPrice: this.items.itemPrice,
+              price: this.items.price,
               itemSize: this.compiledQuanItems,
             })
               .then((b) => {

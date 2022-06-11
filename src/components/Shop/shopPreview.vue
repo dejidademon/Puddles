@@ -39,7 +39,7 @@
     <q-card-section class="q-pt-none q-mt-sm q-mb-none">
       <div class="row justify-evenly text-center">
         <h2 class="col-6 previewName puddlesText">{{ items.itemName }}</h2>
-        <h2 class="col-6 previewPrice regText">${{ items.itemPrice }}</h2>
+        <h2 class="col-6 previewPrice regText">${{ items.price }}</h2>
       </div>
 
       <div class="row justify-evenly">
@@ -70,11 +70,11 @@
 
         <q-btn class="col-6 previewBtns regText q-mt-sm snipcart-add-item" no-caps color="accent"
         :data-item-id="items.id"
-  :data-item-price="items.itemPrice"
-  :data-item-url="items.url"
-  :data-item-description="items.itemDesc"
-  :data-item-image="items.itemImg1"
-  :data-item-name="items.itemName">
+        :data-item-price="items.price"
+        :data-item-url="items.url"
+        :data-item-description="items.itemDesc"
+        :data-item-image="items.itemImg1"
+        :data-item-name="items.itemName">
           Add To Cart
         </q-btn>
       </div>

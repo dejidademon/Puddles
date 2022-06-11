@@ -18,7 +18,7 @@
             {{ item.itemName }}
           </h5>
           <h5 class="q-mx-sm q-mb-none q-mt-sm name price">
-            ${{ item.itemPrice }}
+            ${{ item.price }}
           </h5>
         </div>
         <h6 class="q-mx-sm q-mb-sm q-mt-sm desc">{{ item.itemDesc }}</h6>

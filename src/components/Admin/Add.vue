@@ -289,7 +289,7 @@
             standout
             bg-color="grey-5"
             input-class="text-white"
-            v-model="items.itemPrice"
+            v-model="items.price"
             class="text-white self-center q-mt-sm priceInput regText"
           >
           </q-input>
@@ -386,7 +386,7 @@ export default {
       items: {
         itemDesc: "",
         itemName: "",
-        itemPrice: "",
+        price: "",
         itemSize: "",
         date: "",
         itemImgs: {
@@ -562,9 +562,10 @@ export default {
         itemSlide: this.items.itemSlide,
         itemDesc: this.items.itemDesc,
         itemName: this.items.itemName,
-        itemPrice: this.items.itemPrice,
+        price: this.items.price,
         itemSize: this.compiledQuanItems,
         date: this.items.date,
+        url: 'https://puddles-backend.herokuapp.com/slides',
         favorited: 0,
         previewed: 0,
         purchased: 0,

@@ -23,7 +23,7 @@
       </h4>
       <div class="q-pt-sm q-pb-none priceView row items-end justify-between">
         <h4 class="q-ma-none q-pa-none" id="itemPrice">
-          ${{ items.itemPrice }}
+          ${{ items.price }}
         </h4>
         <q-btn
           class="q-mb-sm q-mx-none previewBtn"

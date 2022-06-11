@@ -25,7 +25,7 @@
         <h5 class="text-center q-ma-none name"><slot></slot></h5>
         <div class="row q-pt-sm">
           <h5 class="q-mx-md q-mb-none q-mt-sm name price">
-            ${{ item.itemPrice }}
+            ${{ item.price }}
           </h5>
           <fav-btn :item="this.item"/>
         </div>

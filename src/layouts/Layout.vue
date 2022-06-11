@@ -43,6 +43,20 @@
             </h3>
           </q-btn>
         </q-item>
+
+                <q-item
+          v-if="hideMenu == false"
+          active-class="menu-link"
+          manual-focus
+          class="routes"
+        >
+          <q-btn rounded class="btnSize" color="primary">
+            <h3 class="snipcart-checkout btnTxt text-no-wrap text-white q-ma-none text-center">
+              Cart
+              <span class="snipcart-items-count"></span>
+            </h3>
+          </q-btn>
+        </q-item>
       </div>
     </div>
 
@@ -113,10 +127,6 @@ export default {
         {
           label: "Account",
           to: "/profile",
-        },
-        {
-          label: "Cart",
-          to: "/cart",
         },
       ],
       mobileSearch: this.$q.platform.is.desktop,

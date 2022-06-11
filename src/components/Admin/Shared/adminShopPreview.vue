@@ -63,7 +63,7 @@
     <q-card-section class="q-pt-none q-mt-sm q-mb-none">
       <div class="row justify-evenly text-center">
         <h2 class="col-6 previewName puddlesText">{{ items.itemName }}</h2>
-        <h2 class="col-6 previewPrice regText">${{ items.itemPrice }}</h2>
+        <h2 class="col-6 previewPrice regText">${{ items.price }}</h2>
       </div>
 
       <div class="row justify-evenly">
