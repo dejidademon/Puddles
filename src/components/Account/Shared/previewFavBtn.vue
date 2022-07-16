@@ -88,6 +88,7 @@ export default {
     },
 
     watchStatus() {
+      //THIS IS THE BUG THAT CAUSED YOU TO SEARCH UP CORS ERRORS!!!!!!!!!!!!!!!!!!!!!!!!!!
     const DocRef = doc(db, "Favorited", this.userStatus.uid);
     const unsub = onSnapshot(DocRef, (doc) => {
         // console.log("Current data:", doc.data().favs)
