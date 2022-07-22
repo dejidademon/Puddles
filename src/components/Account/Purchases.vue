@@ -1,9 +1,17 @@
 <template>
   <q-item class="wholeOrder">
     <q-item-section class="orderImgs" avatar>
-      <q-avatar rounded class="imags">
-        <img :src="this.items[0].itemImg1" />
+      <q-avatar rounded class="imags" v-if="this.items[0].itemImg1 != null">
+        <img 
+        :src="this.items[0].itemImg1" />
       </q-avatar>
+
+            <div
+        v-if="this.items[0].itemImg1 == null"
+        class="puddlesText caroErr absolute-center text-center"
+      >
+        You have no Pervious Purchases
+      </div>
     </q-item-section>
 
     <q-item-section class="regText text-white fullBox">

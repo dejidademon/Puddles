@@ -1,5 +1,4 @@
 <template>
-
   <q-layout
     class="overflow-hidden"
     style="background-color: #6f7b87"
@@ -13,8 +12,6 @@
       <h3 class="bigTxt absolute-center text-center highlighted">
         <a href="/">Puddles</a>
       </h3>
-
-
     </header>
 
     <div class="all q-mt-sm">
@@ -44,14 +41,16 @@
           </q-btn>
         </q-item>
 
-                <q-item
+        <q-item
           v-if="hideMenu == false"
           active-class="menu-link"
           manual-focus
           class="routes"
         >
           <q-btn rounded class="btnSize" color="primary">
-            <h3 class="snipcart-checkout btnTxt text-no-wrap text-white q-ma-none text-center">
+            <h3
+              class="snipcart-checkout btnTxt text-no-wrap text-white q-ma-none text-center"
+            >
               Cart
               <span class="snipcart-items-count"></span>
             </h3>
@@ -64,39 +63,42 @@
       <router-view />
     </q-page-container>
 
-
-      <q-fab
+    <q-fab
       v-if="userStatus"
-        v-model="tab"
-        :label="'Hey, ' + this.userStatus.displayName"
-        label-position="left"
-        color="accent"
-        icon="keyboard_arrow_right"
-        direction="right"
-        class="fixed-bottom-left q-ma-md row userBtn regText"
-        label-class="fabSize"
-        label-style="font-size: 12px;"
-      >
-        <q-btn @click="logOut" round color="red-7" class="logBtn" icon="person_off" />
-        <h5 class="regText signOut">Sign Out</h5>
-      </q-fab>
+      v-model="tab"
+      :label="'Hey, ' + this.userStatus.displayName"
+      label-position="left"
+      color="accent"
+      icon="keyboard_arrow_right"
+      direction="right"
+      class="fixed-bottom-left q-ma-md row userBtn regText"
+      label-class="fabSize"
+      label-style="font-size: 12px;"
+    >
+      <q-btn
+        @click="logOut"
+        round
+        color="red-7"
+        class="logBtn"
+        icon="person_off"
+      />
+      <h5 class="regText signOut">Sign Out</h5>
+    </q-fab>
 
-
-    <footer style="height: 70px" class="allLinks row shadow-up-10 bg-primary text-white">
-      <div class=" absolute-center q-mx-auto">
+    <footer
+      style="height: 70px"
+      class="allLinks row shadow-up-10 bg-primary text-white"
+    >
+      <div class="absolute-center q-mx-auto">
         <img class="links" src="~assets/facebook.png" />
         <img class="links" src="~assets/instagram.png" />
         <img class="links" src="~assets/youtube.png" />
       </div>
       <div class="absolute-right tabs">
         <a style="text-decoration: none" href="/profile">
-        <h3 class="footerTags">
-          support
-        </h3>
+          <h3 class="footerTags">support</h3>
         </a>
-        <h3 class="footerTags">
-          terms of service
-        </h3>
+        <h3 class="footerTags">terms of service</h3>
       </div>
     </footer>
   </q-layout>
@@ -133,7 +135,7 @@ export default {
     };
   },
   created() {
-    this.isLoggedIn
+    this.isLoggedIn;
 
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
@@ -159,39 +161,178 @@ export default {
       }
     },
     logOut() {
-    signOut(auth).then(() => {
-  console.log("signed out")
-  this.isLoggedIn = false;
-  this.tab = false;
-}).catch((error) => {
-  console.log(error.message, error.code)
-  this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "Could not log out, please try again later.",
-              persistent: true,
-            });
-});
+      signOut(auth)
+        .then(() => {
+          console.log("signed out");
+          this.isLoggedIn = false;
+          this.tab = false;
+        })
+        .catch((error) => {
+          console.log(error.message, error.code);
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Could not log out, please try again later.",
+            persistent: true,
+          });
+        });
     },
   },
 };
 </script>
 
-<style scoped lang="scss"> 
+<style lang="scss">
 @font-face {
   font-family: "puddles_font";
   src: url("../assets/PiecesNfi.ttf");
 }
+
 @font-face {
   font-family: "regular_font";
   src: url(../assets/GROBOLD.ttf);
 }
 
+.snipcart-shipping-address__subtitle{
+  font-family: "regular_font";
+}
+
+.snipcart__notice--with-icon{
+  font-family: "regular_font" !important;
+}
+
+.snipcart-shipping-rates-list-item__price {
+  font-family: "regular_font";
+}
+.snipcart-form {
+  background-color: #ffffff;
+  border-radius: 20px; 
+}
+
+.snipcart__box {
+  border-radius: 20px; 
+}
+
+.snipcart__font--subtitle {
+  font-family: "regular_font";
+      font-weight: 400;
+}
+
+.snipcart-cart-summary-item {
+  font-family: "regular_font";
+  color: #000000;
+
+}
+
+.snipcart__font--secondary {
+  font-family: "puddles_font";
+  font-weight: 100;
+  color: #000000;
+}
+
+.snipcart-form__select  {
+  font-family: "regular_font";
+font-size: 18px !important;
+
+}
+
+.snipcart-typeahead__suggestions {
+  font-family: "regular_font";
+
+}
+
+.snipcart-form__label {
+  font-family: "regular_font" ;
+  font-weight: 100;
+}
+
+.snipcart__font--black {
+  color: #000000;
+}
+
+.snipcart-summary-fees__amount  {
+  font-family: "regular_font" ;
+  color: #000000;
+}
+
+.snipcart-input__input {
+  font-family: "regular_font" ;
+font-size: 18px !important;
+}
+
+
+.snipcart__font--std {
+  font-family: "regular_font";
+}
+
+.snipcart__font--regular {
+  font-family: "regular_font";
+}
+
+.snipcart-summary-fees__title {
+  font-family: "regular_font";
+  color: black
+}
+
+.snipcart-cart-header {
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
+.snipcart-item-quantity__quantity {
+  border-radius: 20px;
+}
+
+.snipcart-item-quantity__total-price {
+  font-family: "regular_font";
+}
+
+.snipcart-button-primary {
+  background-color: #729194;
+
+}
+
+.snipcart-base-button__label {
+  font-family: "regular_font";
+  font-size: 18px;
+}
+
+.snipcart-summary-fees__notice{
+  margin-bottom: 12px;
+}
+
+.snipcart-modal__container {
+  background-color: #6f7b87;
+
+}
+
+.snipcart-button-primary:hover {
+  background-color: #65989c;
+ 
+}
+
+.snipcart-featured-payment-methods__link {
+    display: none;
+}
+
+
+.snipcart-modal {
+  background-color: #6f7b87;
+}
+
+.snipcart-cart__content {
+  background-color: #6f7b87;
+}
+
+.snipcart-item-line {
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
 .signOut {
-    white-space: nowrap;
-    color: rgb(255, 25, 25);
+  white-space: nowrap;
+  color: rgb(255, 25, 25);
 }
 .allLinks {
   position: relative;
@@ -203,6 +344,19 @@ export default {
   text-align: right;
   color: white;
 }
+
+.snipcart-order__invoice-number--highlight, .snipcart-cart-summary-expanded-item__price, .snipcart-order__invoice-number, .snipcart-cart-summary-expanded-item__quantity, .snipcart-billing-completed__step-title, .snipcart-checkout-step__title, .snipcart-order__step-title {
+  font-family: "regular_font";
+}
+
+.snipcart-cart-summary-expanded-item__quantity, .snipcart-order__invoice-number, .snipcart-cart-summary-expanded-item__name, .snipcart-cart-summary-expanded-item__price {
+  font-size: 20px !important;  
+}
+
+.snipcart-billing-completed__step-title, .snipcart-shipping-completed__step-title, .snipcart-order__step-title, .snipcart-order__invoice-number--highlight {
+  font-size: 18px !important;  
+}
+
 .regText {
   font-family: "regular_font";
 }
@@ -214,13 +368,12 @@ export default {
 }
 .tabs {
   margin-top: 20px;
-padding-right: 10px;
+  padding-right: 10px;
 }
 .links {
   width: 50px;
   height: 50px;
   margin: 10px;
-  
 }
 .text-white {
   color: #ffffff;
@@ -267,10 +420,44 @@ h3 {
 // big
 @media screen and (min-width: 970px) {
 
-.userBtn {
-  height: 50px;
-  width: 150px;
+
+  .snipcart__font--tiny {
+    font-size: 15px;
+  }
+
+  .snipcart__icon, .is-danger {
+    width: 30px;
+  height: 30px;
 }
+
+.snipcart__icon--brand {
+  width: 50px;
+  height: 50px;
+}
+
+
+
+.snipcart-button-icon {
+  width: 30px;
+  height: 30px;
+}
+
+  .snipcart__font--secondary {
+    font-size: 25px;
+  }
+  .snipcart__font--std {
+    font-size: 15px;
+  }
+
+  .snipcart__font--regular {
+    font-size: 15px;
+  }
+// SNIPCART
+
+  .userBtn {
+    height: 50px;
+    width: 150px;
+  }
 
   .btnTxt {
     font-size: 35px;
@@ -302,12 +489,12 @@ h3 {
 //smaller screen
 @media screen and (max-width: 970px) {
   .userBtn {
-  height: 50px;
-  width: 150px;
-}
-.signOut {
-  font-size: 20px;
-}
+    height: 50px;
+    width: 150px;
+  }
+  .signOut {
+    font-size: 20px;
+  }
 
   .btnTxt {
     font-size: 20px;
@@ -332,10 +519,9 @@ h3 {
 }
 // tablet
 @media screen and (max-width: 640px) {
-
-.signOut {
-  font-size: 20px;
-}
+  .signOut {
+    font-size: 20px;
+  }
   .btnTxt {
     font-size: 17px;
     white-space: nowrap;
@@ -371,8 +557,8 @@ h3 {
 //mobile
 @media screen and (max-width: 440px) {
   .signOut {
-  font-size: 17px;
-}
+    font-size: 17px;
+  }
   .logo {
     max-height: 60px;
     max-width: 80px;
@@ -413,10 +599,10 @@ h3 {
     display: none;
   }
   .userBtn:hover {
-  left: -10px;
-}
-.logBtn {
-  margin-left: -6px;
-}
+    left: -10px;
+  }
+  .logBtn {
+    margin-left: -6px;
+  }
 }
 </style>

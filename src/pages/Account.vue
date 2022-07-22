@@ -155,15 +155,17 @@ export default {
                     let histIds = e.purchases.split("_");
                   histIds.forEach((histo) => {
                     let histIdss = histo.substring(0, histo.indexOf('QUAN'))
+                    let histIds = histo.substring(0, histo.indexOf('SIZE'))
                     let histQuan = histo.split("QUAN").pop()
-                    // console.log('histo', histQuan)
+                    // console.log('histo', histIds)
+
 
                     this.items.forEach((itemz) => {
-                    if (histIdss == itemz.id) {
+                    if (histIds == itemz.id) {
                       itemz.orderId = orderNum
                       itemz.quantity = histQuan
                       this.postedHist[orderNum].push(itemz)
-                    // console.log(this.postedHist)
+                    console.log(e)
                     }
                   });
                 });
