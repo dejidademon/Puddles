@@ -5,13 +5,6 @@
         <img 
         :src="this.items[0].itemImg1" />
       </q-avatar>
-
-            <div
-        v-if="this.items[0].itemImg1 == null"
-        class="puddlesText caroErr absolute-center text-center"
-      >
-        You have no Pervious Purchases
-      </div>
     </q-item-section>
 
     <q-item-section class="regText text-white fullBox">

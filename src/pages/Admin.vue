@@ -38,8 +38,8 @@
       <q-btn
         @click="showAdd = !showAdd"
         color="accent"
-        class="statBtns regText q-ma-sm"
-        ><h2 class="addBtn">+</h2>
+        class="statBtns position-relatie regText q-ma-sm"
+        ><h2 class="absolute-center addBtn">+</h2>
       </q-btn>
     </div>
 
@@ -398,19 +398,37 @@ export default {
   .carousel {
     height: 230px;
   }
+    .addBtn {
+    font-size: 30px;
+    overflow: hidden;
+    margin: 0;
+  }
+    .statBtns {
+    width: 60px;
+    height: 65px;
+  }
 }
 //mobile
 @media screen and (max-width: 440px) {
   .subtitle {
-    font-size: 20px;
+    font-size: 18px;
     white-space: nowrap;
   }
   .title {
     margin: -10px;
-    font-size: 30px;
+    font-size: 25px;
   }
   .carousel {
     height: 120px;
+  }
+      .addBtn {
+    font-size: 30px;
+    overflow: hidden;
+    margin: 0;
+  }
+    .statBtns {
+    width: 40px;
+    height: 40px;
   }
 }
 </style>

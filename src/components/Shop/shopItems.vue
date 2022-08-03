@@ -13,8 +13,22 @@
         transition-prev="slide-right"
         control-color="black"
       >
-        <q-carousel-slide :name="1" :img-src="items.itemImg1" />
-        <q-carousel-slide :name="2" :img-src="items.itemImg2" />
+        <q-carousel-slide :name="1"     v-if="items.itemImg1 != false" class="q-pa-none" > 
+              <q-img
+fit="contain"
+        :src="items.itemImg1"
+        spinner-color="primary"
+        class="full-height"
+      />
+        </q-carousel-slide> 
+      <q-carousel-slide v-if="items.itemImg2 != false" :name="2" class="q-pa-none" > 
+        <q-img
+        fit="contain"
+        :src="items.itemImg2"
+        spinner-color="primary"
+        class="full-height"
+        />
+      </q-carousel-slide> 
       </q-carousel>
     </q-card-section>
     <q-card-section class="bottomCard col-3 q-ma-none q-pa-sm">
@@ -69,6 +83,7 @@ export default {
   },
 
     mounted() {
+      console.log(this.items.itemImg2)
       this.isMobile()
       window.addEventListener("resize", this.isMobile);
   },
@@ -98,7 +113,7 @@ export default {
 @media screen and (min-width: 970px) {
 // card start
   .wholeCard {
-    width: 18vw;
+    width: 350px;
   }
 
   .previewBtn {

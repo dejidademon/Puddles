@@ -98,9 +98,14 @@
         <a style="text-decoration: none" href="/profile">
           <h3 class="footerTags">support</h3>
         </a>
-        <h3 class="footerTags">terms of service</h3>
+        <a style="text-decoration: none" class="tos" @click="tosShow = true">
+          <h3 class="footerTags">terms of service</h3>
+        </a>
       </div>
     </footer>
+    <q-dialog v-model="tosShow">
+      <tos @close="tosShow = false" />
+    </q-dialog>
   </q-layout>
 </template>
 
@@ -116,6 +121,7 @@ export default {
       hideMenu: false,
       hideBtn: false,
       width: 0,
+      tosShow: false,
       height: 0,
       navs: [
         {
@@ -142,6 +148,9 @@ export default {
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
+  },
+  components: {
+    tos: require("components/Shop/tos.vue").default,
   },
   methods: {
     handleResize() {
@@ -194,11 +203,19 @@ export default {
   src: url(../assets/GROBOLD.ttf);
 }
 
-.snipcart-shipping-address__subtitle{
+.priceInput .q-field__prefix {
+  color: white;
+}
+
+.tos:hover {
+  cursor: pointer;
+}
+
+.snipcart-shipping-address__subtitle {
   font-family: "regular_font";
 }
 
-.snipcart__notice--with-icon{
+.snipcart__notice--with-icon {
   font-family: "regular_font" !important;
 }
 
@@ -207,22 +224,21 @@ export default {
 }
 .snipcart-form {
   background-color: #ffffff;
-  border-radius: 20px; 
+  border-radius: 20px;
 }
 
 .snipcart__box {
-  border-radius: 20px; 
+  border-radius: 20px;
 }
 
 .snipcart__font--subtitle {
   font-family: "regular_font";
-      font-weight: 400;
+  font-weight: 400;
 }
 
 .snipcart-cart-summary-item {
   font-family: "regular_font";
   color: #000000;
-
 }
 
 .snipcart__font--secondary {
@@ -231,19 +247,17 @@ export default {
   color: #000000;
 }
 
-.snipcart-form__select  {
+.snipcart-form__select {
   font-family: "regular_font";
-font-size: 18px !important;
-
+  font-size: 18px !important;
 }
 
 .snipcart-typeahead__suggestions {
   font-family: "regular_font";
-
 }
 
 .snipcart-form__label {
-  font-family: "regular_font" ;
+  font-family: "regular_font";
   font-weight: 100;
 }
 
@@ -251,16 +265,15 @@ font-size: 18px !important;
   color: #000000;
 }
 
-.snipcart-summary-fees__amount  {
-  font-family: "regular_font" ;
+.snipcart-summary-fees__amount {
+  font-family: "regular_font";
   color: #000000;
 }
 
 .snipcart-input__input {
-  font-family: "regular_font" ;
-font-size: 18px !important;
+  font-family: "regular_font";
+  font-size: 18px !important;
 }
-
 
 .snipcart__font--std {
   font-family: "regular_font";
@@ -272,7 +285,7 @@ font-size: 18px !important;
 
 .snipcart-summary-fees__title {
   font-family: "regular_font";
-  color: black
+  color: black;
 }
 
 .snipcart-cart-header {
@@ -290,7 +303,6 @@ font-size: 18px !important;
 
 .snipcart-button-primary {
   background-color: #729194;
-
 }
 
 .snipcart-base-button__label {
@@ -298,24 +310,21 @@ font-size: 18px !important;
   font-size: 18px;
 }
 
-.snipcart-summary-fees__notice{
+.snipcart-summary-fees__notice {
   margin-bottom: 12px;
 }
 
 .snipcart-modal__container {
   background-color: #6f7b87;
-
 }
 
 .snipcart-button-primary:hover {
   background-color: #65989c;
- 
 }
 
 .snipcart-featured-payment-methods__link {
-    display: none;
+  display: none;
 }
-
 
 .snipcart-modal {
   background-color: #6f7b87;
@@ -345,16 +354,28 @@ font-size: 18px !important;
   color: white;
 }
 
-.snipcart-order__invoice-number--highlight, .snipcart-cart-summary-expanded-item__price, .snipcart-order__invoice-number, .snipcart-cart-summary-expanded-item__quantity, .snipcart-billing-completed__step-title, .snipcart-checkout-step__title, .snipcart-order__step-title {
+.snipcart-order__invoice-number--highlight,
+.snipcart-cart-summary-expanded-item__price,
+.snipcart-order__invoice-number,
+.snipcart-cart-summary-expanded-item__quantity,
+.snipcart-billing-completed__step-title,
+.snipcart-checkout-step__title,
+.snipcart-order__step-title {
   font-family: "regular_font";
 }
 
-.snipcart-cart-summary-expanded-item__quantity, .snipcart-order__invoice-number, .snipcart-cart-summary-expanded-item__name, .snipcart-cart-summary-expanded-item__price {
-  font-size: 20px !important;  
+.snipcart-cart-summary-expanded-item__quantity,
+.snipcart-order__invoice-number,
+.snipcart-cart-summary-expanded-item__name,
+.snipcart-cart-summary-expanded-item__price {
+  font-size: 20px !important;
 }
 
-.snipcart-billing-completed__step-title, .snipcart-shipping-completed__step-title, .snipcart-order__step-title, .snipcart-order__invoice-number--highlight {
-  font-size: 18px !important;  
+.snipcart-billing-completed__step-title,
+.snipcart-shipping-completed__step-title,
+.snipcart-order__step-title,
+.snipcart-order__invoice-number--highlight {
+  font-size: 18px !important;
 }
 
 .regText {
@@ -419,28 +440,25 @@ h3 {
 }
 // big
 @media screen and (min-width: 970px) {
-
-
   .snipcart__font--tiny {
     font-size: 15px;
   }
 
-  .snipcart__icon, .is-danger {
+  .snipcart__icon,
+  .is-danger {
     width: 30px;
-  height: 30px;
-}
+    height: 30px;
+  }
 
-.snipcart__icon--brand {
-  width: 50px;
-  height: 50px;
-}
+  .snipcart__icon--brand {
+    width: 50px;
+    height: 50px;
+  }
 
-
-
-.snipcart-button-icon {
-  width: 30px;
-  height: 30px;
-}
+  .snipcart-button-icon {
+    width: 30px;
+    height: 30px;
+  }
 
   .snipcart__font--secondary {
     font-size: 25px;
@@ -452,7 +470,7 @@ h3 {
   .snipcart__font--regular {
     font-size: 15px;
   }
-// SNIPCART
+  // SNIPCART
 
   .userBtn {
     height: 50px;
@@ -604,5 +622,9 @@ h3 {
   .logBtn {
     margin-left: -6px;
   }
+  .footerTags {
+    font-size: 13px;
+  }
 }
+
 </style>

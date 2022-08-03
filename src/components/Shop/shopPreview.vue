@@ -1,12 +1,9 @@
 <template>
   <q-card class="previewCard text-white fixed-center">
     <q-card-section
-      class="row"
+      class="row cardMargin"
       style="
         padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
       "
     >
       <div class="col">
@@ -22,10 +19,38 @@
           transition-prev="slide-right"
           control-color="black"
         >
-          <q-carousel-slide v-if="items.itemImg1" :name="1" :img-src="items.itemImg1" />
-          <q-carousel-slide v-if="items.itemImg2" :name="2" :img-src="items.itemImg2" />
-          <q-carousel-slide v-if="items.itemImg3" :name="3" :img-src="items.itemImg3" />
-          <q-carousel-slide v-if="items.itemImg4" :name="4" :img-src="items.itemImg4" />
+                  <q-carousel-slide v-if="items.itemImg1 != false" :name="1" class="q-pa-none" > 
+              <q-img
+              fit="contain"
+        :src="items.itemImg1"
+        spinner-color="primary"
+        class="full-height"
+      />
+        </q-carousel-slide> 
+                  <q-carousel-slide v-if="items.itemImg2 != false" :name="2" class="q-pa-none" > 
+              <q-img
+
+        :src="items.itemImg2"
+        spinner-color="primary"
+        class="full-height"
+      />
+        </q-carousel-slide> 
+                  <q-carousel-slide v-if="items.itemImg3 != false" :name="3" class="q-pa-none" > 
+              <q-img
+
+        :src="items.itemImg3"
+        spinner-color="primary"
+        class="full-height"
+      />
+        </q-carousel-slide> 
+                  <q-carousel-slide v-if="items.itemImg4 != false" :name="4" class="q-pa-none" > 
+              <q-img
+        v-if="items.itemImg4 != false"
+        :src="items.itemImg4"
+        spinner-color="primary"
+        class="full-height"
+      />
+        </q-carousel-slide> 
         </q-carousel>
       </div>
       <div class="col q-pl-sm">
@@ -167,7 +192,11 @@ export default {
 
 /* big */
 @media screen and (min-width: 970px) {
-
+      .cardMargin {
+    margin-top: 20px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
   //Preview card
   .dropDown {
     font-size: 16px;
@@ -278,6 +307,12 @@ export default {
     background-size: 100%;
     background-repeat: no-repeat;
   }
+
+      .cardMargin {
+    margin-top: 20px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
   //prevew card
 }
 // tablet
@@ -317,7 +352,7 @@ export default {
   }
 
   .descTitle {
-    font-size: 20px;
+    font-size: 25px;
     margin: 0;
     white-space: nowrap;
     line-height: normal;
@@ -327,7 +362,7 @@ export default {
   .previewCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 300px;
+    width: 400px;
   }
   .previewSlide {
     height: 250px;
@@ -342,12 +377,18 @@ export default {
     background-repeat: no-repeat;
   }
 
+    .cardMargin {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
   //prevew card
 }
 
 @media screen and (max-width: 440px) {
     .previewName {
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     margin-left: -15px;
     white-space: nowrap;
@@ -370,17 +411,25 @@ export default {
   .previewCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 250px;
+        width: 350px;
+
   }
+
+    .cardMargin {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
     .descTitle {
-    font-size: 15px;
+    font-size: 20px;
     margin: 0;
     white-space: nowrap;
     line-height: normal;
     letter-spacing: normal;
   }
     .descText {
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     line-height: normal;
   }  

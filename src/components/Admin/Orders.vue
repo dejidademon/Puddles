@@ -9,26 +9,26 @@
     <q-item-section class="regText text-white fullBox">
       <div class="row text justify-center">
         <div class="column text-center">
-          <h5 class="q-mx-sm q-mb-none q-mt-none name">Order Code:</h5>
-          <h5 class="q-mx-sm q-mb-none q-mt-sm name">{{ item }}</h5>
+          <h5 class="q-mx-sm q-mb-none q-mt-none title">Order Code:</h5>
+          <h5 class="q-mx-sm q-mb-none q-mt-sm subtitle">{{ item }}</h5>
         </div>
 
         <div class="column text-center">
-          <h5 class="q-mx-sm q-mb-none q-mt-none name">Status:</h5>
-          <h5 class="q-mx-sm q-mb-sm q-mt-sm name status">
+          <h5 class="q-mx-sm q-mb-none q-mt-none title">Status:</h5>
+          <h5 class="q-mx-sm q-mb-sm q-mt-sm  subtitle status">
             {{ items.status }}
           </h5>
         </div>
 
         <div class="column text-center">
-          <h5 class="q-mx-sm q-mb-none q-mt-none name">Total:</h5>
-          <h5 class="q-mx-sm q-mb-sm q-mt-sm name">${{ items.total }}</h5>
+          <h5 class="q-mx-sm q-mb-none q-mt-none title">Total:</h5>
+          <h5 class="q-mx-sm q-mb-sm q-mt-sm subtitle">${{ items.total }}</h5>
         </div>
       </div>
     </q-item-section>
 
     <q-item-section avatar class="regText text-white expandBtn">
-      <div class="row justify-center">
+      <div class="btnOrder justify-center">
         <q-btn
           @click="orderInfo = !orderInfo"
           clickable
@@ -105,8 +105,8 @@ export default {
     font-size: 25px;
   }
   .title {
-    margin: -5px;
-    font-size: 50px;
+    margin: 0px;
+    font-size: 30px;
   }
 }
 //smaller screen
@@ -115,29 +115,40 @@ export default {
     font-size: 20px;
   }
   .title {
-    margin: -5px;
-    font-size: 30px;
+    margin: 0px;
+    font-size: 20px;
   }
 }
 // tablet
 @media screen and (max-width: 640px) {
   .subtitle {
-    font-size: 20px;
+    font-size: 18px;
   }
   .title {
     margin: -5px;
-    font-size: 30px;
+    font-size: 20px;
+  }
+    .btnOrder {
+    display: flex;
+    flex-direction: column;
   }
 }
 //mobile
 @media screen and (max-width: 440px) {
   .subtitle {
-    font-size: 20px;
+    font-size: 15px;
     white-space: nowrap;
   }
   .title {
-    margin: -10px;
-    font-size: 30px;
+    margin: 0px;
+    font-size: 20px;
+  }
+  .orderBtn {
+    font-size: 10px;
+  }
+  .btnOrder {
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

@@ -8,19 +8,20 @@
     <q-card-section class="col-6">
         <h3 class="descTitle puddlesText q-pb-sm text-center">Account Id:</h3>
             <h3
-              class=" previewName q-mt-sm accountId text-center regText"
+              class=" previewSub q-mt-sm accountId text-center regText"
             >{{ items.accountId }}</h3>
 
-        <h3 class="descTitle puddlesText q-pt-md text-center">Order Id:</h3>
+        <h3 class="descTitle puddlesText q-pt-sm text-center">Order Id:</h3>
             <h3
-              class=" previewName q-mt-sm accountId text-center regText"
+              class=" previewSub q-mt-md accountId text-center regText"
             >{{ items.orderId }}</h3>
 
 
         <h3 class="descTitle puddlesText q-pt-md text-center">Status:</h3>
 
-<div class="row justify-center">
+<div class="row no-wrap justify-center">
         <q-btn
+        
         @click="prevStatus()"
           clickable
           v-ripple
@@ -28,7 +29,7 @@
           class="orderBtn q-ma-sm"
           color="accent"
         ></q-btn>
-        <h2 class="previewPrice text-center regText">{{ postedStatus }}</h2>
+        <h2 class="previewSub self-center text-center regText">{{ postedStatus }}</h2>
                 <q-btn
                 @click="nextStatus()"
           clickable
@@ -47,30 +48,33 @@
       
         <h3 class="descTitle puddlesText q-pb-sm text-center">Shipping Name:</h3>
             <q-input
+              :dense="dense"
               standout
               bg-color="grey-5"
               v-model="items.shippingName"
               input-class="text-white"
-              class="q-mt-sm previewPrice text-center regText"
+              class="q-mt-sm previeInput text-center regText"
             />
         <h3 class="descTitle puddlesText q-pt-md text-center">Address:</h3>
             <q-input
+            :dense="dense"
               standout
               bg-color="grey-5"
               v-model="items.address"
               input-class="text-white"
-              class="q-mt-sm previewPrice text-center regText"
+              class="q-mt-sm previeInput text-center regText"
             />
 
 
         <h3 class="descTitle puddlesText q-pt-md text-center">Total:</h3>
               <q-input
+              :dense="dense"
               prefix="$"
               standout
               bg-color="grey-5"
               v-model="items.total"
               input-class="text-white"
-              class="q-mt-sm previewPrice text-center prefixWhite regText"
+              class="q-mt-sm previeInput text-center prefixWhite regText"
             >
             
               </q-input>
@@ -81,7 +85,7 @@
           <q-btn
             icon="delete_outline"
             color="red-8"
-            class="self-center q-ma-sm delBtn"
+            class="self-center q-ma-sm btmBtns"
             @click="deleteOrder"
             clickable
           />
@@ -89,7 +93,7 @@
           <q-btn
             icon="archive"
             color="accent"
-            class="self-center q-ma-sm delBtn"
+            class="self-center q-ma-sm btmBtns"
             @click="submitOrder"
             clickable
           />
@@ -110,7 +114,8 @@ export default {
         return {
             statuses: ['canceled', 'processing', 'shipping', 'delivered'],
             postedStatus: '',
-            orderKey: this.items.orderId
+            orderKey: this.items.orderId, 
+            dense: null,
         }
     },
     props:['items', 'key'],
@@ -253,12 +258,21 @@ this.$q.dialog({
             })
 
     },
-
+        isMobile() {
+      let screenSize = window.innerWidth;
+      if (screenSize <= 640) {
+        this.dense = true;
+      }
+      else {
+        this.dense = false;
+      }
+    },
     },
 
     mounted() {
     this.getStatus();
-    
+    this.isMobile();
+    window.addEventListener("resize", this.isMobile);
     },
 
 
@@ -271,9 +285,9 @@ this.$q.dialog({
 @media screen and (min-width: 970px) {
 
   //Preview card
-  .dropDown {
-    font-size: 16px;
-    width: 170px !important;
+  .btmBtns {
+    font-size: 20px;
+    width: 300px !important;
   }
 
   .previewBtns {
@@ -281,7 +295,7 @@ this.$q.dialog({
     width: 170px !important;
   }
 
-  .previewName {
+  .previewSub {
     font-size: 24px;
     margin: 0;
     white-space: nowrap;
@@ -297,7 +311,7 @@ this.$q.dialog({
     margin: 0;
 }
 
-  .previewPrice {
+  .previeInput {
     font-size: 26px;
     margin: 0;
     white-space: nowrap;
@@ -321,7 +335,7 @@ this.$q.dialog({
     background-color: #80959e;
     border-radius: 5%;
       width: 100%;
-  max-width: 900px;
+    max-width: 870px;
   }
   .previewSlide {
     height: 350px;
@@ -337,9 +351,9 @@ this.$q.dialog({
 @media screen and (max-width: 970px) { 
 
   //Preview card
-  .dropDown {
-    font-size: 16px;
-    width: 170px !important;
+  .btmBtns {
+    font-size: 20px;
+    width: 230px !important;
   }
 
   .previewBtns {
@@ -347,8 +361,8 @@ this.$q.dialog({
     width: 170px !important;
   }
 
-  .previewName {
-    font-size: 24px;
+  .previewSub {
+    font-size: 16px;
     margin: 0;
     white-space: nowrap;
     font-weight: normal;
@@ -356,33 +370,26 @@ this.$q.dialog({
     letter-spacing: normal;
   }
 
-  .previewPrice {
-    font-size: 26px;
+  .previeInput {
+    font-size: 20px;
     margin: 0;
     white-space: nowrap;
     line-height: normal;
     letter-spacing: normal;
   }
 
-  .descText {
-    font-size: 20px;
-    margin: 0;
-    line-height: normal;
-  }
-
   .descTitle {
-    font-size: 35px;
+    font-size: 25px;
     margin: 0;
   }
 
   .orderInfoCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 550px;
+    max-width: 610px;
+    width: 100%;
   }
-  .previewSlide {
-    height: 350px;
-  }
+
   .orderInfoCard .q-carousel__slide {
     background-size: cover;
     background-position: center;
@@ -394,116 +401,102 @@ this.$q.dialog({
 // tablet
 @media screen and (max-width: 640px) {
 //Preview card
-  .dropDown {
-    font-size: 13px;
-    width: 120px !important;
+
+  .btmBtns {
+    font-size: 16px;
+    width: 100px !important;
   }
 
-  .previewBtns {
-    font-size: 13px;
-    width: 120px !important;
-  }
+  .previewSub {
+    font-size: 17px;
 
-  .previewName {
-    font-size: 13px;
-    margin: 0;
-    white-space: nowrap;
+    white-space: pre-wrap;      /* CSS3 */   
+    word-wrap: break-word;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
   }
 
-  .previewPrice {
-    font-size: 17px;
+  .previeInput {
+    font-size: 14px;
     margin: 0;
     white-space: nowrap;
     line-height: normal;
     letter-spacing: normal;
-  }
-
-  .descText {
-    font-size: 14px;
-    margin: 0;
-    line-height: normal;
   }
 
   .descTitle {
     font-size: 20px;
     margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
+  }
+  .orderBtn {
+    font-size: 10px;
+    width: 10px;
   }
 
   .orderInfoCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 300px;
+    max-width: 370px;
+    width: 100%;
   }
-  .previewSlide {
-    height: 250px;
-  }
-  .previewDate {
-    font-size: 12px;
-  }
+
   .orderInfoCard .q-carousel__slide {
     background-size: cover;
     background-position: center;
     background-size: 100%;
     background-repeat: no-repeat;
   }
-
   //prevew card
 }
 
 @media screen and (max-width: 440px) {
-    .previewName {
-    font-size: 12px;
-    margin: 0;
-    margin-left: -15px;
-    white-space: nowrap;
+   
+  .btmBtns {
+    font-size: 16px;
+    width: 100px !important;
+  }
+
+  .previewSub {
+    font-size: 15px;
+
+    white-space: pre-wrap;      /* CSS3 */   
+    word-wrap: break-word;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
   }
 
-  .previewPrice {
+  .previeInput {
     font-size: 14px;
     margin: 0;
     white-space: nowrap;
     line-height: normal;
     letter-spacing: normal;
   }
-    .previewSlide {
-    height: 200px;
-    width: 100%;
+
+  .descTitle {
+    font-size: 15px;
+    margin: 0;
   }
+  .orderBtn {
+    font-size: 10px;
+    width: 10px;
+  }
+
   .orderInfoCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 250px;
+    max-width: 340px;
+    width: 100%;
   }
-    .descTitle {
-    font-size: 15px;
-    margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
-  }
-    .descText {
-    font-size: 12px;
-    margin: 0;
-    line-height: normal;
-  }  
-  .previewBtns {
-    font-size: 12px;
-    width: 105px !important;
-  }
-    .dropDown {
-    font-size: 12px;
-    width: 105px !important;
+
+  .orderInfoCard .q-carousel__slide {
+    background-size: cover;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
 }
-
 </style>
 

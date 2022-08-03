@@ -1,13 +1,7 @@
 <template>
   <q-card class="editCard hide-scrollbar text-white fixed-center">
     <q-card-section
-      class="row"
-      style="
-        padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
-      "
+      class="row cardSection"
     >
       <!-- DO THE SIZESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS FUNCTIONALITY-->
       <div class="col">
@@ -23,17 +17,19 @@
           transition-prev="slide-right"
           control-color="black"
         >
-          <q-carousel-slide
-            class="carosel"
-            :name="1"
-            :img-src="item.itemImg[0]"
-          >
+          <q-carousel-slide class="carosel q-pa-none" :name="1">
+            <q-img
+              fit="contain"
+              :src="item.itemImg[0]"
+              spinner-color="primary"
+              class="full-height"
+            />
             <div class="absolute-bottom row justify-between actionBar">
               <q-btn
                 @click="delImage(0)"
                 icon="delete_outline"
                 color="red-8"
-                class="del"
+                class="del actBtns"
               />
               <input
                 @change="onFilePicked"
@@ -47,13 +43,19 @@
                 @click="inputClicked"
                 color="accent"
                 round
-                class="editPic"
+                class="editPic actBtns"
               />
               <h2 class="q-pa-none q-ma-none regText nums">1</h2>
             </div>
           </q-carousel-slide>
 
-          <q-carousel-slide :name="2" :img-src="item.itemImg[1]">
+          <q-carousel-slide class="q-pa-none" :name="2">
+            <q-img
+              fit="contain"
+              :src="item.itemImg[1]"
+              spinner-color="primary"
+              class="full-height"
+            />
             <div class="absolute-bottom row justify-between actionBar">
               <q-btn
                 @click="delImage(1)"
@@ -78,7 +80,13 @@
               <h2 class="q-pa-none q-ma-none regText nums">2</h2>
             </div>
           </q-carousel-slide>
-          <q-carousel-slide :name="3" :img-src="item.itemImg[2]">
+          <q-carousel-slide :name="3" class="q-pa-none">
+            <q-img
+              fit="contain"
+              :src="item.itemImg[2]"
+              spinner-color="primary"
+              class="full-height"
+            />
             <div class="absolute-bottom row justify-between actionBar">
               <q-btn
                 @click="delImage(2)"
@@ -103,7 +111,13 @@
               <h2 class="q-pa-none q-ma-none regText nums">3</h2>
             </div>
           </q-carousel-slide>
-          <q-carousel-slide :name="4" :img-src="item.itemImg[3]">
+          <q-carousel-slide :name="4" class="q-pa-none">
+            <q-img
+              fit="contain"
+              :src="item.itemImg[3]"
+              spinner-color="primary"
+              class="full-height"
+            />
             <div class="absolute-bottom row justify-between actionBar">
               <q-btn
                 @click="delImage(3)"
@@ -131,52 +145,55 @@
         </q-carousel>
       </div>
       <div class="col q-pl-sm">
-        <h2 class="descTitle puddlesText text-center q-pb-sm">DESCRIPTION</h2>
+        <h2 class="titleName puddlesText text-center q-pb-sm">DESCRIPTION</h2>
         <q-input
           autogrow
           input-class="text-white"
           standout
           bg-color="grey-5"
           v-model="items.itemDesc"
-          class="column descText regText text-center"
+          class="column descInput regText text-center"
+          :dense="dense"
         >
         </q-input>
       </div>
     </q-card-section>
 
-    <q-card-section class="q-pt-none q-mt-sm q-mb-none">
+    <q-card-section class="cardSection q-pt-none q-mt-sm q-mb-none">
       <div class="row text-center">
-        <div
-          class="row justify-evenly col-6 scrollFaMe overflow-auto hide-scrollbar"
-        >
-          <div class="column">
-            <h2 class="previewName puddlesText">Size</h2>
-            <q-input
-              v-for="(item, key) in sizes"
-              :key="key"
-              standout
-              bg-color="grey-5"
-              v-model="sizes[key]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
-          </div>
-          <div class="column">
-            <h2 class="previewName puddlesText">Quantity</h2>
-            <q-input
-              v-for="(item, key) in quantitys"
-              :key="key"
-              standout
-              bg-color="grey-5"
-              v-model="quantitys[key]"
-              input-class="text-white"
-              class="q-mt-sm sizeInputs regText"
-            >
-            </q-input>
+        <div class="col justify-evenly">
+          <div class="row no-wrap justify-evenly scrollFaMe hide-scrollbar">
+            <div class="no-wrap items-center sizeCol column q-pr-sm">
+              <h2 class="titleName puddlesText">Size</h2>
+              <q-input
+                :dense="dense"
+                v-for="(item, key) in sizes"
+                :key="key"
+                standout
+                bg-color="grey-5"
+                v-model="sizes[key]"
+                input-class="text-white"
+                class="q-mt-sm sizeInput allInput regText"
+              >
+              </q-input>
+            </div>
+            <div class="no-wrap items-center column quanCol q-pl-sm">
+              <h2 class="titleName puddlesText">Quantity</h2>
+              <q-input
+                v-for="(item, key) in quantitys"
+                :key="key"
+                standout
+                bg-color="grey-5"
+                v-model="quantitys[key]"
+                input-class="text-white"
+                class="q-mt-sm quanInput allInput regText"
+                :dense="dense"
+              >
+              </q-input>
+            </div>
           </div>
 
-          <h2 class="regText self-center shoeText q-my-sm">
+          <h2 class="regText self-center titleName q-my-sm">
             Shoes
             <q-checkbox
               @click="checkboxClicked"
@@ -187,20 +204,22 @@
           </h2>
         </div>
 
-        <div class="column col-6">
-          <h2 class="previewPrice puddlesText">Name</h2>
+        <div class="nameCol column col">
+          <h2 class="titleName puddlesText">Name</h2>
 
           <q-input
+            :dense="dense"
             :rules="[(val) => !!val || 'Required']"
             v-model="items.itemName"
             standout
             bg-color="grey-5"
             input-class="text-white"
-            class="self-center q-mt-sm nameInput regText"
+            class="self-center q-mt-sm namePri allInput regText"
           >
           </q-input>
-          <h2 class="previewPrice puddlesText">Price</h2>
+          <h2 class="titleName puddlesText">Price</h2>
           <q-input
+            :dense="dense"
             :rules="[(val) => !!val || 'Required']"
             prefix="$"
             label-color="white"
@@ -208,20 +227,20 @@
             bg-color="grey-5"
             input-class="text-white"
             v-model="items.price"
-            class="text-white self-center q-mt-sm priceInput regText"
+            class="text-white self-center q-mt-sm namePri allInput priceInput regText"
           >
           </q-input>
 
           <q-btn
             icon="save"
             color="green"
-            class="self-center q-mt-sm delBtn"
+            class="self-center q-mt-sm actionBtns"
             @click="slideSubmit"
           />
           <q-btn
             icon="archive"
             color="accent"
-            class="self-center q-mt-sm delBtn"
+            class="self-center q-mt-sm actionBtns"
             @click="archiveSubmit"
           />
 
@@ -229,7 +248,7 @@
             @click="deleteSlide"
             icon="delete_outline"
             color="red-8"
-            class="self-center q-mt-sm delBtn"
+            class="self-center q-mt-sm actionBtns"
             v-close-popup
           />
         </div>
@@ -261,6 +280,7 @@ import { isLoggedIn } from "boot/firebase.js";
 export default {
   data() {
     return {
+      dense: null,
       userStatus: isLoggedIn,
       sizeLink: ref(""),
       quantity: 1,
@@ -414,6 +434,9 @@ export default {
       let screenSize = window.innerWidth;
       if (screenSize <= 640) {
         this.notsMobile = false;
+        this.dense = true;
+      } else {
+        this.dense = false;
       }
     },
     onFilePicked(event) {
@@ -565,53 +588,58 @@ export default {
 
       for (let i = 0; i < 4; i++) {
         if (this.item.itemImg.name[i] != null) {
-
           if (i == 0) {
-            if(this.item.itemImg.urls[0] == false || this.item.itemImg.oldUrls[0] != null) {
-           deleteObject(previewRef1)
-              .then(() => {
-                this.item.itemImg.oldUrls[0] = null;
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
+            if (
+              this.item.itemImg.urls[0] == false ||
+              this.item.itemImg.oldUrls[0] != null
+            ) {
+              deleteObject(previewRef1)
+                .then(() => {
+                  this.item.itemImg.oldUrls[0] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
             }
-          } 
-        
-          else if (i == 1) {
-            if(this.item.itemImg.urls[1] == false || this.item.itemImg.oldUrls[1] != null) {
-           deleteObject(previewRef2)
-              .then(() => {
-                this.item.itemImg.oldUrls[1] = null;
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
+          } else if (i == 1) {
+            if (
+              this.item.itemImg.urls[1] == false ||
+              this.item.itemImg.oldUrls[1] != null
+            ) {
+              deleteObject(previewRef2)
+                .then(() => {
+                  this.item.itemImg.oldUrls[1] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
             }
-          } 
-
-          else if (i == 2) {
-            if(this.item.itemImg.urls[2] == false || this.item.itemImg.oldUrls[2] != null) {
-           deleteObject(previewRef3)
-              .then(() => {
-                this.item.itemImg.oldUrls[2] = null;
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
-          } 
-          }
-          
-          else if (i == 3) {
-            if(this.item.itemImg.urls[3] == false || this.item.itemImg.oldUrls[3] != null) {
-           deleteObject(previewRef4)
-              .then(() => {
-                this.item.itemImg.oldUrls[3] = null;
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
-          }
+          } else if (i == 2) {
+            if (
+              this.item.itemImg.urls[2] == false ||
+              this.item.itemImg.oldUrls[2] != null
+            ) {
+              deleteObject(previewRef3)
+                .then(() => {
+                  this.item.itemImg.oldUrls[2] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
+            }
+          } else if (i == 3) {
+            if (
+              this.item.itemImg.urls[3] == false ||
+              this.item.itemImg.oldUrls[3] != null
+            ) {
+              deleteObject(previewRef4)
+                .then(() => {
+                  this.item.itemImg.oldUrls[3] = null;
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
+            }
           }
 
           const storageRef = ref(
@@ -892,47 +920,17 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .scrollFaMe {
   overflow-x: hidden;
   min-height: 300px;
   max-height: 400px;
 }
 
-.shoeText {
-  font-size: 30px;
-  line-height: normal;
-}
-
-.nameInput {
-  width: 200px;
-  font-size: 17px;
-}
-
-.priceInput {
-  width: 150px;
-  font-size: 17px;
-}
-
-.delBtn {
-  font-size: 20px;
-  width: 225px;
-}
-
 .priceInput .q-field__prefix {
   color: white;
 }
 
-.sizeInputs {
-  font-size: 17px;
-  width: 125px;
-}
-
-.editBtns {
-  width: 30px;
-  height: 30px;
-  font-size: 12px;
-}
 .nums {
   background-color: #80959e;
   font-size: 25px;
@@ -959,28 +957,44 @@ export default {
 
 /* big */
 @media screen and (min-width: 970px) {
-  //Preview card
+//Preview card
 
-  .previewBtns {
-    font-size: 16px;
-    width: 170px !important;
+  .cardSection {
+    padding-left: 3px;
+            padding: 0;
+        margin-left: 24px;
+        margin-right: 24px;
+        margin-top: 20px;
   }
 
-  .previewName {
-    font-size: 24px;
+  .actionBtns {
+    font-size: 20px;
+    width: 225px;
+  }
+
+  .nameCol {
+    margin-top: -60px;
+  }
+
+  .descInput {
+    font-size: 20px;
+  }
+  .allInput {
+    width: 180px;
+    font-size: 20px;
+  }
+
+  .titleName {
+    font-size: 30px;
     margin: 0;
     white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
   }
-
-  .previewPrice {
-    font-size: 26px;
-    margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
+  .previewBtns {
+    font-size: 16px;
+    width: 170px !important;
   }
 
   .descText {
@@ -999,52 +1013,62 @@ export default {
   .editCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
   }
   .previewSlide {
     height: 350px;
   }
-  .editCard .q-carousel__slide {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+
   //prevew card
 }
 //smaller screen
 @media screen and (max-width: 970px) {
   //Preview card
-  .dropDown {
-    font-size: 16px;
-    width: 170px !important;
+  .cardSection {
+    padding-left: 3px;
+            padding: 0;
+        margin-left: 24px;
+        margin-right: 24px;
+        margin-top: 20px;
   }
 
-  .previewBtns {
-    font-size: 16px;
-    width: 170px !important;
+  .actionBtns {
+    font-size: 20px;
+    width: 225px;
   }
 
-  .previewName {
-    font-size: 24px;
+  .nameCol {
+    margin-top: -40px;
+  }
+
+  .descInput {
+    font-size: 20px;
+  }
+  .allInput {
+    width: 120px;
+    font-size: 15px;
+  }
+
+  .titleName {
+    font-size: 25px;
     margin: 0;
     white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
   }
-
-  .previewPrice {
-    font-size: 26px;
-    margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
+  .previewBtns {
+    font-size: 16px;
+    width: 170px !important;
   }
 
   .descText {
     font-size: 20px;
     margin: 0;
-    line-height: 2rem;
+  }
+  .q-textarea .q-field__native {
+    line-height: normal;
   }
 
   .descTitle {
@@ -1055,130 +1079,178 @@ export default {
   .editCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 550px;
+    width: 100%;
+    max-width: 600px;
   }
-  .previewSlide {
-    height: 350px;
+  .namePri {
+    width: 170px !important;
   }
-  .editCard .q-carousel__slide {
-    background-size: cover;
-    background-position: center;
-    background-size: 100%;
-    background-repeat: no-repeat;
-  }
+
   //prevew card
 }
 // tablet
 @media screen and (max-width: 640px) {
   //Preview card
-  .dropDown {
-    font-size: 13px;
-    width: 120px !important;
+  .cardSection {
+    padding-left: 3px;
+            padding: 0;
+        margin-left: 24px;
+        margin-right: 24px;
+        margin-top: 20px;
   }
 
-  .previewBtns {
-    font-size: 13px;
-    width: 120px !important;
+  .quanCol {
+    padding-left: 2.5px;
   }
 
-  .previewName {
-    font-size: 13px;
+  .sizeCol {
+    padding-right: 2.5px;
+  }
+
+  .quanInput {
+    width: 70px !important;
+  }
+
+  .sizeInput {
+    width: 80px !important;
+    font-size: 11px !important;
+  }
+
+  .actionBtns {
+    font-size: 15px;
+    width: 170px;
+  }
+  .nameCol {
+    margin-top: 20px;
+  }
+
+  .descInput {
+    font-size: 17px;
+  }
+  .allInput {
+    width: 90px;
+    font-size: 14px;
+  }
+
+  .titleName {
+    font-size: 20px;
     margin: 0;
     white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
   }
-
-  .previewPrice {
-    font-size: 17px;
-    margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
+  .previewBtns {
+    font-size: 16px;
+    width: 170px !important;
   }
 
   .descText {
-    font-size: 14px;
+    font-size: 20px;
     margin: 0;
+  }
+  .q-textarea .q-field__native {
     line-height: normal;
   }
 
   .descTitle {
-    font-size: 20px;
+    font-size: 35px;
     margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
   }
 
-  .previewCard {
+  .editCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 300px;
+    width: 100%;
+    max-width: 420px;
   }
-  .previewSlide {
-    height: 250px;
+  .namePri {
+    width: 170px;
+    font-size: 17px;
   }
-  .previewDate {
-    font-size: 12px;
-  }
-  .editCard .q-carousel__slide {
-    background-size: cover;
-    background-position: center;
-    background-size: 100%;
-    background-repeat: no-repeat;
-  }
-
   //prevew card
 }
 
 @media screen and (max-width: 440px) {
-  .previewName {
-    font-size: 12px;
+
+    .cardSection {
+    padding-left: 3px;
+            padding: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 20px;
+  }
+  .quanCol {
+    padding-left: 2.5px;
+  }
+
+  .sizeCol {
+    padding-right: 2.5px;
+  }
+
+  .quanInput {
+    max-width: 70px !important;
+  }
+
+  .sizeInput {
+    max-width: 90px !important;
+    font-size: 13px !important;
+  }
+
+  .actionBtns {
+    font-size: 15px;
+    width: 170px;
+  }
+  .nameCol {
+    margin-top: 20px;
+  }
+
+  .descInput {
+    font-size: 17px;
+  }
+  .allInput {
+    font-size: 14px;
+  }
+
+  .titleName {
+    font-size: 16px;
     margin: 0;
-    margin-left: -15px;
     white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
   }
+  .previewBtns {
+    font-size: 16px;
+    width: 170px !important;
+  }
 
-  .previewPrice {
-    font-size: 14px;
+  .descText {
+    font-size: 20px;
     margin: 0;
-    white-space: nowrap;
+  }
+  .q-textarea .q-field__native {
     line-height: normal;
-    letter-spacing: normal;
   }
+
+  .descTitle {
+    font-size: 35px;
+    margin: 0;
+  }
+
   .editCard {
-    height: 200px;
-    width: 100%;
-  }
-  .previewCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 250px;
+    width: 100%;
+    max-width: 420px;
+    height: 650px;
   }
-  .descTitle {
-    font-size: 15px;
-    margin: 0;
-    white-space: nowrap;
-    line-height: normal;
-    letter-spacing: normal;
+  .namePri {
+    width: 170px;
+    font-size: 17px;
   }
-  .descText {
-    font-size: 12px;
-    margin: 0;
-    line-height: normal;
-  }
-  .previewBtns {
-    font-size: 12px;
-    width: 105px !important;
-  }
-  .dropDown {
-    font-size: 12px;
-    width: 105px !important;
+    .previewSlide{
+    height: 250px;
   }
 }
 </style>

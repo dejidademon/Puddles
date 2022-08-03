@@ -21,6 +21,8 @@ export default {
   },
   methods: {
     favbtnClicked() {
+      console.log(this.userStatus.uid)
+      if(this.userStatus.uid != null) {
       this.favFilled = null;
       axios.get(`${process.env.API}/favorites`).then((r) => {
         r.data.forEach((e) => {
@@ -47,6 +49,17 @@ export default {
         }
         this.getStatus();
       }, 800);
+      }
+          else {
+      this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Please create an account to save your favorites.",
+            persistent: true,
+          });
+    }
     },
 
     favStatus() {

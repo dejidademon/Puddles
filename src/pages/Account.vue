@@ -1,23 +1,34 @@
 <template>
-  <q-page v-if="adminUserId != userStatus.uid" class="q-ma-lg">
+  <q-page v-if="adminUserId != userStatus.uid" class="wholePage">
     <h2 class="title text-center">Account</h2>
     <div class="row">
       <div class="col items-center">
         <h4 class="subtitle text-center puddlesText q-ma-md">
           Previous Purcases
         </h4>
-        <div class="hisBox overflow-auto hide-scrollbar">
-
-        <q-list class="column">
-        <purchases v-if="loadingHist == false" v-for="(purch, key) in postedHist" :orders="purch" :postedHist="postedHist" :key="key" :id="key" />
-        <q-spinner-gears
-           v-if="loadingHist == true"
-          class="q-pa-md loading  self-center"
-          color="primary"
-          size="200px"
-        />
-      </q-list>
-
+        <div class="hisBox relative-position overflow-auto hide-scrollbar">
+          <div
+            v-if="postedHist.length == 0"
+            class="puddlesText absolute-center empty text-center"
+          >
+            You have no Previous Purchases
+          </div>
+          <q-list v-if="postedHist.length != 0" class="column">
+            <purchases
+              v-if="loadingHist == false"
+              v-for="(purch, key) in postedHist"
+              :orders="purch"
+              :postedHist="postedHist"
+              :key="key"
+              :id="key"
+            />
+            <q-spinner-gears
+              v-if="loadingHist == true"
+              class="q-pa-md loading self-center"
+              color="primary"
+              size="200px"
+            />
+          </q-list>
         </div>
       </div>
 
@@ -29,12 +40,25 @@
     </div>
 
     <h4 class="subtitle puddlesText text-center q-ma-sm">Favorited</h4>
-    <div class="favContainer overflow-auto hide-scrollbar">
+    <div class="favContainer relative-position overflow-auto hide-scrollbar">
+          <div
+            v-if="postedFavs.length == 0"
+            class="puddlesText absolute-center empty text-center"
+          >
+           You have no Previous Purchases
+          </div>
+
       <q-list class="column">
-        <favorite v-if="postedFavs != []" v-for="(favs, key) in postedFavs" :key="key" :id="key" :item="favs" />
+        <favorite
+          v-if="postedFavs.length != 0"
+          v-for="(favs, key) in postedFavs"
+          :key="key"
+          :id="key"
+          :item="favs"
+        />
         <q-spinner-gears
-           v-if="loadingFavs == true"
-          class="q-pa-md loading  self-center"
+          v-if="loadingFavs == true"
+          class="q-pa-md loading self-center"
           color="primary"
           size="200px"
         />
@@ -44,14 +68,20 @@
     <support />
   </q-page>
 
-  <admin-page v-else-if="adminUserId == userStatus.uid"/>
-
+  <admin-page v-else-if="adminUserId == userStatus.uid" />
 </template>
 
 <script>
 import { isLoggedIn } from "boot/firebase.js";
-import axios from 'axios';
-import { doc, addDoc, setDoc, updateDoc, collection, onSnapshot,} from "firebase/firestore";
+import axios from "axios";
+import {
+  doc,
+  addDoc,
+  setDoc,
+  updateDoc,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
 
 export default {
   data() {
@@ -64,42 +94,42 @@ export default {
       loadingFavs: null,
       loadingHist: null,
       postedHist: [],
-      adminUserId: 'wJwuXifVzNeUW8rqoBqq2m4Z1YD2',
+      adminUserId: "2wVKUvzDNmNHMAlhz8In4u9DLgf2",
     };
   },
   components: {
-    'login': require("components/Account/Login.vue").default,
-    'register': require("components/Account/Register.vue").default,
-    'support': require("components/Account/Support.vue").default,
-    'favorite': require("components/Account/Favorite.vue").default,
-    'purchases': require("components/Account/Purchases.vue").default,
-    'admin-page': require("pages/Admin.vue").default,
+    login: require("components/Account/Login.vue").default,
+    register: require("components/Account/Register.vue").default,
+    support: require("components/Account/Support.vue").default,
+    favorite: require("components/Account/Favorite.vue").default,
+    purchases: require("components/Account/Purchases.vue").default,
+    "admin-page": require("pages/Admin.vue").default,
   },
   methods: {
     getItems() {
       this.loadingItems = true;
-      this.items = []
-      this.favItems = []
-      this.postedFavs = []
-      this.postedHist = []
-        axios
-          .get(`${process.env.API}/slides`)
-          .then((r) => {
-              this.favItems = JSON.parse(JSON.stringify(r.data));
-              this.items = JSON.parse(JSON.stringify(r.data));
-              // console.log(orginData)
-          })
-          .catch((err) => {
-            this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "Could not get any items",
-              persistent: true,
-            });
+      this.items = [];
+      this.favItems = [];
+      this.postedFavs = [];
+      this.postedHist = [];
+      axios
+        .get(`${process.env.API}/slides`)
+        .then((r) => {
+          this.favItems = JSON.parse(JSON.stringify(r.data));
+          this.items = JSON.parse(JSON.stringify(r.data));
+          // console.log(orginData)
+        })
+        .catch((err) => {
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "Could not get any items",
+            persistent: true,
           });
-          this.loadingItems = false;
+        });
+      this.loadingItems = false;
     },
 
     getFavs() {
@@ -113,7 +143,6 @@ export default {
                 let favIds = e.favs.split("_");
                 //  console.log(this.favItems)
                 this.favItems.forEach((itemzz) => {
-                                               
                   favIds.forEach((idss) => {
                     if (idss == itemzz.id) {
                       this.postedFavs.push(itemzz);
@@ -133,11 +162,11 @@ export default {
               persistent: true,
             });
           });
-           this.loadingFavs = false;
+        this.loadingFavs = false;
       }, 500);
     },
 
-        getHist() {
+    getHist() {
       this.loadingHist = true;
       setTimeout(() => {
         axios
@@ -145,27 +174,26 @@ export default {
           .then((r) => {
             r.data.forEach((e) => {
               if (e.accountId == this.userStatus.uid) {
-                    let orderNum = e.orderId
-                    let status = e.status
-                    let total = e.total
-                    this.postedHist.push(orderNum)
-                    this.postedHist[orderNum] = []
-                    this.postedHist[orderNum].status = status 
-                    this.postedHist[orderNum].total = total 
-                    let histIds = e.purchases.split("_");
-                  histIds.forEach((histo) => {
-                    let histIdss = histo.substring(0, histo.indexOf('QUAN'))
-                    let histIds = histo.substring(0, histo.indexOf('SIZE'))
-                    let histQuan = histo.split("QUAN").pop()
-                    // console.log('histo', histIds)
+                let orderNum = e.orderId;
+                let status = e.status;
+                let total = e.total;
+                this.postedHist.push(orderNum);
+                this.postedHist[orderNum] = [];
+                this.postedHist[orderNum].status = status;
+                this.postedHist[orderNum].total = total;
+                let histIds = e.purchases.split("_");
+                histIds.forEach((histo) => {
+                  let histIdss = histo.substring(0, histo.indexOf("QUAN"));
+                  let histIds = histo.substring(0, histo.indexOf("SIZE"));
+                  let histQuan = histo.split("QUAN").pop();
+                  // console.log('histo', histIds)
 
-
-                    this.items.forEach((itemz) => {
+                  this.items.forEach((itemz) => {
                     if (histIds == itemz.id) {
-                      itemz.orderId = orderNum
-                      itemz.quantity = histQuan
-                      this.postedHist[orderNum].push(itemz)
-                    console.log(e)
+                      itemz.orderId = orderNum;
+                      itemz.quantity = histQuan;
+                      this.postedHist[orderNum].push(itemz);
+                      console.log(e);
                     }
                   });
                 });
@@ -181,48 +209,47 @@ export default {
               message: "Could not get one or more of your previous purchases",
               persistent: true,
             });
-          console.log(err.message)
+            console.log(err.message);
           });
-           this.loadingHist = false;
-
+        this.loadingHist = false;
       }, 300);
     },
 
-        watchStatus() {
-    const DocRef = doc(db, "Favorited", this.userStatus.uid);
-    const unsub = onSnapshot(DocRef, (doc) => {
+    watchStatus() {
+      const DocRef = doc(db, "Favorited", this.userStatus.uid);
+      const unsub = onSnapshot(DocRef, (doc) => {
         // console.log("Current data:", doc.data().favs)
-        this.favs = doc.data().favs
+        this.favs = doc.data().favs;
         this.favStatus();
-    })
-    unsub
+      });
+      unsub;
     },
-
-
   },
 
-mounted() {
-      setTimeout(() => {
+  mounted() {
+    setTimeout(() => {
       if (this.items == false) {
-      this.getItems()
-      this.getHist();
-      this.getFavs();
+        this.getItems();
+        this.getHist();
+        this.getFavs();
       }
     }, 450);
-},
+  },
 
   watch: {
-    userStatus: function() {
-      this.getItems()
+    userStatus: function () {
+      this.getItems();
       this.getHist();
       this.getFavs();
     },
-  }
-
+  },
 };
 </script>
 
 <style lang="scss">
+.empty {
+    color: black;
+}
 
 .loading {
   position: relative;
@@ -240,12 +267,11 @@ mounted() {
 .hisBox {
   background-color: white;
   overflow-x: hidden;
-  min-height: 350px;
-  max-height: 400px;
+  min-height: 300px;
+  height: 525px;
 }
 
 //input boxes
-
 
 .inputs {
   color: black !important;
@@ -271,19 +297,31 @@ mounted() {
 
 /* big */
 @media screen and (min-width: 970px) {
+  .wholePage {
+    margin: 30px;
+  }
   .subtitle {
-  font-size: 25px;
-}
+    font-size: 25px;
+  }
   .title {
     margin: -5px;
     font-size: 50px;
   }
+  .empty {
+    font-size: 30px;
+  }
 }
 //smaller screen
 @media screen and (max-width: 970px) {
+    .wholePage {
+    margin: 20px;
+  }
+    .empty {
+    font-size: 25px;
+  }
   .subtitle {
-  font-size: 20px;
-}
+    font-size: 20px;
+  }
   .title {
     margin: -5px;
     font-size: 30px;
@@ -291,23 +329,42 @@ mounted() {
 }
 // tablet
 @media screen and (max-width: 640px) {
-    .subtitle {
-  font-size: 20px;
-}
+    .wholePage {
+    margin: 10px;
+  }
+  .subtitle {
+    font-size: 17px;
+    white-space: nowrap;
+
+  }
   .title {
     margin: -5px;
     font-size: 30px;
   }
+      .empty {
+    font-size: 15px;
+  }
+    .hisBox {
+    height: 430px;
+  }
 }
 //mobile
 @media screen and (max-width: 440px) {
-    .subtitle {
-  font-size: 20px;
-  white-space: nowrap;
-}
+    .wholePage {
+    margin: 10px;
+  }
+  .subtitle {
+    font-size: 15px;
+  }
   .title {
     margin: -10px;
     font-size: 30px;
+  }
+        .empty {
+    font-size: 13px;
+  }
+  .hisBox {
+    height: 430px;
   }
 }
 </style>

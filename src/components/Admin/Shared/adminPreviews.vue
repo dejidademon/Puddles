@@ -819,4 +819,41 @@ export default {
 .caroErr {
   font-size: 30px;
 }
+@media screen and (min-width: 970px) {
+.caroErr {
+  font-size: 30px;
+}
+.wholeCaro {
+  margin-top: 30px;
+}
+}
+//smaller screen
+@media screen and (max-width: 970px) {
+.caroErr {
+  font-size: 22px;
+}
+.wholeCaro {
+  margin-top: 10px;
+}
+}
+// tablet
+@media screen and (max-width: 640px) {
+.caroErr {
+  font-size: 22px;
+}
+.wholeCaro {
+  margin-top: 5px;
+}
+}
+//mobile
+@media screen and (max-width: 440px) {
+.caroErr {
+  font-size: 14px;
+  white-space: nowrap;
+}
+.wholeCaro {
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
+}
 </style>
