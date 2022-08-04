@@ -193,7 +193,7 @@ export default {
 
 <style lang="scss">
 body {
-  background-color: #6f7b87;
+  background-color: #729194;
 }
 
 @font-face {
