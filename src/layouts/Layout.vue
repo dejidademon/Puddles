@@ -33,8 +33,8 @@
           exact
           class="routes"
         >
-          <q-btn rounded class="btnSize" color="primary">
-            <h3 class="btnTxt text-no-wrap text-white q-ma-none text-center">
+          <q-btn rounded class="btnSize row" color="primary">
+            <h3 class="btnTxt text-no-wrap text-white q-ma-none q-pa-none items-center text-center">
               {{ nav.label }}
             </h3>
           </q-btn>
@@ -192,6 +192,10 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: #6f7b87;
+}
+
 @font-face {
   font-family: "puddles_font";
   src: url("../assets/PiecesNfi.ttf");
@@ -415,7 +419,6 @@ h3 {
   background: -webkit-linear-gradient(#ffffff, #85c6ff);
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  line-height: unset;
 }
 .mobileSearch {
   display: none;
@@ -610,6 +613,8 @@ h3 {
   .routes {
     padding-right: 2px;
     padding-left: 2px;
+    padding-top: 0px;
+    margin-bottom: 3px;
   }
   .links {
     width: 40px;
