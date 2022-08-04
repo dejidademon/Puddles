@@ -633,6 +633,12 @@ h3 {
   .footerTags {
     font-size: 13px;
   }
+  .menu-link h3 {
+  background: -webkit-linear-gradient(#ffffff, #85c6ff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: unset;
+}
 }
 
 </style>
