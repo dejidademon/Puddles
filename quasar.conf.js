@@ -162,8 +162,8 @@ module.exports = configure(function (ctx) {
         description: 'An appearel website with some of the latest drip.',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        background_color: '#729194',
+        theme_color: '#6F7B87',
         icons: [{
             src: 'icons/icon-128x128.png',
             sizes: '128x128',

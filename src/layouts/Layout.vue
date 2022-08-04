@@ -9,9 +9,8 @@
         <img class="logo absolute-left" src="~assets/PuddlesLogo.png" />
       </a>
 
-      <h3 class="bigTxt absolute-center text-center highlighted">
-        <a href="/">Puddles</a>
-      </h3>
+        <a class="puddlesText bigTxt absolute-center text-center highlighted" href="/">Puddles</a>
+
     </header>
 
     <div class="all q-mt-sm">
@@ -407,14 +406,16 @@ h3 {
   line-height: normal;
 }
 .highlighted {
-  background: -webkit-linear-gradient(#ffffff 20%, #85c6ff);
+  background: -webkit-linear-gradient(#ffffff, #85c6ff);
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  line-height: unset;
 }
 .menu-link h3 {
-  background: -webkit-linear-gradient(#ffffff 20%, #85c6ff);
+  background: -webkit-linear-gradient(#ffffff, #85c6ff);
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  line-height: unset;
 }
 .mobileSearch {
   display: none;
@@ -588,12 +589,14 @@ h3 {
   }
   .bigTxt {
     font-size: 40px;
-    margin-top: -1px;
+    margin-top: 0px;
   }
   .searchBar {
     display: none;
   }
   .btnTxt {
+    margin: 0px;
+    padding: 0px;
     font-size: 14px;
     white-space: nowrap;
   }

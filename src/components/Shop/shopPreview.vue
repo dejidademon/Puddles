@@ -94,6 +94,8 @@
         </q-btn-dropdown>
 
         <q-btn class="col-6 previewBtns regText q-mt-sm snipcart-add-item" no-caps color="accent"
+        data-item-max-quantity="5"
+        :data-item-quantity="quantity"
         :data-item-id="items.id"
         :data-item-price="items.price"
         :data-item-url="items.url"
