@@ -80,7 +80,8 @@
               :active="sizeLink === key"
               :key="key"
               :id="key"
-              @click="sizeLink = key"
+              @click="sizeLink = key, selectedSize = postedSize"
+
               active-class="sizeSelected"
               class="regText sizeLetters"
               clickable
@@ -100,7 +101,11 @@
         :data-item-url="items.url"
         :data-item-description="items.itemDesc"
         :data-item-image="items.itemImg1"
-        :data-item-name="items.itemName">
+        :data-item-name="items.itemName"
+        data-item-custom1-name="Size"
+        :data-item-custom1-value="selectedSize"
+        :data-item-custom1-options="snipSizes">
+        
           Add To Cart
         </q-btn>
       </div>
@@ -151,6 +156,8 @@ export default {
       previewSlide: ref(1),
       notsMobile: true,
       postedSizes: [],
+      snipSizes: "",
+      selectedSize: ""
     };
   },
   props: ["items", "id"],
@@ -166,9 +173,11 @@ export default {
       let sizes = this.items.itemSize.replace(/SIZE/g, "").substring(1);
       let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
       let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
+      let snipSizeParse = splitSizes2.replaceAll('_', "|")
       let splitSizes = splitSizes2.split('_')
-
+      this.snipSizes = snipSizeParse
       this.postedSizes = splitSizes;
+      console.log(this.sizeLink, 'b')
 // console.log(this.postedSizes)
     },
   },

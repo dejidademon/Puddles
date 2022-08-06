@@ -27,49 +27,29 @@
       </div>
     </q-carousel-slide>
 
-    <q-carousel-slide class="q-pa-none" :name="2">
+    <q-carousel-slide v-if="previewImg.imageUrl2 != false" class="q-pa-none" :name="2">
       <q-img
-        v-if="previewImg.imageUrl2 != false"
         :src="previewImg.imageUrl2"
         spinner-color="primary"
         class="full-height"
       />
-      <div
-        v-if="previewImg.imageUrl2 == false"
-        class="puddlesText caroErr absolute-center text-center"
-      >
-        This image could not be loaded
-      </div>
     </q-carousel-slide>
 
-    <q-carousel-slide class="q-pa-none" :name="3">
+    <q-carousel-slide v-if="previewImg.imageUrl3 != false" class="q-pa-none" :name="3">
       <q-img
-        v-if="previewImg.imageUrl3 != false"
         :src="previewImg.imageUrl3"
         spinner-color="primary"
         class="full-height"
       />
-      <div
-        v-if="previewImg.imageUrl3 == false"
-        class="puddlesText caroErr absolute-center text-center"
-      >
-        This image could not be loaded
-      </div>
+
     </q-carousel-slide>
 
-    <q-carousel-slide class="q-pa-none" :name="4">
+    <q-carousel-slide v-if="previewImg.imageUrl4 != false" class="q-pa-none" :name="4">
       <q-img
-        v-if="previewImg.imageUrl4 != false"
         :src="previewImg.imageUrl4"
         spinner-color="primary"
         class="full-height"
       />
-      <div
-        v-if="previewImg.imageUrl4 == false"
-        class="puddlesText caroErr absolute-center text-center"
-      >
-        This image could not be loaded
-      </div>
     </q-carousel-slide>
   </q-carousel>
 </template>
