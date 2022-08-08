@@ -84,7 +84,7 @@
   </q-page>
 
   <q-dialog v-model="showAdd">
-    <show-add @close="showAdd = false" />
+    <show-add  />
   </q-dialog>
 </template>
 

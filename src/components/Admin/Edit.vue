@@ -144,18 +144,84 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-      <div class="col q-pl-sm">
+            <div class="col q-pl-sm">
         <h2 class="titleName puddlesText text-center q-pb-sm">DESCRIPTION</h2>
         <q-input
+          ref="desc"
+          :rules="[(val) => !!val || 'Required']"
           autogrow
+          :dense="dense"
           input-class="text-white"
           standout
           bg-color="grey-5"
           v-model="items.itemDesc"
-          class="column descInput regText text-center"
-          :dense="dense"
+          class="column descInput descText regText text-center"
         >
         </q-input>
+
+        <div class="row no-wrap justify-evenly">
+          <div>
+              <h2 class="titleName text-center puddlesText">Weight</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Grams"
+              bg-color="grey-5"
+              v-model="items.dimensions.weight"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+
+          <div>
+              <h2 class="titleName text-center puddlesText">Length</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Centimeters"
+              bg-color="grey-5"
+              v-model="items.dimensions.length"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+        </div>
+                <div class="row no-wrap justify-evenly">
+          <div>
+
+                          <h2 class="titleName text-center puddlesText">Width</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Centimeters"
+              bg-color="grey-5"
+              v-model="items.dimensions.width"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+
+          <div>
+              <h2 class="titleName text-center puddlesText">Height</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Centimeters"
+              bg-color="grey-5"
+              v-model="items.dimensions.height"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+        </div>
       </div>
     </q-card-section>
 
@@ -204,32 +270,40 @@
           </h2>
         </div>
 
-        <div class="nameCol column col">
-          <h2 class="titleName puddlesText">Name</h2>
+        <div class="q-pl-sm col">
+                    <div class="row justify-evenly">
+          <div class=" no-wrap ">
+            <h2 class="titleName puddlesText">Name</h2>
+            <q-input
+              :dense="dense"
+              :rules="[(val) => !!val || 'Required']"
+              ref="name"
+              v-model="items.itemName"
+              standout
+              bg-color="grey-5"
+              input-class="text-white"
+              class="self-center q-mt-sm namePri allInput regText"
+            >
+            </q-input>
+          </div>
 
-          <q-input
-            :dense="dense"
-            :rules="[(val) => !!val || 'Required']"
-            v-model="items.itemName"
-            standout
-            bg-color="grey-5"
-            input-class="text-white"
-            class="self-center q-mt-sm namePri allInput regText"
-          >
-          </q-input>
-          <h2 class="titleName puddlesText">Price</h2>
-          <q-input
-            :dense="dense"
-            :rules="[(val) => !!val || 'Required']"
-            prefix="$"
-            label-color="white"
-            standout
-            bg-color="grey-5"
-            input-class="text-white"
-            v-model="items.price"
-            class="text-white self-center q-mt-sm namePri allInput priceInput regText"
-          >
-          </q-input>
+          <div class=" no-wrap justify-evenly">
+            <h2 class="titleName text-center puddlesText">Price</h2>
+            <q-input
+              :dense="dense"
+              ref="price"
+              :rules="[(val) => !!val || 'Required']"
+              prefix="$"
+              label-color="white"
+              standout
+              bg-color="grey-5"
+              input-class="text-white "
+              v-model="items.price"
+              class="text-white self-center q-mt-sm namePri allInput priceInput regText"
+            >
+            </q-input>
+          </div>
+          </div>
 
           <q-btn
             icon="save"
@@ -770,6 +844,12 @@ export default {
               itemName: this.items.itemName,
               price: this.items.price,
               itemSize: this.compiledQuanItems,
+              dimensions: {
+                weight: this.items.dimensions.weight,
+                length: this.items.dimensions.length,
+                width: this.items.dimensions.width,
+                height: this.items.dimensions.height,
+              }
             })
               .then((b) => {
                 this.$q

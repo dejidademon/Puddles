@@ -104,7 +104,14 @@
         :data-item-name="items.itemName"
         data-item-custom1-name="Size"
         :data-item-custom1-value="selectedSize"
-        :data-item-custom1-options="snipSizes">
+        :data-item-custom1-options="snipSizes"
+        :data-item-weight="items.dimensions.weight"
+        :data-item-length="items.dimensions.length"
+        :data-item-height="items.dimensions.height"
+        :data-item-width="items.dimensions.width"
+        data-item-stackable="auto"
+        data-item-taxable="true"
+        >
         
           Add To Cart
         </q-btn>
@@ -169,7 +176,7 @@ export default {
       }
     },
     getSizes() {
-      
+      console.log(this.items)
       let sizes = this.items.itemSize.replace(/SIZE/g, "").substring(1);
       let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
       let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))

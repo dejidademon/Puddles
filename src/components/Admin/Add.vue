@@ -1,8 +1,6 @@
 <template>
   <q-card class="editCard hide-scrollbar text-white fixed-center">
-    <q-card-section
-      class="row cardSection"
-    >
+    <q-card-section class="row cardSection">
       <!-- DO THE SIZESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS FUNCTIONALITY-->
       <div class="col">
         <q-carousel
@@ -158,14 +156,81 @@
           class="column descInput descText regText text-center"
         >
         </q-input>
+
+        <div class="row no-wrap justify-evenly">
+          <div>
+              <h2 class="titleName text-center puddlesText">Weight</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Grams"
+              bg-color="grey-5"
+              v-model="items.dimensions.weight"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+
+          <div>
+              <h2 class="titleName text-center puddlesText">Length</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Centimeters"
+              bg-color="grey-5"
+              v-model="items.dimensions.length"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+        </div>
+                <div class="row no-wrap justify-evenly">
+          <div>
+
+                          <h2 class="titleName text-center puddlesText">Width</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Centimeters"
+              bg-color="grey-5"
+              v-model="items.dimensions.width"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+
+          <div>
+              <h2 class="titleName text-center puddlesText">Height</h2>
+            <q-input
+              :rules="[(val) => !!val || 'Required']"
+              :dense="dense"
+              standout
+              label="Centimeters"
+              bg-color="grey-5"
+              v-model="items.dimensions.height"
+              input-class="text-white"
+              class="q-mt-sm quanInput allInput regText"
+            >
+            </q-input>
+          </div>
+        </div>
       </div>
     </q-card-section>
 
     <q-card-section class="cardSection q-pt-none q-mt-sm q-mb-none">
       <div class="row text-center">
-          <div class="col justify-evenly">
+        <div class="col justify-evenly">
           <div class="row no-wrap justify-evenly scrollFaMe hide-scrollbar">
-            <div class="no-wrap items-center sizeCol column q-pr-sm" v-if="shoeSizes == false">
+            <div
+              class="no-wrap items-center sizeCol column q-pr-sm"
+              v-if="shoeSizes == false"
+            >
               <h2 class="titleName puddlesText">Size</h2>
               <q-input
                 :dense="dense"
@@ -208,7 +273,10 @@
               </q-input>
             </div>
 
-            <div class="no-wrap items-center column quanCol q-pl-sm" v-if="shoeSizes == false">
+            <div
+              class="no-wrap items-center column quanCol q-pl-sm"
+              v-if="shoeSizes == false"
+            >
               <h2 class="titleName puddlesText">Quantity</h2>
               <q-input
                 :dense="dense"
@@ -251,7 +319,10 @@
               </q-input>
             </div>
 
-            <div class="no-wrap items-center sizeCol column q-pr-sm" v-if="shoeSizes == true">
+            <div
+              class="no-wrap items-center sizeCol column q-pr-sm"
+              v-if="shoeSizes == true"
+            >
               <h2 class="titleName puddlesText">Size</h2>
               <q-input
                 :dense="dense"
@@ -265,7 +336,10 @@
               >
               </q-input>
             </div>
-            <div class="no-wrap items-center column quanCol q-pl-sm" v-if="shoeSizes == true">
+            <div
+              class="no-wrap items-center column quanCol q-pl-sm"
+              v-if="shoeSizes == true"
+            >
               <h2 class="titleName puddlesText">Quantity</h2>
               <q-input
                 :dense="dense"
@@ -279,50 +353,57 @@
               >
               </q-input>
             </div>
-            
-            </div>
-            
-            <h2 class="regText self-center titleName q-my-sm">
-              Shoes
-              <q-checkbox
-                @click="checkboxClicked"
-                class="shoeBox"
-                color="accent"
-                v-model="shoeSizes"
-              />
-            </h2>
+          </div>
+<div>
+          <h2 class="regText self-center titleName q-my-sm">
+            Shoes
+            <q-checkbox
+              @click="checkboxClicked"
+              class="shoeBox"
+              color="accent"
+              v-model="shoeSizes"
+            />
+          </h2>
+</div>
+
+        </div>
+
+        <div class="q-pl-sm  col">
+          <div class="row justify-evenly">
+          <div class=" no-wrap ">
+            <h2 class="titleName puddlesText">Name</h2>
+            <q-input
+              :dense="dense"
+              :rules="[(val) => !!val || 'Required']"
+              ref="name"
+              v-model="items.itemName"
+              standout
+              bg-color="grey-5"
+              input-class="text-white"
+              class="self-center q-mt-sm namePri allInput regText"
+            >
+            </q-input>
           </div>
 
+          <div class=" no-wrap justify-evenly">
+            <h2 class="titleName text-center puddlesText">Price</h2>
+            <q-input
+              :dense="dense"
+              ref="price"
+              :rules="[(val) => !!val || 'Required']"
+              prefix="$"
+              label-color="white"
+              standout
+              bg-color="grey-5"
+              input-class="text-white "
+              v-model="items.price"
+              class="text-white self-center q-mt-sm namePri allInput priceInput regText"
+            >
+            </q-input>
+          </div>
+          </div>
 
-        <div class="nameCol column col">
-          <h2 class="titleName puddlesText">Name</h2>
-
-          <q-input
-            :dense="dense"
-            :rules="[(val) => !!val || 'Required']"
-            ref="name"
-            v-model="items.itemName"
-            standout
-            bg-color="grey-5"
-            input-class="text-white"
-            class="self-center q-mt-sm namePri allInput regText"
-          >
-          </q-input>
-          <h2 class="titleName puddlesText">Price</h2>
-          <q-input
-            :dense="dense"
-            ref="price"
-            :rules="[(val) => !!val || 'Required']"
-            prefix="$"
-            label-color="white"
-            standout
-            bg-color="grey-5"
-            input-class="text-white "
-            v-model="items.price"
-            class="text-white self-center q-mt-sm namePri allInput priceInput regText"
-          >
-          </q-input>
-
+          <div class=" items-end">
           <q-btn
             icon="save"
             color="green"
@@ -337,6 +418,8 @@
             color="red-8"
             class="self-center q-mt-sm actionBtns"
           />
+          </div>
+
         </div>
       </div>
     </q-card-section>
@@ -425,6 +508,12 @@ export default {
           urls: {},
         },
         itemSlide: 1,
+              dimensions: {
+                weight: "",
+                length: "",
+                width: "",
+                height: "",
+              }
       },
       compiledQuanItems: "",
     };
@@ -610,6 +699,12 @@ export default {
         favorited: 0,
         previewed: 0,
         purchased: 0,
+        dimensions: {
+          weight: this.items.dimensions.weight,
+          length: this.items.dimensions.length,
+          width: this.items.dimensions.width,
+          height: this.items.dimensions.height,
+        }
       })
         .then((docRef) => {
           const DocRef = doc(db, "Slides", docRef.id);
@@ -719,7 +814,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .scrollFaMe {
   overflow-x: hidden;
@@ -757,14 +851,14 @@ export default {
 
 /* big */
 @media screen and (min-width: 970px) {
-//Preview card
+  //Preview card
 
   .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
   }
 
   .actionBtns {
@@ -816,9 +910,7 @@ export default {
     width: 100%;
     max-width: 800px;
   }
-  .previewSlide {
-    height: 350px;
-  }
+
 
   //prevew card
 }
@@ -827,10 +919,10 @@ export default {
   //Preview card
   .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
   }
 
   .actionBtns {
@@ -893,10 +985,10 @@ export default {
   //Preview card
   .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
   }
 
   .quanCol {
@@ -972,13 +1064,12 @@ export default {
 }
 
 @media screen and (max-width: 440px) {
-
-    .cardSection {
+  .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
   }
   .quanCol {
     padding-left: 2.5px;
@@ -1049,7 +1140,7 @@ export default {
     width: 170px;
     font-size: 17px;
   }
-    .previewSlide{
+  .previewSlide {
     height: 250px;
   }
 }
