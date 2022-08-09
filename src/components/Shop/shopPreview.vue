@@ -176,7 +176,6 @@ export default {
       }
     },
     getSizes() {
-      console.log(this.items)
       let sizes = this.items.itemSize.replace(/SIZE/g, "").substring(1);
       let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
       let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
