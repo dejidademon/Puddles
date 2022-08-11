@@ -24,10 +24,7 @@ end of slides
 */
 
 app.get('/slides', (request, response) => {
-response.set('Access-Control-Allow-Origin', "*")
-response.setHeader('Content-Type', "application/json")
-
-
+  response.set('Access-Control-Allow-Origin', "*")
 
     let slides = []
     

@@ -837,6 +837,11 @@ export default {
           }
         }
 
+      let sizes = this.compiledQuanItems.replace(/SIZE/g, "").substring(1);
+      let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
+      let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
+      let snipSizes = splitSizes2.replaceAll('_', "|")
+
         if (i == 3) {
           setTimeout(() => {
             updateDoc(DocRef, {
@@ -849,7 +854,14 @@ export default {
                 length: this.items.dimensions.length,
                 width: this.items.dimensions.width,
                 height: this.items.dimensions.height,
-              }
+              },
+              customFields: [
+                {
+                  name: "Size",
+                  options: snipSizes,
+                  type: "dropdown"
+                }
+              ]
             })
               .then((b) => {
                 this.$q

@@ -683,9 +683,11 @@ export default {
       }
       console.log(this.compiledQuanItems);
 
-      // if (this.shoeSizes == true) {
+      let sizes = this.compiledQuanItems.replace(/SIZE/g, "").substring(1);
+      let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
+      let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
+      let snipSizes = splitSizes2.replaceAll('_', "|")
 
-      // }
 
       addDoc(collection(db, "Slides"), {
         itemArchived: false,
@@ -695,7 +697,7 @@ export default {
         price: this.items.price,
         itemSize: this.compiledQuanItems,
         date: this.items.date,
-        url: "https://puddles-backend.herokuapp.com/slides",
+        url: "https://puddles-backend-production.herokuapp.com/slides",
         favorited: 0,
         previewed: 0,
         purchased: 0,
@@ -704,7 +706,17 @@ export default {
           length: this.items.dimensions.length,
           width: this.items.dimensions.width,
           height: this.items.dimensions.height,
-        }
+        },
+        categories: ["category1"],
+        customFields: [
+          {
+            name: "Size",
+            options: snipSizes,
+            type: "dropdown"
+
+          }
+        ]
+
       })
         .then((docRef) => {
           const DocRef = doc(db, "Slides", docRef.id);

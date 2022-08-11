@@ -95,22 +95,20 @@
         </q-btn-dropdown>
 
         <q-btn class="col-6 previewBtns regText q-mt-sm snipcart-add-item" no-caps color="accent"
-        :data-item-quantity="quantity"
         :data-item-id="items.id"
         :data-item-price="items.price"
         :data-item-url="items.url"
         :data-item-description="items.itemDesc"
         :data-item-image="items.itemImg1"
         :data-item-name="items.itemName"
-        data-item-custom1-name="Size"
-        :data-item-custom1-value="selectedSize"
-        :data-item-custom1-options="snipSizes"
         :data-item-weight="items.dimensions.weight"
         :data-item-length="items.dimensions.length"
         :data-item-height="items.dimensions.height"
         :data-item-width="items.dimensions.width"
-        data-item-stackable="auto"
-        data-item-taxable="true"
+        :data-item-custom1-options="items.customFields[0].options"
+        :data-item-custom1-name="items.customFields[0].name"
+        :data-item-custom1-value="selectedSize"
+        :data-item-quantity="quantity"
         >
         
           Add To Cart
@@ -183,7 +181,8 @@ export default {
       let splitSizes = splitSizes2.split('_')
       this.snipSizes = snipSizeParse
       this.postedSizes = splitSizes;
-      console.log(this.sizeLink, 'b')
+      console.log(this.snipSizes, 'b')
+      console.log(this.items)
 // console.log(this.postedSizes)
     },
   },

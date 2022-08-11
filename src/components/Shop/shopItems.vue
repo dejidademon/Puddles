@@ -50,23 +50,6 @@ fit="contain"
         >
       </div>
     </q-card-section>
-
-  <div class="hidden snipcart-add-item"       
-      :data-item-id="items.id"
-      :data-item-price="items.price"
-      :data-item-url="items.url"
-      :data-item-description="items.itemDesc"
-      :data-item-image="items.itemImg1"
-      :data-item-name="items.itemName"
-      data-item-custom1-name="Size"
-      :data-item-weight="items.dimensions.weight"
-      :data-item-length="items.dimensions.length"
-      :data-item-height="items.dimensions.height"
-      :data-item-width="items.dimensions.width"
-      data-item-stackable="auto"
-      data-item-taxable="true">
-    hidden
-  </div>
   </q-card>
 
 
@@ -102,7 +85,7 @@ export default {
   },
 
     mounted() {
-      console.log(this.items.itemImg2)
+      console.log(this.items)
       this.isMobile()
       window.addEventListener("resize", this.isMobile);
   },
