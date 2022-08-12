@@ -396,7 +396,7 @@ export default {
     font-size: 30px;
   }
   .carousel {
-    height: 230px;
+    height: 140px;
   }
     .addBtn {
     font-size: 30px;

@@ -18,6 +18,9 @@
         :src="previewImg.imageUrl1"
         spinner-color="primary"
         class="full-height"
+        fit="fill"
+
+
       />   
                 <div v-if="previewImg.imageUrl1 == false" class="puddlesText caroErr absolute-center text-center">
             This image could not be loaded
@@ -54,6 +57,9 @@
         :src="previewImg.imageUrl2"
         spinner-color="primary"
         class="full-height"
+                fit="fill"
+
+
       />
                 <div v-if="previewImg.imageUrl2 == false" class="puddlesText caroErr absolute-center text-center">
             This image could not be loaded
@@ -86,6 +92,8 @@
     <q-carousel-slide class="q-pa-none" :name="3">
       <q-img
       v-if="previewImg.imageUrl3 != false"
+                      fit="fill"
+
 
         :src="previewImg.imageUrl3"
         spinner-color="primary"
@@ -121,6 +129,9 @@
 
     <q-carousel-slide class="q-pa-none" :name="4">
       <q-img
+                      fit="fill"
+
+
       v-if="previewImg.imageUrl4 != false"
         :src="previewImg.imageUrl4"
         spinner-color="primary"
@@ -843,6 +854,9 @@ export default {
 }
 .wholeCaro {
   margin-top: 5px;
+}
+.carousel {
+  height: 200px;
 }
 }
 //mobile

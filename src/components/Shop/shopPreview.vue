@@ -21,7 +21,7 @@
         >
                   <q-carousel-slide v-if="items.itemImg1 != false" :name="1" class="q-pa-none" > 
               <q-img
-              fit="contain"
+              fit="fill"
         :src="items.itemImg1"
         spinner-color="primary"
         class="full-height"
@@ -29,6 +29,7 @@
         </q-carousel-slide> 
                   <q-carousel-slide v-if="items.itemImg2 != false" :name="2" class="q-pa-none" > 
               <q-img
+              fit="fill"
 
         :src="items.itemImg2"
         spinner-color="primary"
@@ -37,6 +38,8 @@
         </q-carousel-slide> 
                   <q-carousel-slide v-if="items.itemImg3 != false" :name="3" class="q-pa-none" > 
               <q-img
+
+              fit="fill"
 
         :src="items.itemImg3"
         spinner-color="primary"
@@ -49,6 +52,8 @@
         :src="items.itemImg4"
         spinner-color="primary"
         class="full-height"
+              fit="fill"
+
       />
         </q-carousel-slide> 
         </q-carousel>

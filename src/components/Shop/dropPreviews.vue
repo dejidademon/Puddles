@@ -18,6 +18,8 @@
         :src="previewImg.imageUrl1"
         spinner-color="primary"
         class="full-height"
+              fit="fill"
+
       />
       <div
         v-if="previewImg.imageUrl1 == false"
@@ -32,6 +34,8 @@
         :src="previewImg.imageUrl2"
         spinner-color="primary"
         class="full-height"
+              fit="fill"
+
       />
     </q-carousel-slide>
 
@@ -40,6 +44,10 @@
         :src="previewImg.imageUrl3"
         spinner-color="primary"
         class="full-height"
+                      fit="fill"
+
+        
+
       />
 
     </q-carousel-slide>
@@ -49,6 +57,9 @@
         :src="previewImg.imageUrl4"
         spinner-color="primary"
         class="full-height"
+                            fit="fill"
+
+
       />
     </q-carousel-slide>
   </q-carousel>
@@ -120,6 +131,7 @@ export default {
 }
 .wholeCaro {
   margin-top: 5px;
+  height: 120px;
 }
 }
 //mobile
@@ -130,6 +142,8 @@ export default {
 .wholeCaro {
   margin-top: 0px;
   margin-bottom: 15px;
+  height: 120px;
+
 }
 }
 </style>
