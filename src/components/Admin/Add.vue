@@ -756,7 +756,7 @@ export default {
           }
           else if (this.items.itemImgs.urls[3] == null) {
             updateDoc(DocRef, {
-              itemImg2: false,
+              itemImg4: false,
             });
           }
           console.log("slideSubmittedFully:", docRef);
