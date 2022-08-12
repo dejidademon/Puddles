@@ -7,10 +7,9 @@
         v-if="loadingPreview == false"/>
 
     <template v-if="!loadingItems">
-      <div class="row">
+      <div class="row ">
         <shop-items
           v-for="(item, key) in items"
-          :notMobile="notMobile"
           :key="key"
           :items="item"
           :id="key"

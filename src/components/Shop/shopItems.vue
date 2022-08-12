@@ -1,7 +1,7 @@
 <template>
   <q-card square class="wholeCard  column"
   >
-    <q-card-section class="col-9 q-ma-none q-pa-none">
+    <q-card-section class="col q-ma-none q-pa-none">
       <q-carousel
         class="cardSlide"
         animated
@@ -32,7 +32,7 @@
       </q-carousel-slide> 
       </q-carousel>
     </q-card-section>
-    <q-card-section class="bottomCard col-3 q-ma-none q-pa-sm">
+    <q-card-section class="bottomCard content-end  q-ma-none q-pa-sm">
       <h4 class="q-ma-none q-pa-none" id="itemName">
         {{ items.itemName }}
       </h4>
@@ -85,7 +85,6 @@ export default {
   },
 
     mounted() {
-      console.log(this.items)
       this.isMobile()
       window.addEventListener("resize", this.isMobile);
   },
@@ -101,12 +100,10 @@ export default {
 .cardSlide {
   height: 100%;
 }
-#itemName {
-  white-space: nowrap;
-}
+
 
 .wholeCard {
-  height: 450px;
+  height: 580px;
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
