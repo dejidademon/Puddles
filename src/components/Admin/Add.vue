@@ -734,14 +734,29 @@ export default {
               itemImg2: this.items.itemImgs.urls[1],
             });
           }
+          else if (this.items.itemImgs.urls[1] == null) {
+            updateDoc(DocRef, {
+              itemImg2: false,
+            });
+          }
           if (this.items.itemImgs.urls[2] != null) {
             updateDoc(DocRef, {
               itemImg3: this.items.itemImgs.urls[2],
             });
           }
+          else if (this.items.itemImgs.urls[2] == null) {
+            updateDoc(DocRef, {
+              itemImg3: false,
+            });
+          }
           if (this.items.itemImgs.urls[3] != null) {
             updateDoc(DocRef, {
               itemImg4: this.items.itemImgs.urls[3],
+            });
+          }
+          else if (this.items.itemImgs.urls[3] == null) {
+            updateDoc(DocRef, {
+              itemImg2: false,
             });
           }
           console.log("slideSubmittedFully:", docRef);
