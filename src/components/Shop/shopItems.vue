@@ -16,7 +16,7 @@
       >
         <q-carousel-slide :name="1"     v-if="items.itemImg1 != false" class="q-pa-none" > 
               <q-img
-fit="contain"
+        fit="fill"
         :src="items.itemImg1"
         spinner-color="primary"
         class="full-height"
