@@ -91,12 +91,17 @@ export default {
               var itemDate = new Date(e.date); 
             if (itemDate >= past && itemDate <= future) {
               this.items.push(e)
-            } else{
-                this.noItems = true
-                return
-            }
+            } 
             }))
 
+            if (this.items == []) {
+                this.noItems = true
+                console.log(itemDate, 'hi')
+                return
+            }
+            else {
+              this.noItmes = false
+            }
             this.loadingItems = false;
           })
           .catch((err) => {
