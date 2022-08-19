@@ -89,9 +89,19 @@
       class="allLinks row shadow-up-10 bg-primary text-white"
     >
       <div class="absolute-center q-mx-auto">
-        <img class="links" src="~assets/facebook.png" />
+        
+        <a target=”_blank” href="">
+          <img class="links" src="~assets/facebook.png" />
+        </a>
+
+        <a target=”_blank” href="https://www.instagram.com/puddles_shop/">
         <img class="links" src="~assets/instagram.png" />
-        <img class="links" src="~assets/youtube.png" />
+        </a>
+
+        <a target=”_blank” href="https://www.snapchat.com/add/puddles_shop/">
+        <img class="links" src="~assets/snapchat.png" />
+        </a>
+
       </div>
       <div class="absolute-right tabs">
         <a style="text-decoration: none" href="/profile">
