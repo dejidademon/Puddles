@@ -1,8 +1,6 @@
 <template>
   <q-card class="editCard hide-scrollbar text-white fixed-center">
-    <q-card-section
-      class="row cardSection"
-    >
+    <q-card-section class="row cardSection">
       <!-- DO THE SIZESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS FUNCTIONALITY-->
       <div class="col">
         <q-carousel
@@ -144,7 +142,7 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-            <div class="col q-pl-sm">
+      <div class="col q-pl-sm">
         <h2 class="titleName puddlesText text-center q-pb-sm">DESCRIPTION</h2>
         <q-input
           ref="desc"
@@ -161,7 +159,7 @@
 
         <div class="row no-wrap justify-evenly">
           <div>
-              <h2 class="titleName text-center puddlesText">Weight</h2>
+            <h2 class="titleName text-center puddlesText">Weight</h2>
             <q-input
               :rules="[(val) => !!val || 'Required']"
               :dense="dense"
@@ -176,7 +174,7 @@
           </div>
 
           <div>
-              <h2 class="titleName text-center puddlesText">Length</h2>
+            <h2 class="titleName text-center puddlesText">Length</h2>
             <q-input
               :rules="[(val) => !!val || 'Required']"
               :dense="dense"
@@ -190,10 +188,9 @@
             </q-input>
           </div>
         </div>
-                <div class="row no-wrap justify-evenly">
+        <div class="row no-wrap justify-evenly">
           <div>
-
-                          <h2 class="titleName text-center puddlesText">Width</h2>
+            <h2 class="titleName text-center puddlesText">Width</h2>
             <q-input
               :rules="[(val) => !!val || 'Required']"
               :dense="dense"
@@ -208,7 +205,7 @@
           </div>
 
           <div>
-              <h2 class="titleName text-center puddlesText">Height</h2>
+            <h2 class="titleName text-center puddlesText">Height</h2>
             <q-input
               :rules="[(val) => !!val || 'Required']"
               :dense="dense"
@@ -268,41 +265,48 @@
               v-model="shoeSizez"
             />
           </h2>
+
+          <q-btn
+            label="Refresh Drop"
+            color="accent"
+            class="self-center puddlesText q-mt-sm actionBtns"
+            @click="dropRefresh"
+          />
         </div>
 
         <div class="q-pl-sm col">
-                    <div class="row justify-evenly">
-          <div class=" no-wrap ">
-            <h2 class="titleName puddlesText">Name</h2>
-            <q-input
-              :dense="dense"
-              :rules="[(val) => !!val || 'Required']"
-              ref="name"
-              v-model="items.itemName"
-              standout
-              bg-color="grey-5"
-              input-class="text-white"
-              class="self-center q-mt-sm namePri allInput regText"
-            >
-            </q-input>
-          </div>
+          <div class="row justify-evenly">
+            <div class="no-wrap">
+              <h2 class="titleName puddlesText">Name</h2>
+              <q-input
+                :dense="dense"
+                :rules="[(val) => !!val || 'Required']"
+                ref="name"
+                v-model="items.itemName"
+                standout
+                bg-color="grey-5"
+                input-class="text-white"
+                class="self-center q-mt-sm namePri allInput regText"
+              >
+              </q-input>
+            </div>
 
-          <div class=" no-wrap justify-evenly">
-            <h2 class="titleName text-center puddlesText">Price</h2>
-            <q-input
-              :dense="dense"
-              ref="price"
-              :rules="[(val) => !!val || 'Required']"
-              prefix="$"
-              label-color="white"
-              standout
-              bg-color="grey-5"
-              input-class="text-white "
-              v-model="items.price"
-              class="text-white self-center q-mt-sm namePri allInput priceInput regText"
-            >
-            </q-input>
-          </div>
+            <div class="no-wrap justify-evenly">
+              <h2 class="titleName text-center puddlesText">Price</h2>
+              <q-input
+                :dense="dense"
+                ref="price"
+                :rules="[(val) => !!val || 'Required']"
+                prefix="$"
+                label-color="white"
+                standout
+                bg-color="grey-5"
+                input-class="text-white "
+                v-model="items.price"
+                class="text-white self-center q-mt-sm namePri allInput priceInput regText"
+              >
+              </q-input>
+            </div>
           </div>
 
           <q-btn
@@ -382,6 +386,33 @@ export default {
   },
   props: ["items", "id"],
   methods: {
+    dropRefresh() {
+      const DocRef = doc(db, "Slides", this.items.id);
+      this.$q
+        .dialog({
+          style: "background-color:green;",
+          dark: true,
+          color: "white",
+          title: "Confirm",
+          message: "Are you sure you want to refresh this drop?",
+          persistent: true,
+          cancel: true
+        })
+        .onOk(() => {
+          var today = new Date();
+          var dd = String(today.getDate()).padStart(2, "0");
+          var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+          var yyyy = today.getFullYear();
+          today = mm + "/" + dd + "/" + yyyy;
+          this.items.date = today;
+          updateDoc(DocRef, {
+            date: this.items.date,
+          });
+        }).onCancel(() => {
+          console.log('cancled')
+        });
+    },
+
     archiveSubmit() {
       const DocRef = doc(db, "Slides", this.items.id);
       // console.log(this.items.itemArchived)
@@ -837,10 +868,10 @@ export default {
           }
         }
 
-      let sizes = this.compiledQuanItems.replace(/SIZE/g, "").substring(1);
-      let splitSizes1 = sizes.replace(/QUAN\d*_/g, '_')
-      let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf('QUAN'))
-      let snipSizes = splitSizes2.replaceAll('_', "|")
+        let sizes = this.compiledQuanItems.replace(/SIZE/g, "").substring(1);
+        let splitSizes1 = sizes.replace(/QUAN\d*_/g, "_");
+        let splitSizes2 = splitSizes1.slice(0, splitSizes1.indexOf("QUAN"));
+        let snipSizes = splitSizes2.replaceAll("_", "|");
 
         if (i == 3) {
           setTimeout(() => {
@@ -859,9 +890,9 @@ export default {
                 {
                   name: "Size",
                   options: snipSizes,
-                  type: "dropdown"
-                }
-              ]
+                  type: "dropdown",
+                },
+              ],
             })
               .then((b) => {
                 this.$q
@@ -1049,14 +1080,14 @@ export default {
 
 /* big */
 @media screen and (min-width: 970px) {
-//Preview card
+  //Preview card
 
   .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
   }
 
   .actionBtns {
@@ -1119,10 +1150,10 @@ export default {
   //Preview card
   .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
   }
 
   .actionBtns {
@@ -1185,10 +1216,10 @@ export default {
   //Preview card
   .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 24px;
-        margin-right: 24px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 20px;
   }
 
   .quanCol {
@@ -1264,13 +1295,12 @@ export default {
 }
 
 @media screen and (max-width: 440px) {
-
-    .cardSection {
+  .cardSection {
     padding-left: 3px;
-            padding: 0;
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-top: 20px;
+    padding: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
   }
   .quanCol {
     padding-left: 2.5px;
@@ -1341,7 +1371,7 @@ export default {
     width: 170px;
     font-size: 17px;
   }
-    .previewSlide{
+  .previewSlide {
     height: 250px;
   }
 }
