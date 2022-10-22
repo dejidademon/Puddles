@@ -85,17 +85,14 @@ export default {
             var future = new Date(inTwoWeeks);
             var past = new Date(twoWeeksAgo);
             var current = new Date(currentTime);
-
             r.data.forEach((e => {
               var itemDate = new Date(e.date); 
-            if (itemDate >= past && itemDate <= future && item.itemArchived == false)  {
+            if (itemDate >= past && itemDate <= future && e.itemArchived == false)  {
               this.items.push(e)
             } 
             }))
-
-            if (this.items == []) {
+            if (this.items.length == 0) {
                 this.noItems = true
-                console.log(itemDate, 'hi')
                 return
             }
             else {
@@ -104,6 +101,8 @@ export default {
             this.loadingItems = false;
           })
           .catch((err) => {
+            this.noItems = true
+            console.log(err)
             this.$q.dialog({
               style: "background-color:red;",
               dark: true,
