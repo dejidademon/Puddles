@@ -88,7 +88,7 @@ export default {
 
             r.data.forEach((e => {
               var itemDate = new Date(e.date); 
-            if (itemDate >= past && itemDate <= future) {
+            if (itemDate >= past && itemDate <= future && item.itemArchived == false)  {
               this.items.push(e)
             } 
             }))

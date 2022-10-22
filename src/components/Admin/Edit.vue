@@ -570,17 +570,21 @@ export default {
             this.item.itemImg.name[0] = filename;
           }
         } else if (targetId == "img2") {
+          console.log(this.item.itemImg[1], this.item.itemImg[1].substring(0, 4))
           try {
             if (
               this.item.itemImg[1] != false &&
               this.item.itemImg[1].substring(0, 4) == "http"
             ) {
+              console.log('no error', fileReader.result)
               this.item.itemImg.oldUrls[1] = this.item.itemImg[0].slice();
               this.item.itemImg[1] = fileReader.result;
               this.item.itemImg.file[1] = files[0];
               this.item.itemImg.name[1] = filename;
             }
           } catch (err) {
+            console.log('error', err, fileReader.result)
+
             this.item.itemImg[1] = fileReader.result;
             this.item.itemImg.file[1] = files[0];
             this.item.itemImg.name[1] = filename;
