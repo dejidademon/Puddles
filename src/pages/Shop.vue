@@ -1,6 +1,33 @@
 <template>
   <q-page class="q-ma-lg">
     <h1 class="title q-pb-lg text-center">SHOP</h1>
+    <div class="row puddlesText justify-end">
+      <q-btn-dropdown color="primary" label="Filter">
+        <q-list>
+          <q-item
+            v-for="(item, key) in filterOn"
+            :active="filterLink === key"
+            :key="key"
+            :id="key"
+            clickable
+            v-close-popup
+            active-class="filterSelected"
+            @click="filterLink = key, getItems(item)"
+          >
+            <q-item-section>
+              <q-item-label>{{ item }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
+    </div>
+
+    <template v-if="noItems">
+      <div class=" text-center">
+        <h2 class="puddlesText title q-mb-none" >No new drops currently</h2>
+         <h2 class="puddlesText title" >Check the Shop!</h2>
+      </div>
+    ></template>
 
     <template v-if="!loadingItems">
       <div class="row">
@@ -30,31 +57,72 @@ export default {
   data() {
     return {
       carouselAuto: ref(false),
+      noItems: false,
       slide: ref(1),
       items: [],
       loadingItems: false,
+      filterOn: [
+        "Shoes",
+        "Durag",
+        "Hoodie",
+        "T-Shirt",
+        "Belt",
+        "Beanie",
+        "On Hand",
+        "Best Selling",
+
+      ],
+      filterLink: ref(""),
     };
   },
   methods: {
-    getItems() {
+    getItems(filter) {
       const axios = require("axios");
       this.loadingItems = true;
+      this.noItems = false
+      this.items = []
+      // console.log(filter);
       setTimeout(() => {
         axios
           .get(`${process.env.API}/slides`)
           .then((r) => {
             var fbItems = JSON.parse(JSON.stringify(r.data));
+            
+            fbItems.forEach((item) => {
+              if (item.itemArchived == false) {
+                  if (filter == null) {
+                    this.items.push(item);
+  
+                  }
+                  else if ((filter !== "Shoes") && (filter !== "On Hand") && (filter !== "Best Selling")){
+                    if (item.itemName.includes(filter)) {
+                      this.items.push(item);
+                    }
+                  }
+                  else if (filter == "Shoes") {
+                    if (item.itemSize.split("_").length > 5) {
+                      this.items.push(item);
+                    }
+                  }
+                  else if (filter == "On Hand") {
+                    if (item.itemDesc.includes("PREORDERED") == false) {
+                      this.items.push(item);
+                    }
+                  }
+                  else if (filter == "Best Selling") {
+                    // if (item.purchases > "20") {
+                      this.items.push(item);
+                    // }
+                  }
+                  else if (filter == null) {
+                    this.items.push(item);
+                  }
+              }
 
-           fbItems.forEach((item) => {
-            if (item.itemArchived == false) {
-              this.items.push(item);
+            });
+            if (this.items.length == []) {
+              this.noItems = true
             }
-
-            if (item.itemArchived == true) {
-              // this.items.push(item);
-              console.log(item.itemArchived)
-            }
-          });
             this.loadingItems = false;
           })
           .catch((err) => {
@@ -81,6 +149,11 @@ export default {
 </script>
 
 <style lang="scss">
+.filterSelected {
+  background-color: rgb(201, 201, 201);
+  color: white;
+}
+
 .regText {
   font-family: "regular_font";
 }
