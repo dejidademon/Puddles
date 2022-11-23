@@ -27,7 +27,7 @@
         <h2 class="puddlesText title q-mb-none" >No new drops currently</h2>
          <h2 class="puddlesText title" >Check the Shop!</h2>
       </div>
-    ></template>
+    </template>
 
     <template v-if="!loadingItems">
       <div class="row">
