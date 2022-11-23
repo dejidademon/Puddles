@@ -6,7 +6,7 @@
   >
     <header class="top shadow-8 row bg-primary">
       <a href="/">
-        <img class="logo absolute-left" src="~assets/PuddlesLogo.png" />
+        <img class="logo absolute-left" src="~assets/PuddlesLogo.webp" />
       </a>
 
         <a class="puddlesText bigTxt absolute-center text-center highlighted" href="/">Puddles</a>
@@ -90,16 +90,16 @@
     >
       <div class="absolute-center q-mx-auto">
         
-        <a target=”_blank” href="">
-          <img class="links" src="~assets/facebook.png" />
+        <a target=”_blank” href="https://www.tiktok.com/@puddles_store">
+          <img class="links" src="~assets/tiktok.webp" />
         </a>
 
         <a target=”_blank” href="https://www.instagram.com/puddles_shop/">
-        <img class="links" src="~assets/instagram.png" />
+        <img class="links" src="~assets/instagram.webp" />
         </a>
 
         <a target=”_blank” href="https://www.snapchat.com/add/puddles_shop/">
-        <img class="links" src="~assets/snapchat.png" />
+        <img class="links" src="~assets/snapchat.webp" />
         </a>
 
       </div>
