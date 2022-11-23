@@ -159,7 +159,7 @@ module.exports = configure(function (ctx) {
       manifest: {
         name: 'Puddles',
         short_name: 'Puddles',
-        description: 'An appearel website with some of the latest drip.',
+        description: 'A site for all your drip needs!',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#729194',

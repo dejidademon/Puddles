@@ -186,8 +186,6 @@ export default {
       let splitSizes = splitSizes2.split('_')
       this.snipSizes = snipSizeParse
       this.postedSizes = splitSizes;
-      console.log(this.snipSizes, 'b')
-      console.log(this.items)
 // console.log(this.postedSizes)
     },
   },
