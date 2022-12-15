@@ -697,7 +697,7 @@ export default {
         price: this.items.price,
         itemSize: this.compiledQuanItems,
         date: this.items.date,
-        url: "https://puddles-backend-production.herokuapp.com/slides",
+        url: "https://puddles-backend-production.onrender.com/slides",
         favorited: 0,
         previewed: 0,
         purchased: 0,
