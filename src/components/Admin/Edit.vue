@@ -554,9 +554,10 @@ export default {
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         if (targetId == "img1") {
+          
           try {
             if (
-              this.item.itemImg[0] != false &&
+              this.item.itemImg[0] != false ||
               this.item.itemImg[0].substring(0, 4) == "http"
             ) {
               this.item.itemImg.oldUrls[0] = this.item.itemImg[0].slice();
@@ -565,18 +566,17 @@ export default {
               this.item.itemImg.name[0] = filename;
             }
           } catch (err) {
+            console.log('error', err, fileReader.result)
             this.item.itemImg[0] = fileReader.result;
             this.item.itemImg.file[0] = files[0];
             this.item.itemImg.name[0] = filename;
           }
         } else if (targetId == "img2") {
-          console.log(this.item.itemImg[1], this.item.itemImg[1].substring(0, 4))
           try {
             if (
-              this.item.itemImg[1] != false &&
+              this.item.itemImg[1] != false ||
               this.item.itemImg[1].substring(0, 4) == "http"
             ) {
-              console.log('no error', fileReader.result)
               this.item.itemImg.oldUrls[1] = this.item.itemImg[0].slice();
               this.item.itemImg[1] = fileReader.result;
               this.item.itemImg.file[1] = files[0];
@@ -584,7 +584,6 @@ export default {
             }
           } catch (err) {
             console.log('error', err, fileReader.result)
-
             this.item.itemImg[1] = fileReader.result;
             this.item.itemImg.file[1] = files[0];
             this.item.itemImg.name[1] = filename;
@@ -592,7 +591,7 @@ export default {
         } else if (targetId == "img3") {
           try {
             if (
-              this.item.itemImg[2] != false &&
+              this.item.itemImg[2] != false ||
               this.item.itemImg[2].substring(0, 4) == "http"
             ) {
               this.item.itemImg.oldUrls[2] = this.item.itemImg[2].slice();
@@ -601,6 +600,7 @@ export default {
               this.item.itemImg.name[2] = filename;
             }
           } catch (err) {
+            console.log('error', err, fileReader.result)
             this.item.itemImg[2] = fileReader.result;
             this.item.itemImg.file[2] = files[0];
             this.item.itemImg.name[2] = filename;
@@ -608,7 +608,7 @@ export default {
         } else if (targetId == "img4") {
           try {
             if (
-              this.item.itemImg[3] != false &&
+              this.item.itemImg[3] != false ||
               this.item.itemImg[3].substring(0, 4) == "http"
             ) {
               this.item.itemImg.oldUrls[3] = this.item.itemImg[0].slice();
@@ -617,6 +617,7 @@ export default {
               this.item.itemImg.name[3] = filename;
             }
           } catch (err) {
+            console.log('error', err, fileReader.result)
             this.item.itemImg[3] = fileReader.result;
             this.item.itemImg.file[3] = files[0];
             this.item.itemImg.name[3] = filename;
