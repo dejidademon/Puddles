@@ -207,13 +207,15 @@ body {
 }
 
 @font-face {
+  font-display: swap;
   font-family: "puddles_font";
   src: url("../assets/PiecesNfi.ttf");
 }
 
 @font-face {
+  font-display: swap;
   font-family: "regular_font";
-  src: url(../assets/GROBOLD.ttf);
+  src: url("../assets/GROBOLD.ttf");
 }
 
 .priceInput .q-field__prefix {
