@@ -18,7 +18,8 @@
     </template>
 
     <template v-if="loadingItems && !noItems">
-      <div class="row">
+      <div class="row title">
+        Please wait, there are many new drops loading...
         <q-spinner-gears
           class="q-pa-md loading"
           color="primary"
@@ -84,10 +85,8 @@ export default {
           axios.get(`${ process.env.API }/slides`).then((r) => {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
-            var currentTime = DateTime.now().toLocaleString();
             var future = new Date(inTwoWeeks);
             var past = new Date(twoWeeksAgo);
-            var current = new Date(currentTime);
             r.data.forEach((e => {
               var itemDate = new Date(e.date); 
             if (itemDate >= past && itemDate <= future && e.itemArchived == false)  {
@@ -127,8 +126,8 @@ export default {
   },
   created() {
     this.getItems();
-    this.isMobile();
     this.getPreviewImgs();
+    this.isMobile();
   },
   components: {
     "shop-items": require("components/Shop/shopItems.vue").default,
