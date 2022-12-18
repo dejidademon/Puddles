@@ -52,6 +52,7 @@ export default {
   methods: {
     
     getPreviewImgs() {
+      console.log("preview moduale ran")
       this.previewImgs = [];
       this.loadingPreview = true;
       axios
@@ -74,6 +75,7 @@ export default {
     },
 
     getItems() {
+      console.log("slides moduale ran")
       const axios = require("axios");
       const { DateTime } = require("luxon");
       this.loadingItems = true;
@@ -132,7 +134,9 @@ export default {
     "preview-items": require("components/Shop/dropPreviews.vue").default,
 
   },
+  
 };
+
 </script>
 
 <style lang="scss">

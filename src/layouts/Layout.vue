@@ -121,6 +121,7 @@
 <script>
 import { isLoggedIn, auth } from "boot/firebase.js";
 import { signOut } from "firebase/auth";
+import "pages/NewDrops.vue";
 
 export default {
   data() {
