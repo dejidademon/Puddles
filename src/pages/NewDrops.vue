@@ -75,11 +75,12 @@ export default {
     },
 
     getItems() {
-      console.log("slides moduale ran")
       const axios = require("axios");
       const { DateTime } = require("luxon");
       this.loadingItems = true;
       setTimeout(() => {
+      console.log("slides moduale ran")
+
           axios.get(`${ process.env.API }/slides`).then((r) => {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
