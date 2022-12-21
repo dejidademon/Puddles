@@ -80,7 +80,6 @@ export default {
       const { DateTime } = require("luxon");
       this.loadingItems = true;
       setTimeout(() => {
-      console.log("slides moduale ran")
 
           axios.get(`${ process.env.API }/slides`).then((r) => {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
@@ -91,16 +90,16 @@ export default {
               var itemDate = new Date(e.date); 
             if (itemDate >= past && itemDate <= future && e.itemArchived == false)  {
               this.items.push(e)
+              this.loadingItems = false;
+              this.noItmes = false
+
             } 
             }))
             if (this.items.length == 0) {
                 this.noItems = true
                 return
             }
-            else {
-              this.noItmes = false
-            }
-            this.loadingItems = false;
+
           })
           .catch((err) => {
             this.noItems = true
