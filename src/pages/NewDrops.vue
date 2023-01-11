@@ -57,7 +57,7 @@ export default {
       this.previewImgs = [];
       this.loadingPreview = true;
       axios
-        .get(`${process.env.API}/previews`)
+        .get(`https://puddles-backend-production.onrender.com/previews`)
         .then((r) => { 
         var previewImgs = JSON.parse(JSON.stringify(r.data));
         this.previewImgs = previewImgs[0]
@@ -81,7 +81,7 @@ export default {
       this.loadingItems = true;
       setTimeout(() => {
 
-          axios.get(`${ process.env.API }/slides`).then((r) => {
+          axios.get(`https://puddles-backend-production.onrender.com/slides`).then((r) => {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
             var future = new Date(inTwoWeeks);

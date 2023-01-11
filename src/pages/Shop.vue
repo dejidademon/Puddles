@@ -84,7 +84,7 @@ export default {
       // console.log(filter);
       setTimeout(() => {
         axios
-          .get(`${process.env.API}/slides`)
+          .get(`https://puddles-backend-production.onrender.com/slides`)
           .then((r) => {
             var fbItems = JSON.parse(JSON.stringify(r.data));
             
