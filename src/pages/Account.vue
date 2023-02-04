@@ -73,7 +73,6 @@
 
 <script>
 import { isLoggedIn } from "boot/firebase.js";
-import axios from "axios";
 import {
   doc,
   addDoc,
