@@ -18,7 +18,7 @@
     </template>
 
     <template v-if="loadingItems && !noItems">
-    <h1 class="title q-pb-lg text-center">Please wait, there are many new drops loading...</h1>
+    <!-- <h1 class="title q-pb-lg text-center">Please wait, there are many new drops loading...</h1> -->
       <div class="row title">
         <q-spinner-gears
           class="q-pa-md loading"
