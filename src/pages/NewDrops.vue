@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { api } from 'boot/axios'
 export default {
   data() {
     return {
@@ -55,8 +56,7 @@ export default {
       console.log("preview moduale ran")
       this.previewImgs = [];
       this.loadingPreview = true;
-      axios
-        .get(`https://puddles-backend-production.onrender.com/previews`)
+      api.get('/previews')
         .then((r) => { 
         var previewImgs = JSON.parse(JSON.stringify(r.data));
         this.previewImgs = previewImgs[0]
@@ -75,12 +75,10 @@ export default {
     },
 
     getItems() {
-      const axios = require("axios");
       const { DateTime } = require("luxon");
       this.loadingItems = true;
-      setTimeout(() => {
 
-          axios.get(`https://puddles-backend-production.onrender.com/slides`).then((r) => {
+      api.get('/slides').then((r) => {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
             var future = new Date(inTwoWeeks);
@@ -113,7 +111,6 @@ export default {
             });
             this.loadingItems = false;
           });
-      }, 500);
     },
     isMobile() {
       let screenSize = window.innerWidth;

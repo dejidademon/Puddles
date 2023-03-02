@@ -53,6 +53,7 @@
 
 <script>
 import { ref } from "vue";
+import { api } from 'boot/axios'
 export default {
   data() {
     return {
@@ -77,15 +78,13 @@ export default {
   },
   methods: {
     getItems(filter) {
-      const axios = require("axios");
       this.loadingItems = true;
       this.noItems = false
       this.items = []
       // console.log(filter);
       setTimeout(() => {
-        axios
-          .get(`https://puddles-backend-production.onrender.com/slides`)
-          .then((r) => {
+        api.get('/slides').
+          then((r) => {
             var fbItems = JSON.parse(JSON.stringify(r.data));
             
             fbItems.forEach((item) => {

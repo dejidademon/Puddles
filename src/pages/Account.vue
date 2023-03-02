@@ -73,6 +73,7 @@
 
 <script>
 import { isLoggedIn } from "boot/firebase.js";
+import { api } from 'boot/axios'
 import {
   doc,
   addDoc,
@@ -111,8 +112,7 @@ export default {
       this.favItems = [];
       this.postedFavs = [];
       this.postedHist = [];
-      axios
-        .get(`${process.env.API}/slides`)
+      api.get('/slides')
         .then((r) => {
           this.favItems = JSON.parse(JSON.stringify(r.data));
           this.items = JSON.parse(JSON.stringify(r.data));
@@ -134,8 +134,7 @@ export default {
     getFavs() {
       this.loadingFavs = true;
       setTimeout(() => {
-        axios
-          .get(`${process.env.API}/favorites`)
+        api.get('/favorites')
           .then((r) => {
             r.data.forEach((e) => {
               if (e.id == this.userStatus.uid) {
@@ -168,8 +167,8 @@ export default {
     getHist() {
       this.loadingHist = true;
       setTimeout(() => {
-        axios
-          .get(`${process.env.API}/purchases`)
+        api
+          .get(`/purchases`)
           .then((r) => {
             r.data.forEach((e) => {
               if (e.accountId == this.userStatus.uid) {

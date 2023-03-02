@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { api } from 'boot/axios'
 
 export default {
   data() {
@@ -116,8 +116,7 @@ export default {
       this.orderStats = [];
       this.loadingStats = true;
 
-      axios
-        .get(`${process.env.API}/slides`)
+      api.get('/slides')
         .then((r) => {
           var fbItems = JSON.parse(JSON.stringify(r.data));
           //  console.log('itemz', this.postedStats)
@@ -150,8 +149,7 @@ export default {
     getPreviewImgs() {
       this.previewImgs = [];
       this.loadingPreview = true;
-      axios
-        .get(`${process.env.API}/previews`)
+      api.get('/previews')
         .then((r) => { 
         var previewImgs = JSON.parse(JSON.stringify(r.data));
         this.previewImgs = previewImgs[0]
@@ -172,8 +170,8 @@ export default {
     getOrders() {
       this.loadingOrders = true;
       setTimeout(() => {
-        axios
-          .get(`${process.env.API}/purchases`)
+        api
+          .get('/purchases')
           .then((r) => {
             r.data.forEach((e) => {
               let orderNum = e.orderId;
