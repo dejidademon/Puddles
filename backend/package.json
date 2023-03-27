@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "deploy": "heroku builds:create -a puddles-backend-production"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
