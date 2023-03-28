@@ -24,13 +24,14 @@ export default {
       console.log(this.userStatus.uid)
       if(this.userStatus.uid != null) {
       this.favFilled = null;
-      axios.get(`${process.env.API}/favorites`).then((r) => {
+      var favorites = App.getFavorites();
+      
         r.data.forEach((e) => {
           if (e.id == this.userStatus.uid) {
             this.favs = e.favs;
           }
         });
-      });
+      
       let favId = "_" + this.item.id;
       const DocRef = doc(db, "Favorited", this.userStatus.uid);
 

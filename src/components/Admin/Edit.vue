@@ -343,6 +343,7 @@
 </template>
 
 <script>
+import App from 'src/App.vue';
 import {
   getStorage,
   uploadBytes,
@@ -353,7 +354,6 @@ import {
 } from "firebase/storage";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "boot/firebase.js";
-import axios from "axios";
 import { isLoggedIn } from "boot/firebase.js";
 export default {
   data() {
@@ -634,16 +634,16 @@ export default {
     },
 
     getSize() {
-      axios
-        .get(`${process.env.API}/slides`)
-        .then((r) => {
-          r.data.forEach((e) => {
+      const slides = App.getSlides();
+      setTimeout(() =>{
+        console.log(slides)
+      try {
+          slides.forEach((e) => {
+
             if (e.id == this.items.id) {
               let sizeIds = e.itemSize.split("_");
               let i = 1;
               delete sizeIds[0];
-
-              // console.log('dopped')
 
               sizeIds.forEach((postedSize) => {
                 let sizeIdss = postedSize.substring(
@@ -663,8 +663,8 @@ export default {
           } else if (Object.keys(this.sizes).length <= 4) {
             this.shoeSizez = false;
           }
-        })
-        .catch((err) => {
+        }
+        catch(err) {
           this.$q.dialog({
             style: "background-color:red;",
             dark: true,
@@ -674,7 +674,9 @@ export default {
             persistent: true,
           });
           console.log(err.message);
-        });
+        };
+      }, 200)
+
     },
 
     slideSubmit() {
@@ -1035,7 +1037,7 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.isMobile();
     window.addEventListener("resize", this.isMobile);
     this.getSize();

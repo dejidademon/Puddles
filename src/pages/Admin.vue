@@ -117,7 +117,6 @@ export default {
       this.orderStats = [];
       this.loadingStats = true;
       const slides = App.getSlides();
-      console.log(slides)
       setTimeout(() => {
       try {
           var fbItems = JSON.parse(JSON.stringify(slides));

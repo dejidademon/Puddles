@@ -53,7 +53,6 @@
 
 <script>
 import { ref } from "vue";
-import { api } from 'boot/axios'
 import App from 'src/App.vue';
 
 export default {

@@ -83,20 +83,19 @@ this.favFilled = null;
     getStatus() {
       this.favFilled = null;
       setTimeout(() => {
-        axios
-          .get(`${process.env.API}/favorites`)
-          .then((r) => {
-            r.data.forEach((e) => {
+        var favorites = App.getFavorites();
+        try {
+          favorites.forEach((e) => {
               if (e.id == this.userStatus.uid) {
                 // console.log(e.favs, 'e.favss')
                 this.favs = e.favs;
               }
             });
             this.favStatus();
-          })
-          .catch((error) => {
+          }
+          catch(error)  {
             console.log("error with getting fav ids", error.message);
-          });
+          };
       }, 400);
     },
 
