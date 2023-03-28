@@ -16,7 +16,7 @@ const firebaseConfig = {
 let app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 let isLoggedIn = ref(false)
-const db = getFirestore();
+const db = getFirestore(app);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {

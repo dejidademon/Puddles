@@ -54,6 +54,8 @@
 <script>
 import { ref } from "vue";
 import { api } from 'boot/axios'
+import App from 'src/App.vue';
+
 export default {
   data() {
     return {
@@ -81,11 +83,11 @@ export default {
       this.loadingItems = true;
       this.noItems = false
       this.items = []
-      // console.log(filter);
+      var slides = App.getSlides();
       setTimeout(() => {
-        api.get('/slides').
-          then((r) => {
-            var fbItems = JSON.parse(JSON.stringify(r.data));
+        
+          try {
+            var fbItems = JSON.parse(JSON.stringify(slides));
             
             fbItems.forEach((item) => {
               if (item.itemArchived == false) {
@@ -123,8 +125,8 @@ export default {
               this.noItems = true
             }
             this.loadingItems = false;
-          })
-          .catch((err) => {
+          }
+          catch(err) {
             this.$q.dialog({
               style: "background-color:red;",
               dark: true,
@@ -134,7 +136,7 @@ export default {
               persistent: true,
             });
             this.loadingItems = false;
-          });
+          }
       }, 500);
     },
   },

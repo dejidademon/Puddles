@@ -90,6 +90,7 @@
 
 <script>
 import { api } from 'boot/axios'
+import App from 'src/App.vue';
 
 export default {
   data() {
@@ -115,12 +116,12 @@ export default {
       this.postedStats = [];
       this.orderStats = [];
       this.loadingStats = true;
-
-      api.get('/slides')
-        .then((r) => {
-          var fbItems = JSON.parse(JSON.stringify(r.data));
+      const slides = App.getSlides();
+      console.log(slides)
+      setTimeout(() => {
+      try {
+          var fbItems = JSON.parse(JSON.stringify(slides));
           //  console.log('itemz', this.postedStats)
-          this.orderStats = JSON.parse(JSON.stringify(r.data));
           // console.log('orderStats', this.orderStats)
           fbItems.forEach((item) => {
             if (item.itemArchived == false) {
@@ -132,8 +133,8 @@ export default {
               // console.log(this.postedArch)
             }
           });
-        })
-        .catch((err) => {
+        }
+        catch(err) {
           this.$q.dialog({
             style: "background-color:red;",
             dark: true,
@@ -142,19 +143,24 @@ export default {
             message: "Could not get any items",
             persistent: true,
           });
-        });
+        };
+      }, 500)
+        
       this.loadingStats = false;
     },
 
     getPreviewImgs() {
       this.previewImgs = [];
       this.loadingPreview = true;
-      api.get('/previews')
-        .then((r) => { 
-        var previewImgs = JSON.parse(JSON.stringify(r.data));
+      var previews = App.getPreviews();
+setTimeout(() => {
+      
+      try {
+        var previewImgs = JSON.parse(JSON.stringify(previews));
         this.previewImgs = previewImgs[0]
         // console.log(this.previewImgs)
-        })        .catch((err) => {
+        }
+        catch(err) {
           this.$q.dialog({
             style: "background-color:red;",
             dark: true,
@@ -163,17 +169,18 @@ export default {
             message: "Could not get any previews",
             persistent: true,
           });
-        });
+        };
+      }, 500)
+
       this.loadingPreview = false;
     },
 
     getOrders() {
       this.loadingOrders = true;
+      var purchasez = App.getPurchases();
       setTimeout(() => {
-        api
-          .get('/purchases')
-          .then((r) => {
-            r.data.forEach((e) => {
+        try{
+          purchasez.forEach((e) => {
               let orderNum = e.orderId;
               let status = e.status;
               let total = e.total;
@@ -264,8 +271,8 @@ export default {
                 }
               });
             });
-          })
-          .catch((err) => {
+          }
+          catch(err) {
             this.$q.dialog({
               style: "background-color:red;",
               dark: true,
@@ -275,21 +282,19 @@ export default {
               persistent: true,
             });
             console.log(err.message);
-          });
+          };
         this.loadingOrders = false;
         // console.log('first', this.postedOrders)
       }, 400);
     },
   },
 
-  mounted() {
-    setTimeout(() => {
+  created() {
       if (this.postedStats == false) {
         this.getStats();
         this.getOrders();
         this.getPreviewImgs();
       }
-    }, 250);
   },
 
   components: {

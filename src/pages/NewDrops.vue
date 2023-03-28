@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { api } from 'boot/axios'
+import App from 'src/App.vue';
 export default {
   data() {
     return {
@@ -47,21 +47,22 @@ export default {
       notMobile: true,
       noItems: false,
       previewImgs:[],
-      loadingPreview: null,
+      loadingPreview: true,
     };
   },
   methods: {
     
     getPreviewImgs() {
-      console.log("preview moduale ran")
-      this.previewImgs = [];
       this.loadingPreview = true;
-      api.get('/previews')
-        .then((r) => { 
-        var previewImgs = JSON.parse(JSON.stringify(r.data));
-        this.previewImgs = previewImgs[0]
-        // console.log(this.previewImgs)
-        })        .catch((err) => {
+      const previews = App.getPreviews();
+      setTimeout(() => {
+              try {
+              this.previewImgs = previews[0]
+              this.loadingPreview = false;
+              console.log(this.previewImgs)
+        }
+
+        catch(err) {
           this.$q.dialog({
             style: "background-color:red;",
             dark: true,
@@ -70,20 +71,22 @@ export default {
             message: "Could not get any previews",
             persistent: true,
           });
-        });
+        };
+      }, 500);
+
       this.loadingPreview = false;
     },
 
     getItems() {
       const { DateTime } = require("luxon");
       this.loadingItems = true;
-
-      api.get('/slides').then((r) => {
+      const slides = App.getSlides();
+      try {
             var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
             var future = new Date(inTwoWeeks);
             var past = new Date(twoWeeksAgo);
-            r.data.forEach((e => {
+            slides.forEach((e => {
               var itemDate = new Date(e.date); 
             if (itemDate >= past && itemDate <= future && e.itemArchived == false)  {
               this.items.push(e)
@@ -97,8 +100,7 @@ export default {
                 return
             }
 
-          })
-          .catch((err) => {
+          } catch(err) {
             this.noItems = true
             console.log(err)
             this.$q.dialog({
@@ -110,7 +112,7 @@ export default {
               persistent: true,
             });
             this.loadingItems = false;
-          });
+          }
     },
     isMobile() {
       let screenSize = window.innerWidth;

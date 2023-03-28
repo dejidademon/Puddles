@@ -82,6 +82,7 @@ import {
   collection,
   onSnapshot,
 } from "firebase/firestore";
+import App from 'src/App.vue';
 
 export default {
   data() {
@@ -112,13 +113,14 @@ export default {
       this.favItems = [];
       this.postedFavs = [];
       this.postedHist = [];
-      api.get('/slides')
-        .then((r) => {
-          this.favItems = JSON.parse(JSON.stringify(r.data));
-          this.items = JSON.parse(JSON.stringify(r.data));
+      var slides = App.getSlides();
+      setTimeout(() => {
+    try {
+          this.favItems = slides;
+          this.items = slides;
           // console.log(orginData)
-        })
-        .catch((err) => {
+}
+        catch(err) {
           this.$q.dialog({
             style: "background-color:red;",
             dark: true,
@@ -127,16 +129,16 @@ export default {
             message: "Could not get any items",
             persistent: true,
           });
-        });
+        };
+      }, 500);
       this.loadingItems = false;
     },
 
     getFavs() {
       this.loadingFavs = true;
-      setTimeout(() => {
-        api.get('/favorites')
-          .then((r) => {
-            r.data.forEach((e) => {
+      var favorites = App.getFavorites();
+        try {
+            favorites.forEach((e) => {
               if (e.id == this.userStatus.uid) {
                 let favIds = e.favs.split("_");
                 //  console.log(this.favItems)
@@ -149,8 +151,8 @@ export default {
                 });
               }
             });
-          })
-          .catch((err) => {
+          }
+          catch(err) {
             this.$q.dialog({
               style: "background-color:red;",
               dark: true,
@@ -159,18 +161,16 @@ export default {
               message: "Could not get your favorite items",
               persistent: true,
             });
-          });
+          };
         this.loadingFavs = false;
-      }, 500);
     },
 
     getHist() {
       this.loadingHist = true;
+      var purchasess = App.getPurchases();
       setTimeout(() => {
-        api
-          .get(`/purchases`)
-          .then((r) => {
-            r.data.forEach((e) => {
+        try {
+          purchasess.forEach((e) => {
               if (e.accountId == this.userStatus.uid) {
                 let orderNum = e.orderId;
                 let status = e.status;
@@ -197,8 +197,8 @@ export default {
                 });
               }
             });
-          })
-          .catch((err) => {
+          }
+          catch(err) {
             this.$q.dialog({
               style: "background-color:red;",
               dark: true,
@@ -208,7 +208,7 @@ export default {
               persistent: true,
             });
             console.log(err.message);
-          });
+          };
         this.loadingHist = false;
       }, 300);
     },
@@ -225,13 +225,11 @@ export default {
   },
 
   mounted() {
-    setTimeout(() => {
       if (this.items == false) {
         this.getItems();
         this.getHist();
         this.getFavs();
       }
-    }, 450);
   },
 
   watch: {
