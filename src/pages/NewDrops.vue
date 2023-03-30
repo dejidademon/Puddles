@@ -55,6 +55,7 @@ export default {
     getPreviewImgs() {
       this.loadingPreview = true;
       const previews = App.getPreviews();
+      previews
       setTimeout(() => {
               try {
               this.previewImgs = previews[0]
@@ -81,11 +82,15 @@ export default {
       const { DateTime } = require("luxon");
       this.loadingItems = true;
       const slides = App.getSlides();
-      try {
-            var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
+      var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
             var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
             var future = new Date(inTwoWeeks);
             var past = new Date(twoWeeksAgo);
+            slides
+            setTimeout(() => {
+      
+      try {
+
             slides.forEach((e => {
               var itemDate = new Date(e.date); 
             if (itemDate >= past && itemDate <= future && e.itemArchived == false)  {
@@ -113,6 +118,8 @@ export default {
             });
             this.loadingItems = false;
           }
+      }, 500);
+
     },
     isMobile() {
       let screenSize = window.innerWidth;
