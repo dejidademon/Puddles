@@ -2,12 +2,10 @@
   <q-page class="wholePg q-ma-lg">
     <h1 class="title q-pb-lg text-center">New Arrivals</h1>
 
-    <preview-items 
-        :previewImg="previewImgs"
-        v-if="loadingPreview == false"/>
+    <preview-items :previewImg="previewImgs" v-if="loadingPreview == false" />
 
     <template v-if="!loadingItems">
-      <div class="row ">
+      <div class="row">
         <shop-items
           v-for="(item, key) in items"
           :key="key"
@@ -18,7 +16,7 @@
     </template>
 
     <template v-if="loadingItems && !noItems">
-    <!-- <h1 class="title q-pb-lg text-center">Please wait, there are many new drops loading...</h1> -->
+      <!-- <h1 class="title q-pb-lg text-center">Please wait, there are many new drops loading...</h1> -->
       <div class="row title">
         <q-spinner-gears
           class="q-pa-md loading"
@@ -27,18 +25,19 @@
         /></div
     ></template>
 
-
     <template v-if="noItems == true">
-      <div class=" text-center">
-        <h2 class="colorFade noItems q-mb-none q-mt-sm" >No new drops currently</h2>
-         <h2 class="colorFade noItems q-mt-none" >Check the Shop!</h2>
+      <div class="text-center">
+        <h2 class="colorFade noItems q-mb-none q-mt-sm">
+          No new drops currently
+        </h2>
+        <h2 class="colorFade noItems q-mt-none">Check the Shop!</h2>
       </div>
     </template>
   </q-page>
 </template>
 
 <script>
-import App from 'src/App.vue';
+import App from "src/App.vue";
 export default {
   data() {
     return {
@@ -46,24 +45,21 @@ export default {
       loadingItems: false,
       notMobile: true,
       noItems: false,
-      previewImgs:[],
+      previewImgs: [],
       loadingPreview: true,
     };
   },
   methods: {
-    
     getPreviewImgs() {
       this.loadingPreview = true;
       const previews = App.getPreviews();
-      previews
+      previews;
       setTimeout(() => {
-              try {
-              this.previewImgs = previews[0]
-              this.loadingPreview = false;
-              console.log(this.previewImgs)
-        }
-
-        catch(err) {
+        try {
+          this.previewImgs = previews[0];
+          this.loadingPreview = false;
+          console.log(this.previewImgs);
+        } catch (err) {
           this.$q.dialog({
             style: "background-color:red;",
             dark: true,
@@ -72,7 +68,7 @@ export default {
             message: "Could not get any previews",
             persistent: true,
           });
-        };
+        }
       }, 500);
 
       this.loadingPreview = false;
@@ -83,43 +79,42 @@ export default {
       this.loadingItems = true;
       const slides = App.getSlides();
       var inTwoWeeks = DateTime.now().plus({ days: 14 }).toLocaleString();
-            var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
-            var future = new Date(inTwoWeeks);
-            var past = new Date(twoWeeksAgo);
-            slides
-            setTimeout(() => {
-      
-      try {
-
-            slides.forEach((e => {
-              var itemDate = new Date(e.date); 
-            if (itemDate >= past && itemDate <= future && e.itemArchived == false)  {
-              this.items.push(e)
+      var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
+      var future = new Date(inTwoWeeks);
+      var past = new Date(twoWeeksAgo);
+      slides;
+      setTimeout(() => {
+        try {
+          slides.forEach((e) => {
+            var itemDate = new Date(e.date);
+            if (
+              itemDate >= past &&
+              itemDate <= future &&
+              e.itemArchived == false
+            ) {
+              this.items.push(e);
               this.loadingItems = false;
-              this.noItmes = false
-
-            } 
-            }))
-            if (this.items.length == 0) {
-                this.noItems = true
-                return
+              this.noItmes = false;
             }
-
-          } catch(err) {
-            this.noItems = true
-            console.log(err)
-            this.$q.dialog({
-              style: "background-color:red;",
-              dark: true,
-              color: "white",
-              title: "Error",
-              message: "No new merch now, check again later!",
-              persistent: true,
-            });
-            this.loadingItems = false;
+          });
+          if (this.items.length == 0) {
+            this.noItems = true;
+            return;
           }
+        } catch (err) {
+          this.noItems = true;
+          console.log(err);
+          this.$q.dialog({
+            style: "background-color:red;",
+            dark: true,
+            color: "white",
+            title: "Error",
+            message: "No new merch now, check again later!",
+            persistent: true,
+          });
+          this.loadingItems = false;
+        }
       }, 500);
-
     },
     isMobile() {
       let screenSize = window.innerWidth;
@@ -136,11 +131,8 @@ export default {
   components: {
     "shop-items": require("components/Shop/shopItems.vue").default,
     "preview-items": require("components/Shop/dropPreviews.vue").default,
-
   },
-  
 };
-
 </script>
 
 <style lang="scss">
@@ -173,7 +165,6 @@ export default {
   white-space: nowrap;
 }
 
-
 /* big */
 @media screen and (min-width: 970px) {
   .title {
@@ -183,13 +174,13 @@ export default {
   .carousel {
     height: 300px;
   }
-    .noItems {
+  .noItems {
     font-size: 80px;
   }
 }
 //smaller screen
 @media screen and (max-width: 970px) {
-    .wholePg {
+  .wholePg {
     margin: 15px;
   }
   .noItems {
@@ -205,7 +196,7 @@ export default {
 }
 // tablet
 @media screen and (max-width: 640px) {
-    .noItems {
+  .noItems {
     font-size: 30px;
   }
   .title {
@@ -221,7 +212,7 @@ export default {
   .wholePg {
     margin: 10px;
   }
-    .noItems {
+  .noItems {
     font-size: 20px;
   }
   .title {

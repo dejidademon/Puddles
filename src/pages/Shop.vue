@@ -84,7 +84,7 @@ export default {
       this.items = []
       var slides = App.getSlides();
       setTimeout(() => {
-        
+        slides
           try {
             var fbItems = JSON.parse(JSON.stringify(slides));
             
