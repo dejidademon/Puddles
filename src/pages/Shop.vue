@@ -25,7 +25,7 @@
     <template v-if="noItems">
       <div class=" text-center">
         <h2 class="puddlesText title q-mb-none" >No new drops currently</h2>
-         <h2 class="puddlesText title" >Check the Shop!</h2>
+         <h2 class="puddlesText title" >Check back later!</h2>
       </div>
     </template>
 
