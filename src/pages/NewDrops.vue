@@ -84,7 +84,6 @@ export default {
       var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
       var future = new Date(inTwoWeeks);
       var past = new Date(twoWeeksAgo);
-      slides
       setTimeout(() => {
         try {
           slides.forEach((e) => {
