@@ -4,12 +4,15 @@
     style="background-color: #6f7b87"
     view="hHh lpR fFf"
   >
-    <header class="top shadow-8 row bg-primary">
+    <header class="top shadow-8 row justify-between items-center pos bg-primary">
       <a href="/">
-        <img class="logo absolute-left" src="~assets/PuddlesLogo.webp" />
+        <img class="logo" src="~assets/PuddlesLogo2.webp" />
       </a>
+      
+      <a class="puddlesText bigTxt highlighted" href="/">Puddles</a>
 
-        <a class="puddlesText bigTxt absolute-center text-center highlighted" href="/">Puddles</a>
+      <div class="logo">
+      </div>
 
     </header>
 
@@ -34,7 +37,7 @@
           class="routes"
         >
           <q-btn rounded class="btnSize row" color="primary">
-            <h3 class="btnTxt text-no-wrap text-white q-ma-none q-pa-none items-center text-center">
+            <h3 class="btnTxt text-no-wrap overflow-auto text-white q-mb-sm q-mt-sm items-center text-center">
               {{ nav.label }}
             </h3>
           </q-btn>
@@ -209,7 +212,7 @@ body {
 @font-face {
   font-display: swap;
   font-family: "puddles_font";
-  src: url("../assets/PiecesNfi.ttf");
+  src: url("../assets/SuperComic.ttf");
 }
 
 @font-face {
@@ -498,12 +501,11 @@ h3 {
   }
   .bigTxt {
     font-size: 70px;
-    margin: -10px;
   }
   .logo {
-    max-height: 90px;
-    max-width: 120px;
-    padding: 8px;
+    max-height: 100px;
+    max-width: 100px;
+
   }
   .top {
     height: 90px;
@@ -535,14 +537,14 @@ h3 {
   }
   .bigTxt {
     font-size: 47px;
-    margin-top: 0px;
+
   }
   .logo {
-    width: 100px;
+    width: 90px;
     padding: 8px;
   }
   .top {
-    height: 70px;
+    height: 85px;
   }
   .searchBar {
     max-width: 150px;
@@ -565,10 +567,10 @@ h3 {
   }
   .bigTxt {
     font-size: 40px;
-    margin-top: 4px;
+
   }
   .logo {
-    width: 100px;
+    width: 80px;
     padding: 8px;
   }
   .searchBar {
@@ -601,6 +603,7 @@ h3 {
   }
   .top {
     height: 60px;
+    justify-content: center;
   }
   .bigTxt {
     font-size: 40px;

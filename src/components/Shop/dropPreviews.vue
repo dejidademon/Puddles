@@ -25,7 +25,7 @@
         v-if="previewImg.imageUrl1 == false"
         class="puddlesText caroErr absolute-center text-center"
       >
-        This image could not be loaded
+        This Image Could Not Be Loaded
       </div>
     </q-carousel-slide>
 

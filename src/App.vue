@@ -13,7 +13,6 @@ export default defineComponent({
 
   getSlides() {
       var fbSlide = [];
-
       onMounted(async () => {
         onSnapshot(collection(db, "Slides"), (querysnapshot) => {
           querysnapshot.forEach((doc) => {

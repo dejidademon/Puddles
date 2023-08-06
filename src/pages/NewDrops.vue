@@ -26,11 +26,13 @@
     ></template>
 
     <template v-if="noItems == true">
-      <div class="text-center">
-        <h2 class="colorFade noItems q-mb-none q-mt-sm">
-          No new drops currently
-        </h2>
-        <h2 class="colorFade noItems q-mt-none">Check the Shop!</h2>
+      <div class="row">
+        <shop-items
+          v-for="(item, key) in items"
+          :key="key"
+          :items="item"
+          :id="key"
+        />
       </div>
     </template>
   </q-page>
