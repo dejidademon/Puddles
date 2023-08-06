@@ -95,6 +95,7 @@ export default {
               this.items.push(e);
               this.loadingItems = false;
               this.noItmes = false;
+              slideAmount = slideAmount + 1;
             }
             else {
               if (slideAmount != 4) {
