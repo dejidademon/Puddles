@@ -99,7 +99,6 @@ export default {
             }
             else {
               if (slideAmount != 4) {
-                console.log(e)
                 this.items.push(e);
                 slideAmount = slideAmount + 1;
                 this.loadingItems = false;
