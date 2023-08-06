@@ -1,6 +1,6 @@
 <template>
   <q-page class="wholePg q-ma-lg">
-    <h1 class="title q-pb-lg text-center">New Arrivals</h1>
+    <h1 class="title  text-center">New Arrivals</h1>
 
     <preview-items :previewImg="previewImgs" v-if="loadingPreview == false" />
 
@@ -26,13 +26,11 @@
     ></template>
 
     <template v-if="noItems == true">
-      <div class="row">
-        <shop-items
-          v-for="(item, key) in items"
-          :key="key"
-          :items="item"
-          :id="key"
-        />
+      <div class="text-center">
+        <h2 class="colorFade noItems q-mb-none q-mt-sm">
+          No new drops currently
+        </h2>
+        <h2 class="colorFade noItems q-mt-none">Check the Shop!</h2>
       </div>
     </template>
   </q-page>
@@ -84,6 +82,7 @@ export default {
       var twoWeeksAgo = DateTime.now().minus({ days: 14 }).toLocaleString();
       var future = new Date(inTwoWeeks);
       var past = new Date(twoWeeksAgo);
+      var slideAmount = 0;
       setTimeout(() => {
         try {
           slides.forEach((e) => {
@@ -97,6 +96,16 @@ export default {
               this.loadingItems = false;
               this.noItmes = false;
             }
+            else {
+              if (slideAmount != 4) {
+                console.log(e)
+                this.items.push(e);
+                slideAmount = slideAmount + 1;
+                this.loadingItems = false;
+                this.noItmes = false;
+              }
+            }
+
           });
           if (this.items.length == 0) {
             this.noItems = true;
@@ -217,8 +226,9 @@ export default {
     font-size: 20px;
   }
   .title {
-    margin: -10px;
+    margin: 10px;
     font-size: 20px;
+    padding-bottom: 10px;
   }
   .carousel {
     height: 120px;

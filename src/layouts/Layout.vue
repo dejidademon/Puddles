@@ -1,6 +1,6 @@
 <template>
   <q-layout
-    class="overflow-hidden"
+    class="overflow-hidden "
     style="background-color: #6f7b87"
     view="hHh lpR fFf"
   >
@@ -16,7 +16,7 @@
 
     </header>
 
-    <div class="all q-mt-sm">
+    <div class="all q-mt-sm hide-scrollbar">
       <q-btn
         v-if="hideBtn == false"
         @click="hideMenu = !hideMenu"
@@ -37,7 +37,7 @@
           class="routes"
         >
           <q-btn rounded class="btnSize row" color="primary">
-            <h3 class="btnTxt text-no-wrap overflow-auto text-white q-mb-sm q-mt-sm items-center text-center">
+            <h3 class="btnTxt text-no-wrap text-white q-mb-sm q-mt-sm items-center text-center">
               {{ nav.label }}
             </h3>
           </q-btn>

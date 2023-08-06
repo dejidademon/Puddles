@@ -208,6 +208,10 @@ export default {
   color: white;
 }
 
+  .q-dialog__inner--minimized > div {
+      max-width: 58760px;
+  }
+
 /* big */
 @media screen and (min-width: 970px) {
       .cardMargin {
@@ -314,7 +318,7 @@ export default {
   .previewCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 550px;
+    width: 600px;
   }
   .previewSlide {
     height: 350px;
@@ -380,7 +384,7 @@ export default {
   .previewCard {
     background-color: #80959e;
     border-radius: 5%;
-    width: 400px;
+    width: 425px;
   }
   .previewSlide {
     height: 250px;
