@@ -98,7 +98,7 @@ export default {
               slideAmount = slideAmount + 1;
             }
             else {
-              if (slideAmount != 4) {
+              if (slideAmount != 4 && e.itemArchived == false) {
                 this.items.push(e);
                 slideAmount = slideAmount + 1;
                 this.loadingItems = false;
