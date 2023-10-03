@@ -212,6 +212,8 @@ export default {
       max-width: 58760px;
   }
 
+
+
 /* big */
 @media screen and (min-width: 970px) {
       .cardMargin {
@@ -233,7 +235,6 @@ export default {
   .previewName {
     font-size: 24px;
     margin: 0;
-    white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
@@ -290,7 +291,6 @@ export default {
   .previewName {
     font-size: 24px;
     margin: 0;
-    white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
@@ -353,7 +353,6 @@ export default {
   .previewName {
     font-size: 13px;
     margin: 0;
-    white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
@@ -413,7 +412,6 @@ export default {
     font-size: 14px;
     margin: 0;
     margin-left: -15px;
-    white-space: nowrap;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
