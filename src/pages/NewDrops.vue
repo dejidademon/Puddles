@@ -69,7 +69,7 @@ export default {
             persistent: true,
           });
         }
-      }, 500);
+      }, 1000);
 
       this.loadingPreview = false;
     },
@@ -124,7 +124,7 @@ export default {
           });
           this.loadingItems = false;
         }
-      }, 500);
+      }, 1000);
     },
     isMobile() {
       let screenSize = window.innerWidth;
