@@ -1,6 +1,7 @@
 <template>
   <q-carousel
     class="wholeCaro carousel"
+    
     animated
     :autoplay="carouselAuto"
     v-model="slide"
@@ -105,6 +106,11 @@ export default {
 }
 .caroErr {
   font-size: 30px;
+}
+.wholeCaro {
+  width: 100%;
+  width: 100vw;
+  margin-left: 0;
 }
 
 @media screen and (min-width: 970px) {

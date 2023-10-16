@@ -1,11 +1,11 @@
 <template>
-  <q-page class="wholePg q-ma-lg">
-    <h1 class="title  text-center">New Arrivals</h1>
+  <q-page class="wholePg">
+    <h1 class="title text-center">New Arrivals</h1>
 
     <preview-items :previewImg="previewImgs" v-if="loadingPreview == false" />
 
-    <template v-if="!loadingItems">
-      <div class="row">
+    <template v-if="!loadingItems" >
+      <div class="wholeItem">
         <shop-items
           v-for="(item, key) in items"
           :key="key"
@@ -146,9 +146,18 @@ export default {
 </script>
 
 <style lang="scss">
+.wholeItem {
+  display: flex;
+  margin: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .regText {
   font-family: "regular_font";
 }
+
 .puddlesText {
   font-family: "puddles_font";
 }
@@ -191,7 +200,7 @@ export default {
 //smaller screen
 @media screen and (max-width: 970px) {
   .wholePg {
-    margin: 15px;
+    
   }
   .noItems {
     font-size: 40px;
@@ -219,9 +228,7 @@ export default {
 }
 //mobile
 @media screen and (max-width: 440px) {
-  .wholePg {
-    margin: 10px;
-  }
+
   .noItems {
     font-size: 20px;
   }

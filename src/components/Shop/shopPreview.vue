@@ -1,7 +1,7 @@
 <template>
   <q-card class="previewCard text-white fixed-center">
     <q-card-section
-      class="row cardMargin"
+      class="row  cardMargin"
       style="
         padding: 0;
       "
@@ -265,7 +265,7 @@ export default {
     width: 700px;
   }
   .previewSlide {
-    height: 350px;
+    height: 450px;
   }
   .previewCard .q-carousel__slide {
     background-size: cover;

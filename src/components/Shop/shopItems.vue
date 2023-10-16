@@ -1,5 +1,5 @@
 <template>
-  <q-card square class="wholeCard  column"
+  <q-card square class="wholeCard justify-start  column"
   >
     <q-card-section class="col q-ma-none q-pa-none">
       <q-carousel
@@ -105,8 +105,8 @@ export default {
 .wholeCard {
   height: 580px;
   margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 /* big */
 @media screen and (min-width: 970px) {
@@ -143,7 +143,7 @@ export default {
 @media screen and (max-width: 970px) { 
 // card start
   .wholeCard {
-    width: 46vw;
+    width: 44vw;
   }
 
   .previewBtn {
@@ -174,7 +174,7 @@ export default {
 @media screen and (max-width: 640px) {
 // card start
   .wholeCard {
-    width: 46%;
+    width: 42vw;
     height: 300px;
   }
 
@@ -207,7 +207,7 @@ export default {
 @media screen and (max-width: 440px) {
 // card start
   .wholeCard {
-    width: 46%;
+    width: 40vw;
     height: 300px;
   }
 
@@ -237,9 +237,9 @@ export default {
   //card end
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 400px) {
     .wholeCard {
-    width: 100%;
+    width: 100vw;
     height: 300px;
   }
 }
