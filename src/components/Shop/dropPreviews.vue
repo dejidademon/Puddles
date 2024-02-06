@@ -5,7 +5,6 @@
     animated
     :autoplay="carouselAuto"
     v-model="slide"
-    :arrows="this.notMobile"
     swipeable
     infinite
     draggable="false"
@@ -22,6 +21,7 @@
               fit="fill"
 
       />
+      <div class="gradient-overlay"></div>
       <div
         v-if="previewImg.imageUrl1 == false"
         class="puddlesText caroErr absolute-center text-center"
@@ -38,6 +38,8 @@
               fit="fill"
 
       />
+      <div class="gradient-overlay"></div>
+
     </q-carousel-slide>
 
     <q-carousel-slide v-if="previewImg.imageUrl3 != false" class="q-pa-none" :name="3">
@@ -50,6 +52,7 @@
         
 
       />
+      <div class="gradient-overlay"></div>
 
     </q-carousel-slide>
 
@@ -62,6 +65,8 @@
 
 
       />
+      <div class="gradient-overlay"></div>
+
     </q-carousel-slide>
   </q-carousel>
 </template>
@@ -94,6 +99,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Adjust the height of the gradient as needed */
+  background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 80%);
+}
+
 .nums {
   background-color: #80959e;
   font-size: 25px;
@@ -119,6 +134,7 @@ export default {
 }
 .wholeCaro {
   margin-top: 30px;
+  height: 600px;
 }
 }
 //smaller screen
@@ -128,6 +144,8 @@ export default {
 }
 .wholeCaro {
   margin-top: 10px;
+  height: 500px;
+
 }
 }
 // tablet
@@ -137,7 +155,7 @@ export default {
 }
 .wholeCaro {
   margin-top: 5px;
-  height: 120px;
+  height: 450px;
 }
 }
 //mobile
@@ -148,7 +166,7 @@ export default {
 .wholeCaro {
   margin-top: 0px;
   margin-bottom: 15px;
-  height: 120px;
+  height: 300px;
 
 }
 }

@@ -6,10 +6,10 @@
   >
     <header class="top shadow-8 row justify-between items-center pos bg-primary">
       <a href="/">
-        <img class="logo" src="~assets/PuddlesLogo2.webp" />
+        <img class="logo" src="~assets/puddles_logo.png" />
       </a>
       
-      <a class="puddlesText bigTxt highlighted" href="/">Puddles</a>
+      <a class="puddlesText bigTxt highlighted" href="/">Motor Vehicle Hub</a>
 
       <div class="logo">
       </div>
@@ -137,11 +137,11 @@ export default {
       height: 0,
       navs: [
         {
-          label: "New Drops",
+          label: "Hub",
           to: "/",
         },
         {
-          label: "Shop",
+          label: "Shop All",
           to: "/apparel",
         },
         {
@@ -503,8 +503,8 @@ h3 {
     font-size: 70px;
   }
   .logo {
-    max-height: 100px;
-    max-width: 100px;
+    max-height: 200px;
+    max-width: 200px;
 
   }
   .top {
@@ -540,7 +540,7 @@ h3 {
 
   }
   .logo {
-    width: 90px;
+    max-width: 160px;
     padding: 8px;
   }
   .top {

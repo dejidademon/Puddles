@@ -1,38 +1,15 @@
 <template>
   <q-page class="wholePg">
-    <h1 class="title text-center">New Arrivals</h1>
-
     <preview-items :previewImg="previewImgs" v-if="loadingPreview == false" />
+    <div class="q-pa-md flex flex-center">
 
+    </div>
+    <h2> Do you have an eye condition worsened by UV Rays / Sunlight? </h2>
+    <q-btn @click="startTintExemption" color="""">Start your Tint Exemption</q-btn>
     <template v-if="!loadingItems" >
-      <div class="wholeItem">
-        <shop-items
-          v-for="(item, key) in items"
-          :key="key"
-          :items="item"
-          :id="key"
-        />
-      </div>
+
     </template>
 
-    <template v-if="loadingItems && !noItems">
-      <!-- <h1 class="title q-pb-lg text-center">Please wait, there are many new drops loading...</h1> -->
-      <div class="row title">
-        <q-spinner-gears
-          class="q-pa-md loading"
-          color="primary"
-          size="200px"
-        /></div
-    ></template>
-
-    <template v-if="noItems == true">
-      <div class="text-center">
-        <h2 class="colorFade noItems q-mb-none q-mt-sm">
-          No new drops currently
-        </h2>
-        <h2 class="colorFade noItems q-mt-none">Check the Shop!</h2>
-      </div>
-    </template>
   </q-page>
 </template>
 
@@ -132,7 +109,17 @@ export default {
         this.notMobile = false;
       }
     },
+
+  handleButtonClick() {
+    // Handle button logic here
+    console.log('Button clicked!');
+  }
+
+    
+
+    
   },
+
   created() {
     this.getItems();
     this.getPreviewImgs();
